@@ -1,0 +1,24 @@
+{
+  "name": "technocore-watch-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server wrapping Technocore Watch's public API — lets an agent ask for a DID's signal or the active room list directly.",
+  "type": "module",
+  "bin": {
+    "technocore-watch-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}
