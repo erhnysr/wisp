@@ -39,9 +39,13 @@ export default async function Home() {
 
         <div className="relative z-10 mx-auto flex w-full max-w-[1120px] items-start justify-between gap-8 px-5 pb-4 pt-20">
           <div className="max-w-2xl">
-            <p className="kicker mb-4">Technocore · Independent Monitoring</p>
+            <span className="kicker-pill mb-5">
+              <span className="kicker-dot" />
+              <span className="kicker">Technocore · Independent Monitoring</span>
+            </span>
             <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              Identities shouldn&apos;t just prove they <span className="text-gradient">exist</span>
+              Identities shouldn&apos;t just prove they{" "}
+              <span className="text-gradient text-glow">exist</span>
               <br className="hidden sm:block" /> — they should prove they contribute.
             </h1>
             <p className="mt-4 max-w-xl text-base text-muted">

@@ -8,11 +8,11 @@ export function Navbar() {
           </div>
           <span className="text-sm font-semibold tracking-tight">Technocore Watch</span>
         </div>
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden items-center gap-1 sm:flex">
           {["Signal", "Rooms", "Card", "API"].map((item) => (
             <span
               key={item}
-              className="text-sm text-muted transition-colors hover:text-foreground"
+              className="nav-pill cursor-pointer rounded-full px-4 py-1.5 text-sm text-muted"
             >
               {item}
             </span>
@@ -22,7 +22,7 @@ export function Navbar() {
           href="https://github.com/erhnysr"
           target="_blank"
           rel="noreferrer"
-          className="rounded-full border border-border px-3 py-1.5 text-sm text-muted transition-colors hover:border-accent/40 hover:text-foreground"
+          className="nav-pill rounded-full border-border px-3 py-1.5 text-sm text-muted"
         >
           GitHub
         </a>

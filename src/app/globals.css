@@ -28,8 +28,8 @@
   --color-warning: var(--tw-warning);
   --color-warning-soft: var(--tw-warning-soft);
   --color-good: var(--tw-good);
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono",
     monospace;
 }
@@ -70,6 +70,47 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.text-glow {
+  filter: drop-shadow(0 0 22px rgba(109, 94, 247, 0.35));
+}
+
+.nav-pill {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.nav-pill:hover {
+  border-color: rgba(109, 94, 247, 0.35);
+  background: var(--tw-accent-soft);
+  color: var(--tw-accent);
+  box-shadow: 0 0 0 4px rgba(109, 94, 247, 0.08);
+}
+
+.kicker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--tw-border);
+  border-radius: 9999px;
+  padding: 6px 14px 6px 10px;
+  background: var(--tw-surface);
+  box-shadow: 0 1px 2px rgba(18, 20, 43, 0.04);
+}
+
+.kicker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(100deg, var(--tw-accent-2), var(--tw-accent));
+  box-shadow: 0 0 8px rgba(109, 94, 247, 0.6);
 }
 
 .btn-gradient {
