@@ -9,9 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@noble/curves": "^2.4.0",
+    "clsx": "^2.1.1",
+    "multiformats": "^14.0.5",
     "next": "16.3.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "swr": "^2.5.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

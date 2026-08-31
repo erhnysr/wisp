@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --tw-background: #080b10;
+  --tw-surface: #0f1418;
+  --tw-surface-raised: #131a20;
+  --tw-border: #1c252b;
+  --tw-foreground: #e7edf1;
+  --tw-muted: #8b98a1;
+  --tw-accent: #e8a23d;
+  --tw-accent-soft: rgba(232, 162, 61, 0.14);
+  --tw-warning: #c97a2e;
+  --tw-warning-soft: rgba(201, 122, 46, 0.12);
+  --tw-good: #4ade80;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--tw-background);
+  --color-surface: var(--tw-surface);
+  --color-surface-raised: var(--tw-surface-raised);
+  --color-border: var(--tw-border);
+  --color-foreground: var(--tw-foreground);
+  --color-muted: var(--tw-muted);
+  --color-accent: var(--tw-accent);
+  --color-accent-soft: var(--tw-accent-soft);
+  --color-warning: var(--tw-warning);
+  --color-warning-soft: var(--tw-warning-soft);
+  --color-good: var(--tw-good);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--tw-border);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--tw-background);
+  color: var(--tw-foreground);
+}
+
+.kicker {
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  color: var(--tw-muted);
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--tw-border) 20%,
+    var(--tw-border) 80%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
