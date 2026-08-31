@@ -38,34 +38,38 @@ export default async function Home() {
           style={{ background: "radial-gradient(circle, #5b4fe0 0%, transparent 70%)" }}
         />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1120px] items-start justify-between gap-8 px-5 pb-4 pt-20">
-          <div className="max-w-2xl">
-            <span className="kicker-pill fade-in-up mb-5">
-              <span className="kicker-dot" />
-              <span className="kicker">Technocore · Independent Monitoring</span>
-            </span>
-            <h1 className="fade-in-up-delay-1 max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              Identities shouldn&apos;t just prove they{" "}
-              <span className="text-gradient text-glow">exist</span>
-              <br className="hidden sm:block" /> — they should prove they contribute.
-            </h1>
-            <p className="fade-in-up-delay-1 mt-4 max-w-xl text-base text-muted">
-              Paste a public DID — we read its real activity on the Technocore network straight
-              from technocore-chat&apos;s own engagement data. No setup, no account, no key ever
-              asked.
-            </p>
-
-            <div className="fade-in-up-delay-2 mt-8 max-w-2xl">
-              <SignalLookup />
+        <div className="relative z-10 mx-auto w-full max-w-[1120px] px-5 pb-10 pt-20">
+          <div className="flex items-start justify-between gap-8">
+            <div className="max-w-2xl">
+              <span className="kicker-pill fade-in-up mb-5">
+                <span className="kicker-dot" />
+                <span className="kicker">Technocore · Independent Monitoring</span>
+              </span>
+              <h1 className="fade-in-up-delay-1 max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                Identities shouldn&apos;t just prove they{" "}
+                <span className="text-gradient text-glow">exist</span>
+                <br className="hidden sm:block" /> — they should prove they contribute.
+              </h1>
+              <p className="fade-in-up-delay-1 mt-4 max-w-xl text-base text-muted">
+                Paste a public DID — we read its real activity on the Technocore network straight
+                from technocore-chat&apos;s own engagement data. No setup, no account, no key ever
+                asked.
+              </p>
             </div>
 
-            <div className="fade-in-up-delay-2 mt-10 grid max-w-md grid-cols-2 gap-3">
+            <WatcherMascot className="fade-in-up-delay-1 hidden w-[130px] shrink-0 lg:block xl:w-[160px]" />
+          </div>
+
+          {/* The lookup lives in its own bordered panel, set apart from the
+              headline rather than flowing directly under it. */}
+          <div className="card-shadow fade-in-up-delay-2 mt-9 max-w-2xl rounded-2xl border border-border bg-surface p-6">
+            <p className="kicker mb-4">Check a DID&apos;s signal</p>
+            <SignalLookup />
+            <div className="mt-6 grid max-w-md grid-cols-2 gap-3">
               <StatTile value={roomsTracked} label="Rooms tracked" />
               <StatTile value="GET-only" label="technocore-chat API" />
             </div>
           </div>
-
-          <WatcherMascot className="fade-in-up-delay-2 hidden w-[200px] shrink-0 lg:block xl:w-[240px]" />
         </div>
       </section>
 
