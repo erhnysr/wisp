@@ -80,7 +80,7 @@ export function SignalLookup() {
         <button
           type="submit"
           disabled={state.status === "loading"}
-          className="btn-gradient rounded-full px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="btn-gradient rounded-full px-6 py-3 font-mono text-xs font-semibold uppercase tracking-wide text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {state.status === "loading" ? "Scanning…" : "Show signal"}
         </button>
@@ -129,7 +129,7 @@ export function SignalLookup() {
 
           <Link
             href={`/card/${encodeURIComponent(state.data.did)}`}
-            className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80"
+            className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide text-accent hover:opacity-80"
           >
             View shareable card →
           </Link>

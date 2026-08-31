@@ -57,7 +57,7 @@ export function ActivityFeed() {
         </div>
         <button
           onClick={() => mutate()}
-          className="tap-shrink rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted shadow-sm transition-colors hover:border-accent/40 hover:text-foreground"
+          className="tap-shrink rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-xs uppercase tracking-wide text-muted shadow-sm transition-colors hover:border-accent/40 hover:text-foreground"
         >
           Refresh
         </button>

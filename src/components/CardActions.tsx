@@ -27,13 +27,13 @@ export function CardActions({ did, imageUrl }: { did: string; imageUrl: string }
       <a
         href={imageUrl}
         download={`technocore-watch-${did.replace("did:key:", "")}.png`}
-        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
+        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 font-mono text-xs uppercase tracking-wide text-foreground shadow-sm transition-colors hover:border-accent/40"
       >
         Download
       </a>
       <button
         onClick={handleCopyLink}
-        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
+        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 font-mono text-xs uppercase tracking-wide text-foreground shadow-sm transition-colors hover:border-accent/40"
       >
         {copied ? "Link copied ✓" : "Copy link"}
       </button>
@@ -41,7 +41,7 @@ export function CardActions({ did, imageUrl }: { did: string; imageUrl: string }
         href={tweetHref}
         target="_blank"
         rel="noreferrer"
-        className="btn-gradient rounded-full px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        className="btn-gradient rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wide text-white transition-opacity hover:opacity-90"
       >
         Post to X
       </a>

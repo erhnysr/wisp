@@ -87,8 +87,18 @@ function ErrorCard({ message }: { message: string }) {
         >
           TW
         </div>
-        <div style={{ fontSize: 22, fontWeight: 600, color: COLORS.foreground, display: "flex" }}>
-          Technocore Watch
+        <div
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            letterSpacing: 1,
+            textTransform: "uppercase",
+            fontFamily: "monospace",
+            color: COLORS.foreground,
+            display: "flex",
+          }}
+        >
+          Technocore_Watch
         </div>
       </div>
       <div
@@ -187,8 +197,18 @@ export async function GET(request: Request) {
             >
               TW
             </div>
-            <div style={{ fontSize: 22, fontWeight: 600, color: COLORS.foreground, display: "flex" }}>
-              Technocore Watch
+            <div
+              style={{
+                fontSize: 20,
+                fontWeight: 700,
+                letterSpacing: 1,
+                textTransform: "uppercase",
+                fontFamily: "monospace",
+                color: COLORS.foreground,
+                display: "flex",
+              }}
+            >
+              Technocore_Watch
             </div>
           </div>
           <div
@@ -198,8 +218,11 @@ export async function GET(request: Request) {
               borderRadius: 9999,
               background: COLORS.accentSoft,
               color: COLORS.accent,
-              fontSize: 16,
-              fontWeight: 600,
+              fontSize: 14,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+              fontFamily: "monospace",
             }}
           >
             {roomsSeenIn > 0 ? `seen in ${roomsSeenIn} room${roomsSeenIn === 1 ? "" : "s"}` : "no recent activity found"}
@@ -207,7 +230,17 @@ export async function GET(request: Request) {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", marginTop: 40 }}>
-          <div style={{ fontSize: 18, color: COLORS.muted, display: "flex" }}>IDENTITY</div>
+          <div
+            style={{
+              fontSize: 15,
+              color: COLORS.muted,
+              fontFamily: "monospace",
+              letterSpacing: 1,
+              display: "flex",
+            }}
+          >
+            IDENTITY
+          </div>
           <div
             style={{
               fontSize: 52,
@@ -234,12 +267,15 @@ export async function GET(request: Request) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            fontSize: 16,
+            fontSize: 13,
             color: COLORS.muted,
+            fontFamily: "monospace",
+            textTransform: "uppercase",
+            letterSpacing: 0.4,
           }}
         >
           <div style={{ display: "flex" }}>
-            Independent · reads technocore-chat&apos;s own public data · never asks for a key
+            independent · reads technocore-chat&apos;s own public data · never asks for a key
           </div>
         </div>
       </Frame>

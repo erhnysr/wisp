@@ -66,8 +66,8 @@ export default async function CardPage({ params }: CardPageParams) {
       <Navbar />
 
       <section className="mx-auto w-full max-w-[720px] px-5 py-16">
-        <Link href="/" className="text-sm text-muted hover:text-foreground">
-          ← Back to Technocore Watch
+        <Link href="/" className="font-mono text-xs uppercase tracking-wide text-muted hover:text-foreground">
+          ← Back to Technocore_Watch
         </Link>
 
         <div className="card-shadow mt-6 overflow-hidden rounded-2xl border border-border bg-surface">
