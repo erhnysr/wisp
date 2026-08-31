@@ -1,55 +1,55 @@
 const PROVES = [
   {
-    title: "Anahtar gerçek, uydurma değil",
-    body: "DID base58/multicodec olarak çözülüp doğrulanıyor — yazım hatası veya bozuk bir string sessizce geçmiyor.",
+    title: "The key is real, not a typo",
+    body: "The DID is decoded and validated (base58 + multicodec) — a broken or mistyped string doesn't slip through silently.",
   },
   {
-    title: "Mesajlar gerçekten o odaya yazılmış",
-    body: "technocore-chat'in kendi /r/<room> uç noktasından, canlı olarak okunuyor — ikinci elden değil.",
+    title: "Messages were actually written to that room",
+    body: "Read live from technocore-chat's own /r/<room> endpoint — never a second-hand copy.",
   },
   {
-    title: "Sinyal metrikleri ağın kendi hesaplaması",
-    body: "zero_response_share, nick_diversity gibi alanlar technocore-chat'in resmi engagement aggregate'i — burada tahmin edilmiyor.",
+    title: "Signal metrics are the network's own math",
+    body: "zero_response_share, nick_diversity and friends are technocore-chat's official engagement aggregates — nothing here is estimated.",
   },
 ];
 
 const DOESNT_PROVE = [
   {
-    title: "Bu DID'i tutan kişi olduğunu",
-    body: "Herkes herkesin genel adresini yapıştırabilir — bu sadece genel bir bakış, sahiplik iddiası değil.",
+    title: "That the person holding it is you",
+    body: "Anyone can paste anyone's public address — this is a public lookup, not a claim of ownership.",
   },
   {
-    title: "Skorun eksiksiz olduğunu",
-    body: "Yalnızca en aktif ~15 oda taranıyor (bkz. Sınırlar) — sessiz/unlisted odalardaki aktivite kaçabilir.",
+    title: "That the score is complete",
+    body: "Only the ~15 most active rooms are scanned (see Limits below) — activity in quiet or unlisted rooms can be missed.",
   },
   {
-    title: "flop-labs onayı olduğunu",
-    body: "Bu bağımsız bir araç, resmi bir doğrulama veya onay mekanizması değil.",
+    title: "That flop-labs endorses this",
+    body: "This is an independent tool, not an official verification or approval mechanism.",
   },
 ];
 
 export function ProvesGrid() {
   return (
-    <section className="mx-auto max-w-[1120px] px-5 py-12">
-      <p className="kicker mb-2">Ne Kanıtlar, Ne Kanıtlamaz</p>
-      <h2 className="mb-8 text-2xl font-semibold tracking-tight">
-        Bir sinyal paneli halka açık bir bakıştır — çünkü ispatlanamayan bir rozet hiçbir işe yaramaz.
+    <section className="mx-auto max-w-[1120px] px-5 py-14">
+      <p className="kicker mb-2">Proves / Doesn&apos;t Prove</p>
+      <h2 className="mb-8 max-w-2xl text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        A signal panel is a public lookup — because a badge nobody can check is worth nothing.
       </h2>
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-4">
-          <p className="kicker text-good">Kanıtlar</p>
+          <p className="kicker text-good">Proves</p>
           {PROVES.map((item) => (
-            <div key={item.title} className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-sm font-medium">{item.title}</p>
+            <div key={item.title} className="card-shadow rounded-xl border border-border bg-surface p-4">
+              <p className="text-sm font-medium text-foreground">{item.title}</p>
               <p className="mt-1 text-sm text-muted">{item.body}</p>
             </div>
           ))}
         </div>
         <div className="space-y-4">
-          <p className="kicker text-warning">Kanıtlamaz</p>
+          <p className="kicker text-warning">Doesn&apos;t prove</p>
           {DOESNT_PROVE.map((item) => (
-            <div key={item.title} className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-sm font-medium">{item.title}</p>
+            <div key={item.title} className="card-shadow rounded-xl border border-border bg-surface p-4">
+              <p className="text-sm font-medium text-foreground">{item.title}</p>
               <p className="mt-1 text-sm text-muted">{item.body}</p>
             </div>
           ))}

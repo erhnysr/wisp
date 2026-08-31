@@ -21,28 +21,44 @@ export default async function Home() {
     <div className="flex flex-1 flex-col">
       <Navbar />
 
-      <section className="mx-auto w-full max-w-[1120px] px-5 pb-4 pt-16">
-        <p className="kicker mb-4">Technocore · Bağımsız İzleme</p>
-        <h1 className="max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
-          Kimlikler sadece <span className="text-accent">var olduğunu</span> göstermesin,
-          <br className="hidden sm:block" /> gerçekten katkı verdiğini göstersin.
-        </h1>
-        <p className="mt-4 max-w-xl text-base text-muted">
-          Genel DID&apos;ini yapıştır — Technocore ağındaki gerçek aktivitesini, technocore-chat&apos;in
-          kendi engagement verisinden okuyalım. Kurulum yok, hesap yok, anahtar hiç istenmez.
-        </p>
+      <section className="relative overflow-hidden">
+        {/* Decorative "lively" background — blurred blue/purple blobs, purely visual */}
+        <div
+          className="bg-blob -left-40 -top-40 h-[420px] w-[420px] opacity-[0.35]"
+          style={{ background: "radial-gradient(circle, #6d5ef7 0%, transparent 70%)" }}
+        />
+        <div
+          className="bg-blob -right-32 top-10 h-[380px] w-[380px] opacity-[0.3]"
+          style={{ background: "radial-gradient(circle, #4f7cff 0%, transparent 70%)" }}
+        />
+        <div
+          className="bg-blob left-1/3 top-64 h-[300px] w-[300px] opacity-[0.18]"
+          style={{ background: "radial-gradient(circle, #a855f7 0%, transparent 70%)" }}
+        />
 
-        <div className="mt-8 max-w-2xl">
-          <SignalLookup />
-        </div>
+        <div className="relative z-10 mx-auto w-full max-w-[1120px] px-5 pb-4 pt-20">
+          <p className="kicker mb-4">Technocore · Independent Monitoring</p>
+          <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Identities shouldn&apos;t just prove they <span className="text-gradient">exist</span>
+            <br className="hidden sm:block" /> — they should prove they contribute.
+          </h1>
+          <p className="mt-4 max-w-xl text-base text-muted">
+            Paste a public DID — we read its real activity on the Technocore network straight from
+            technocore-chat&apos;s own engagement data. No setup, no account, no key ever asked.
+          </p>
 
-        <div className="mt-10 grid max-w-md grid-cols-2 gap-3">
-          <StatTile value={roomsTracked} label="İzlenen oda" />
-          <StatTile value="GET-only" label="technocore-chat API" />
+          <div className="mt-8 max-w-2xl">
+            <SignalLookup />
+          </div>
+
+          <div className="mt-10 grid max-w-md grid-cols-2 gap-3">
+            <StatTile value={roomsTracked} label="Rooms tracked" />
+            <StatTile value="GET-only" label="technocore-chat API" />
+          </div>
         </div>
       </section>
 
-      <div className="divider mx-auto my-12 max-w-[1120px]" />
+      <div className="divider mx-auto my-4 max-w-[1120px]" />
 
       <ActivityFeed />
 

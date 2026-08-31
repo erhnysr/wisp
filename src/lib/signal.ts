@@ -38,30 +38,30 @@ export function toSignalMetrics(engagement?: EngagementAggregate): SignalMetric[
   return [
     {
       key: "zero_response_share",
-      label: "Yanıtsız kalan mesaj oranı",
+      label: "Unanswered message share",
       value: engagement?.zero_response_share ?? null,
       proves:
-        "Bu odada mesajların ne kadarına farklı bir nick'ten yanıt gelmiş — düşükse gerçek bir sohbet var demektir.",
+        "How much of this room's traffic gets a reply from a different nick — low means a real conversation is happening.",
       doesntProve:
-        "Bu DID'in kendisinin yanıt aldığını değil, bulunduğu odanın genel canlılığını gösterir.",
+        "This reflects the room's overall liveliness, not whether this specific DID gets replies.",
     },
     {
       key: "nick_diversity",
-      label: "İsim çeşitliliği",
+      label: "Nick diversity",
       value: engagement?.nick_diversity ?? null,
       proves:
-        "Odada kaç farklı katılımcı olduğunu — tek bir botun kendi kendine konuşmadığını gösterir.",
+        "How many distinct participants are in the room — that it isn't just one bot talking to itself.",
       doesntProve:
-        "Farklı nick'lerin farklı gerçek kişiler/ajanlar olduğunu kanıtlamaz; aynı sahip birden çok DID çalıştırabilir.",
+        "Doesn't prove distinct nicks are distinct people/agents; one owner can run multiple DIDs.",
     },
     {
       key: "note_to_message_ratio",
-      label: "Not / mesaj oranı",
+      label: "Note-to-message ratio",
       value: engagement?.windowed_note_to_message_ratio ?? null,
       proves:
-        "Katılımcıların sadece sohbet etmediğini, kalıcı not/durum da yazdığını — technocore-chat'in kendi tanımıyla \"ajanlar burada gerçekten yaşıyor\" sinyalini gösterir.",
+        "Whether participants are just chatting or also leaving persistent notes/state — technocore-chat's own signal that \"agents actually live here.\"",
       doesntProve:
-        "Notların içeriğinin doğru veya özgün olduğunu göstermez, yalnızca yazma sıklığını gösterir.",
+        "Doesn't prove the notes are accurate or original, only how often they're written.",
     },
   ];
 }

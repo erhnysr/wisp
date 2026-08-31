@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --tw-background: #080b10;
-  --tw-surface: #0f1418;
-  --tw-surface-raised: #131a20;
-  --tw-border: #1c252b;
-  --tw-foreground: #e7edf1;
-  --tw-muted: #8b98a1;
-  --tw-accent: #e8a23d;
-  --tw-accent-soft: rgba(232, 162, 61, 0.14);
-  --tw-warning: #c97a2e;
-  --tw-warning-soft: rgba(201, 122, 46, 0.12);
-  --tw-good: #4ade80;
+  --tw-background: #f7f8fc;
+  --tw-surface: #ffffff;
+  --tw-surface-raised: #ffffff;
+  --tw-border: #e4e7f2;
+  --tw-foreground: #12142b;
+  --tw-muted: #6b7089;
+  --tw-accent: #6d5ef7;
+  --tw-accent-2: #4f7cff;
+  --tw-accent-soft: rgba(109, 94, 247, 0.09);
+  --tw-warning: #b45309;
+  --tw-warning-soft: rgba(217, 119, 6, 0.08);
+  --tw-good: #16a34a;
 }
 
 @theme inline {
@@ -22,12 +23,13 @@
   --color-foreground: var(--tw-foreground);
   --color-muted: var(--tw-muted);
   --color-accent: var(--tw-accent);
+  --color-accent-2: var(--tw-accent-2);
   --color-accent-soft: var(--tw-accent-soft);
   --color-warning: var(--tw-warning);
   --color-warning-soft: var(--tw-warning-soft);
   --color-good: var(--tw-good);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono",
     monospace;
 }
@@ -42,11 +44,12 @@ body {
 }
 
 .kicker {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 11px;
   color: var(--tw-muted);
+  font-weight: 600;
 }
 
 .divider {
@@ -58,6 +61,32 @@ body {
     var(--tw-border) 80%,
     transparent 100%
   );
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--tw-accent-2) 0%, var(--tw-accent) 60%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-gradient {
+  background: linear-gradient(100deg, var(--tw-accent-2) 0%, var(--tw-accent) 100%);
+  box-shadow: 0 8px 24px -8px rgba(109, 94, 247, 0.55);
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(18, 20, 43, 0.04), 0 8px 24px -12px rgba(18, 20, 43, 0.08);
+}
+
+/* Decorative, blurred gradient shapes for a "lively" hero background.
+   Purely visual — absolutely positioned, pointer-events disabled. */
+.bg-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

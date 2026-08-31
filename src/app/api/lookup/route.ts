@@ -64,7 +64,7 @@ export async function GET(request: Request) {
   } catch (err) {
     console.error("[/api/lookup]", err);
     return NextResponse.json(
-      { error: "technocore-chat şu an yanıt vermiyor, birazdan tekrar dene." },
+      { error: "technocore-chat is not responding right now — try again shortly." },
       { status: 502 },
     );
   }

@@ -1,9 +1,9 @@
 export function Navbar() {
   return (
-    <header className="border-b border-border/60">
+    <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-soft text-accent">
+          <div className="btn-gradient flex h-7 w-7 items-center justify-center rounded-md text-white">
             <span className="font-mono text-xs font-bold">TW</span>
           </div>
           <span className="text-sm font-semibold tracking-tight">Technocore Watch</span>
@@ -12,7 +12,7 @@ export function Navbar() {
           {["Signal", "Rooms", "Card", "API"].map((item) => (
             <span
               key={item}
-              className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface hover:text-foreground"
+              className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-accent-soft hover:text-foreground"
             >
               {item}
             </span>

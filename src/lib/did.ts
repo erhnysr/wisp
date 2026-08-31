@@ -31,7 +31,7 @@ function base58btcDecode(input: string): Uint8Array {
   for (const char of input) {
     const value = map.get(char);
     if (value === undefined) {
-      throw new Error(`Geçersiz base58 karakteri: "${char}"`);
+      throw new Error(`Invalid base58 character: "${char}"`);
     }
     num = num * 58n + BigInt(value);
   }
@@ -64,20 +64,23 @@ export function parseDid(input: string): DidParseResult {
   if (!did.startsWith("did:key:z")) {
     return {
       ok: false,
-      error: "DID `did:key:z...` formatında olmalı (yalnızca Ed25519 destekleniyor).",
+      error: "DID must look like `did:key:z...` (only Ed25519 is supported).",
     };
   }
 
   const multibaseValue = did.slice("did:key:".length);
   if (!multibaseValue.startsWith("z")) {
-    return { ok: false, error: "Yalnızca base58btc (`z` önekli) DID'ler destekleniyor." };
+    return { ok: false, error: "Only base58btc (`z`-prefixed) DIDs are supported." };
   }
 
   let decoded: Uint8Array;
   try {
     decoded = base58btcDecode(multibaseValue.slice(1));
   } catch {
-    return { ok: false, error: "DID base58 olarak çözülemedi — kopyalarken bir karakter eksilmiş olabilir." };
+    return {
+      ok: false,
+      error: "Couldn't decode this DID as base58 — a character may have dropped while copying.",
+    };
   }
 
   if (
@@ -87,7 +90,7 @@ export function parseDid(input: string): DidParseResult {
   ) {
     return {
       ok: false,
-      error: "Bu bir Ed25519 did:key'e benzemiyor (multicodec öneki uyuşmuyor).",
+      error: "This doesn't look like an Ed25519 did:key (multicodec prefix mismatch).",
     };
   }
 
