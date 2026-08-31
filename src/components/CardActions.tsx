@@ -27,13 +27,13 @@ export function CardActions({ did, imageUrl }: { did: string; imageUrl: string }
       <a
         href={imageUrl}
         download={`technocore-watch-${did.replace("did:key:", "")}.png`}
-        className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
+        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
       >
         Download
       </a>
       <button
         onClick={handleCopyLink}
-        className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
+        className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-sm transition-colors hover:border-accent/40"
       >
         {copied ? "Link copied ✓" : "Copy link"}
       </button>

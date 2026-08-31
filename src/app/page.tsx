@@ -39,32 +39,32 @@ export default async function Home() {
 
         <div className="relative z-10 mx-auto flex w-full max-w-[1120px] items-start justify-between gap-8 px-5 pb-4 pt-20">
           <div className="max-w-2xl">
-            <span className="kicker-pill mb-5">
+            <span className="kicker-pill fade-in-up mb-5">
               <span className="kicker-dot" />
               <span className="kicker">Technocore · Independent Monitoring</span>
             </span>
-            <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="fade-in-up-delay-1 max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
               Identities shouldn&apos;t just prove they{" "}
               <span className="text-gradient text-glow">exist</span>
               <br className="hidden sm:block" /> — they should prove they contribute.
             </h1>
-            <p className="mt-4 max-w-xl text-base text-muted">
+            <p className="fade-in-up-delay-1 mt-4 max-w-xl text-base text-muted">
               Paste a public DID — we read its real activity on the Technocore network straight
               from technocore-chat&apos;s own engagement data. No setup, no account, no key ever
               asked.
             </p>
 
-            <div className="mt-8 max-w-2xl">
+            <div className="fade-in-up-delay-2 mt-8 max-w-2xl">
               <SignalLookup />
             </div>
 
-            <div className="mt-10 grid max-w-md grid-cols-2 gap-3">
+            <div className="fade-in-up-delay-2 mt-10 grid max-w-md grid-cols-2 gap-3">
               <StatTile value={roomsTracked} label="Rooms tracked" />
               <StatTile value="GET-only" label="technocore-chat API" />
             </div>
           </div>
 
-          <WatcherMascot className="hidden w-[200px] shrink-0 lg:block xl:w-[240px]" />
+          <WatcherMascot className="fade-in-up-delay-2 hidden w-[200px] shrink-0 lg:block xl:w-[240px]" />
         </div>
       </section>
 

@@ -1,16 +1,56 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 /**
  * A small hand-drawn mascot — an inline SVG, no external asset. The nod to
  * Overheard's device illustration, but its own character: a rounded
- * "watcher" module with a single scanning eye, standing in for the
- * network-monitoring idea without borrowing their look.
+ * "watcher" module whose eye actually follows the pointer — the one
+ * playful detail Overheard doesn't have.
  */
 export function WatcherMascot({ className }: { className?: string }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pupilRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    function handleMove(e: PointerEvent) {
+      const svg = svgRef.current;
+      const pupil = pupilRef.current;
+      if (!svg || !pupil) return;
+
+      const rect = svg.getBoundingClientRect();
+      if (rect.width === 0) return;
+
+      // Eye center sits at (50%, 45%) of the mascot's box, per the viewBox below.
+      const eyeX = rect.left + rect.width * 0.5;
+      const eyeY = rect.top + rect.height * 0.454;
+
+      const dx = e.clientX - eyeX;
+      const dy = e.clientY - eyeY;
+      const dist = Math.hypot(dx, dy) || 1;
+
+      // Small, capped offset — a glance, not a googly-eye swing.
+      const maxOffset = 9;
+      const eased = Math.min(1, dist / 300);
+      const ox = (dx / dist) * maxOffset * eased;
+      const oy = (dy / dist) * maxOffset * eased;
+
+      pupil.setAttribute("transform", `translate(${ox.toFixed(2)} ${oy.toFixed(2)})`);
+    }
+
+    window.addEventListener("pointermove", handleMove);
+    return () => window.removeEventListener("pointermove", handleMove);
+  }, []);
+
   return (
     <svg
+      ref={svgRef}
       viewBox="0 0 240 260"
       className={className}
       role="img"
-      aria-label="Technocore Watch mascot: a small rounded module with a scanning eye"
+      aria-label="Technocore Watch mascot: a small rounded module whose eye follows your cursor"
     >
       <defs>
         <linearGradient id="wm-body" x1="0" y1="0" x2="1" y2="1">
@@ -59,11 +99,15 @@ export function WatcherMascot({ className }: { className?: string }) {
       <circle cx="46" cy="118" r="7" fill="#c9c4ff" />
       <circle cx="194" cy="118" r="7" fill="#c9c4ff" />
 
-      {/* eye */}
+      {/* eye socket */}
       <circle cx="120" cy="118" r="52" fill="url(#wm-eye)" />
       <circle cx="120" cy="118" r="52" fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="3" />
-      <circle cx="120" cy="118" r="24" fill="url(#wm-pupil)" />
-      <circle cx="112" cy="110" r="7" fill="#ffffff" fillOpacity="0.85" />
+
+      {/* pupil + highlight — this group gets nudged by pointermove */}
+      <g ref={pupilRef} style={{ transition: "transform 60ms linear" }}>
+        <circle cx="120" cy="118" r="24" fill="url(#wm-pupil)" />
+        <circle cx="112" cy="110" r="7" fill="#ffffff" fillOpacity="0.85" />
+      </g>
 
       {/* scan arcs, suggesting "watching" */}
       <path

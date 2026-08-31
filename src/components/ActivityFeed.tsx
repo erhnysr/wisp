@@ -34,7 +34,7 @@ function CopyableFrom({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       title={copied ? "Copied!" : `Click to copy: ${value}`}
-      className="min-w-0 truncate rounded px-1 -mx-1 font-mono text-xs text-accent transition-colors hover:bg-accent-soft"
+      className="tap-shrink min-w-0 truncate rounded px-1 -mx-1 font-mono text-xs text-accent transition-colors hover:bg-accent-soft"
     >
       {copied ? "Copied ✓" : value}
     </button>
@@ -57,13 +57,27 @@ export function ActivityFeed() {
         </div>
         <button
           onClick={() => mutate()}
-          className="rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted shadow-sm transition-colors hover:border-accent/40 hover:text-foreground"
+          className="tap-shrink rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted shadow-sm transition-colors hover:border-accent/40 hover:text-foreground"
         >
           Refresh
         </button>
       </div>
 
-      {isLoading && <div className="text-sm text-muted">Loading…</div>}
+      {isLoading && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="card-shadow animate-pulse rounded-xl border border-border bg-surface p-4"
+            >
+              <div className="h-3 w-2/5 rounded bg-border" />
+              <div className="mt-3 h-3 w-full rounded bg-border" />
+              <div className="mt-2 h-3 w-3/4 rounded bg-border" />
+              <div className="mt-4 h-2.5 w-1/3 rounded bg-border" />
+            </div>
+          ))}
+        </div>
+      )}
 
       {data?.error && (
         <div className="rounded-xl border border-warning/25 bg-warning-soft p-4 text-sm">
@@ -76,7 +90,7 @@ export function ActivityFeed() {
           {data.items.map((item, i) => (
             <div
               key={`${item.room}-${item.ts}-${i}`}
-              className="card-shadow rounded-xl border border-border bg-surface p-4 transition-transform hover:-translate-y-0.5"
+              className="card-shadow card-hover rounded-xl border border-border bg-surface p-4"
             >
               <div className="flex items-center justify-between gap-2">
                 <CopyableFrom value={item.from} />

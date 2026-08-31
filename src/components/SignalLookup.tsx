@@ -35,7 +35,7 @@ function CopyableDid({ did, short }: { did: string; short: string }) {
       type="button"
       onClick={handleCopy}
       title={copied ? "Copied!" : `Click to copy full DID: ${did}`}
-      className="rounded px-1 -mx-1 font-mono text-lg text-foreground transition-colors hover:bg-accent-soft"
+      className="tap-shrink rounded px-1 -mx-1 font-mono text-lg text-foreground transition-colors hover:bg-accent-soft"
     >
       {copied ? "Copied ✓" : short}
     </button>
