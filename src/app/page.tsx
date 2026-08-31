@@ -43,12 +43,12 @@ export default async function Home() {
             {/* The mascot sits on the left now, noticeably larger, with its
                 own soft glow halo behind it so it reads as anchored rather
                 than floating in empty space. */}
-            <div className="relative mt-6 hidden shrink-0 lg:block">
+            <div className="relative hidden shrink-0 lg:block">
               <div
-                className="absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[50px]"
-                style={{ background: "radial-gradient(circle, #7c6bff 0%, transparent 70%)", opacity: 0.35 }}
+                className="absolute left-1/2 top-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[60px]"
+                style={{ background: "radial-gradient(circle, #7c6bff 0%, transparent 70%)", opacity: 0.38 }}
               />
-              <WatcherMascot className="fade-in-up-delay-1 relative w-[190px] xl:w-[220px]" />
+              <WatcherMascot className="fade-in-up-delay-1 relative w-[280px] xl:w-[320px]" />
             </div>
 
             <div className="max-w-2xl flex-1">
