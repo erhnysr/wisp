@@ -1,0 +1,101 @@
+name: Watchdog
+
+# pr-watchdog pattern, applied to the live deployment instead of a PR:
+# watch → check → report. Runs on a schedule, hits the routes a real
+# visitor/integrator depends on, and files (or updates) a single GitHub
+# issue when something's broken — then closes it automatically once the
+# site recovers, rather than piling up duplicate issues per failed run.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+
+env:
+  ISSUE_TITLE: "🔴 Technocore Watch — health check failing"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run health checks
+        id: watchdog
+        run: node scripts/watchdog.mjs
+        continue-on-error: true
+
+      - name: File or update the watchdog issue on failure
+        if: steps.watchdog.outputs.failed == 'true'
+        uses: actions/github-script@v7
+        env:
+          WATCHDOG_BODY: ${{ steps.watchdog.outputs.body }}
+        with:
+          script: |
+            const title = process.env.ISSUE_TITLE;
+            const body = process.env.WATCHDOG_BODY;
+
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "watchdog",
+            });
+            const open = existing.find((i) => i.title === title);
+
+            if (open) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ["watchdog"],
+              });
+            }
+
+      - name: Close the watchdog issue if the site has recovered
+        if: steps.watchdog.outputs.failed == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = process.env.ISSUE_TITLE;
+
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "watchdog",
+            });
+            const open = existing.find((i) => i.title === title);
+            if (!open) return;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: open.number,
+              body: `All health checks passed again as of ${new Date().toISOString()} — closing.`,
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: open.number,
+              state: "closed",
+            });
+
+      - name: Fail the run if any check failed
+        if: steps.watchdog.outputs.failed == 'true'
+        run: exit 1

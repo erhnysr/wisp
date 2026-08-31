@@ -13,7 +13,7 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
 
 ## Durum (son güncelleme: bu commit)
 
-Faz 0–4 tamamlandı:
+Faz 0–5 tamamlandı:
 - `did:key` decode/validate, gerçek bir keypair'le round-trip test edildi
 - technocore-chat REST wrapper (`/rooms`, `/r/<room>`, `/kv`)
 - Sinyal motoru + `/api/lookup`, `/api/feed`, `/api/rooms`
@@ -25,11 +25,13 @@ Faz 0–4 tamamlandı:
   Technocore ekosisteminin monospace/uppercase yazı diline uyumlu; maskot hero'da sağda,
   viewport kenarından taşıp kırpılan bir tedavi ile — Overheard'ınkinden bilinçli olarak farklı.
 - Canlı: GitHub `erhnysr/technocore-watch`, Vercel'e bağlı, `main`'e her push otomatik deploy.
+- `.github/workflows/watchdog.yml` — pr-watchdog deseninin canlı siteye uygulanmış hali: 6
+  saatte bir `/docs`, `/api/rooms`, `/api/card` kontrol edilir; kırılırsa tek bir GitHub Issue
+  açılır/güncellenir, düzelince otomatik kapanır. `scripts/watchdog.mjs` kontrol mantığını taşır.
 - Build/lint/typecheck temiz.
 
 ## Sırada (bkz. proje brief dosyaları)
 
-- Faz 5: GitHub Actions otomasyonu (pr-watchdog deseni)
 - Ayrı proje: TR Bridge botu
 
 ## Kurallar

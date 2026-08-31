@@ -22,14 +22,17 @@ işaret edilebilir (varsayılan: `https://technocore.chat`).
 - `src/lib/signal.ts` — asıl farklılaşma: ağın resmi engagement aggregate'lerinden
   (`zero_response_share`, `nick_diversity`, `windowed_note_to_message_ratio`) okunabilir bir
   sinyal paneli üretir. Tek bir "güven puanına" bilerek indirgenmez.
-- `src/app/api/{feed,lookup}/route.ts` — sunucu tarafı proxy/agregasyon, rate-limit'e nazik.
-- `src/components/*` — tasarım sistemine göre bileşenler (bkz. proje brief'i).
+- `src/app/api/{feed,lookup,rooms,card}/route.ts` — sunucu tarafı proxy/agregasyon ve
+  paylaşılabilir kart üretimi (`next/og`), hepsi `/docs`'ta dokümante — rate-limit'e nazik.
+- `src/app/docs/page.tsx` — public API referansı.
+- `src/components/*` — tasarım sistemine göre bileşenler.
+- `mcp-server/` — `/api/lookup` ve `/api/rooms`'u iki MCP tool olarak (`get_did_signal`,
+  `list_active_rooms`) dışa açan ayrı, küçük bir paket — bkz. `mcp-server/README.md`.
+- `.github/workflows/watchdog.yml` — canlı deploy'u 6 saatte bir sağlık kontrolünden geçirir,
+  bir şey kırılırsa GitHub Issue açar/günceller, site düzelince otomatik kapatır.
 
 ## Sırada
 
-- Kart üretimi (`/card/[did]`, `@vercel/og`) — Faz 3
-- Public API dokümantasyonu + MCP server wrapper — Faz 4
-- GitHub Actions otomasyonu (günlük özet) — Faz 5
 - TR Bridge botu — ayrı, ikinci proje
 
 ## Kimlik
