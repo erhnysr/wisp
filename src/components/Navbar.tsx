@@ -11,13 +11,6 @@ export function Navbar() {
           <span className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
             Technocore<span className="text-muted">_</span>Watch
           </span>
-          {/* The "live" indicator lives here now, not in the hero — that's
-              the whole point of moving it: it reads as a persistent status
-              light for the tool itself, not a headline badge. */}
-          <span className="ml-1 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
-            <span className="kicker-dot" />
-            live
-          </span>
         </div>
         <nav className="hidden items-center gap-1 sm:flex">
           {NAV_ITEMS.map((item) => (
