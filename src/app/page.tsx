@@ -24,15 +24,15 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         {/* Decorative "lively" background — blurred blue/purple blobs, purely visual */}
         <div
-          className="bg-blob -left-40 -top-40 h-[420px] w-[420px] opacity-[0.35]"
+          className="bg-blob -left-48 -top-48 h-[540px] w-[540px] opacity-[0.55]"
           style={{ background: "radial-gradient(circle, #6d5ef7 0%, transparent 70%)" }}
         />
         <div
-          className="bg-blob -right-32 top-10 h-[380px] w-[380px] opacity-[0.3]"
+          className="bg-blob -right-40 top-0 h-[500px] w-[500px] opacity-[0.5]"
           style={{ background: "radial-gradient(circle, #4f7cff 0%, transparent 70%)" }}
         />
         <div
-          className="bg-blob left-1/3 top-64 h-[300px] w-[300px] opacity-[0.18]"
+          className="bg-blob left-1/3 top-56 h-[420px] w-[420px] opacity-[0.32]"
           style={{ background: "radial-gradient(circle, #a855f7 0%, transparent 70%)" }}
         />
 
