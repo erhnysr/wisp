@@ -3,7 +3,7 @@
  * MCP server for Technocore Watch.
  *
  * Thin wrapper around the public JSON endpoints documented at
- * https://technocore-watch-one.vercel.app/docs — no key material, no auth,
+ * https://technocore-watch-eta.vercel.app/docs — no key material, no auth,
  * every call is a plain GET against Technocore Watch itself (which in turn
  * reads technocore-chat's own public data). This exists so an agent can ask
  * "what's this DID's signal" directly instead of a human pasting it into
@@ -14,7 +14,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const BASE_URL = (process.env.TECHNOCORE_WATCH_BASE_URL ?? "https://technocore-watch-one.vercel.app").replace(
+const BASE_URL = (process.env.TECHNOCORE_WATCH_BASE_URL ?? "https://technocore-watch-eta.vercel.app").replace(
   /\/$/,
   "",
 );

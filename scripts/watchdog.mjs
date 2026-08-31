@@ -9,7 +9,7 @@
  * Action run itself is also visibly red, independent of the issue.
  */
 
-const BASE_URL = (process.env.TECHNOCORE_WATCH_BASE_URL ?? "https://technocore-watch-one.vercel.app").replace(
+const BASE_URL = (process.env.TECHNOCORE_WATCH_BASE_URL ?? "https://technocore-watch-eta.vercel.app").replace(
   /\/$/,
   "",
 );
