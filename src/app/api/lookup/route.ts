@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
 import { parseDid } from "@/lib/did";
-import { getRoomMessages, listRooms } from "@/lib/technocore-client";
+import {
+  getRoomMessages,
+  listRooms,
+  type EngagementAggregate,
+  type RoomMessage,
+} from "@/lib/technocore-client";
 import { summarizeDidActivity } from "@/lib/signal";
+
+interface ScannedRoom {
+  room: string;
+  engagement: EngagementAggregate;
+  messages: RoomMessage[];
+}
 
 // Note: this Next.js version deprecates the "edge" runtime export in favor
 // of the default Node.js runtime, which is what we use here.
@@ -27,14 +38,15 @@ export async function GET(request: Request) {
     const rooms = await listRooms(ROOMS_SCANNED);
     const settled = await Promise.allSettled(
       rooms.map(async (r) => ({
-        room: r.name,
-        ...(await getRoomMessages(r.name, 200)),
+        room: r.room,
+        engagement: r.engagement,
+        ...(await getRoomMessages(r.room, 200)),
       })),
     );
 
     const roomsWithMessages = settled
-      .filter((r): r is PromiseFulfilledResult<Awaited<ReturnType<typeof getRoomMessages>> & { room: string }> =>
-        r.status === "fulfilled",
+      .filter(
+        (r): r is PromiseFulfilledResult<ScannedRoom> => r.status === "fulfilled",
       )
       .map((r) => r.value);
 
@@ -49,7 +61,8 @@ export async function GET(request: Request) {
       },
       { headers: { "cache-control": "public, max-age=20" } },
     );
-  } catch {
+  } catch (err) {
+    console.error("[/api/lookup]", err);
     return NextResponse.json(
       { error: "technocore-chat şu an yanıt vermiyor, birazdan tekrar dene." },
       { status: 502 },

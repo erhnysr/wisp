@@ -74,7 +74,7 @@ export function toSignalMetrics(engagement?: EngagementAggregate): SignalMetric[
  */
 export function summarizeDidActivity(
   did: string,
-  roomsWithMessages: Array<{ room: string; messages: RoomMessage[]; engagement?: EngagementAggregate }>,
+  roomsWithMessages: Array<{ room: string; messages: RoomMessage[]; engagement: EngagementAggregate }>,
 ): SignalSummary {
   const roomsSeenIn: RoomActivity[] = [];
   let totalMessages = 0;

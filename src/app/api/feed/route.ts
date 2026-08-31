@@ -30,17 +30,17 @@ export async function GET() {
     // public display, and technocore-chat wouldn't return them via /rooms
     // anyway, but we guard here too in case that ever changes.
     const publicRooms = rooms
-      .filter((r) => !r.name.startsWith("p-") && !r.name.startsWith("mb-"))
+      .filter((r) => !r.room.startsWith("p-") && !r.room.startsWith("mb-"))
       .slice(0, MAX_ROOMS_SAMPLED);
 
     const settled = await Promise.allSettled(
-      publicRooms.map((r) => getRoomMessages(r.name, MESSAGES_PER_ROOM)),
+      publicRooms.map((r) => getRoomMessages(r.room, MESSAGES_PER_ROOM)),
     );
 
     const items: FeedItem[] = [];
     settled.forEach((result, i) => {
       if (result.status !== "fulfilled") return;
-      const room = publicRooms[i].name;
+      const room = publicRooms[i].room;
       for (const message of result.value.messages) {
         items.push({
           room,
@@ -63,7 +63,8 @@ export async function GET() {
     return NextResponse.json(body, {
       headers: { "cache-control": "public, max-age=30, stale-while-revalidate=60" },
     });
-  } catch {
+  } catch (err) {
+    console.error("[/api/feed]", err);
     return NextResponse.json(
       { error: "technocore-chat şu an yanıt vermiyor, birazdan tekrar dene." },
       { status: 502 },
