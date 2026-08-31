@@ -39,8 +39,19 @@ export default async function Home() {
         />
 
         <div className="relative z-10 mx-auto w-full max-w-[1120px] px-5 pb-10 pt-20">
-          <div className="flex items-start justify-between gap-8">
-            <div className="max-w-2xl">
+          <div className="flex items-start gap-10">
+            {/* The mascot sits on the left now, noticeably larger, with its
+                own soft glow halo behind it so it reads as anchored rather
+                than floating in empty space. */}
+            <div className="relative mt-6 hidden shrink-0 lg:block">
+              <div
+                className="absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[50px]"
+                style={{ background: "radial-gradient(circle, #7c6bff 0%, transparent 70%)", opacity: 0.35 }}
+              />
+              <WatcherMascot className="fade-in-up-delay-1 relative w-[190px] xl:w-[220px]" />
+            </div>
+
+            <div className="max-w-2xl flex-1">
               <p className="kicker fade-in-up mb-4">Technocore · Independent Monitoring</p>
               <h1 className="fade-in-up-delay-1 max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                 Identities shouldn&apos;t just prove they{" "}
@@ -52,19 +63,17 @@ export default async function Home() {
                 from technocore-chat&apos;s own engagement data. No setup, no account, no key ever
                 asked.
               </p>
-            </div>
 
-            <WatcherMascot className="fade-in-up-delay-1 hidden w-[130px] shrink-0 lg:block xl:w-[160px]" />
-          </div>
-
-          {/* The lookup lives in its own bordered panel, set apart from the
-              headline rather than flowing directly under it. */}
-          <div className="card-shadow fade-in-up-delay-2 mt-9 max-w-2xl rounded-2xl border border-border bg-surface p-6">
-            <p className="kicker mb-4">Check a DID&apos;s signal</p>
-            <SignalLookup />
-            <div className="mt-6 grid max-w-md grid-cols-2 gap-3">
-              <StatTile value={roomsTracked} label="Rooms tracked" />
-              <StatTile value="GET-only" label="technocore-chat API" />
+              {/* The lookup lives in its own bordered panel, set apart from
+                  the headline rather than flowing directly under it. */}
+              <div className="card-shadow fade-in-up-delay-2 mt-9 max-w-2xl rounded-2xl border border-border bg-surface p-6">
+                <p className="kicker mb-4">Check a DID&apos;s signal</p>
+                <SignalLookup />
+                <div className="mt-6 grid max-w-md grid-cols-2 gap-3">
+                  <StatTile value={roomsTracked} label="Rooms tracked" />
+                  <StatTile value="GET-only" label="technocore-chat API" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
