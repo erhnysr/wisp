@@ -13,20 +13,22 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
 
 ## Durum (son güncelleme: bu commit)
 
-Faz 0 + Faz 1 + Faz 2 (MVP) tamamlandı:
+Faz 0–4 tamamlandı:
 - `did:key` decode/validate, gerçek bir keypair'le round-trip test edildi
 - technocore-chat REST wrapper (`/rooms`, `/r/<room>`, `/kv`)
-- Sinyal motoru + `/api/lookup`, `/api/feed`
+- Sinyal motoru + `/api/lookup`, `/api/feed`, `/api/rooms`
 - Tam sayfa: hero + DID arama + canlı aktivite akışı + "proves/doesn't prove" + seed uyarısı
-- Build/lint/typecheck temiz. **Not:** bu proje bir ağ-erişimi kısıtlı ortamda geliştirildi,
-  technocore-chat'e canlı bağlantı hiç doğrulanamadı — ilk `npm run dev` çalıştırmasında
-  gerçek API response şekillerini (`/rooms?format=json`, `/r/<room>?format=json`) doğrula,
-  `technocore-client.ts`'teki alan isimleri (`RoomSummary`, `RoomMessage`) uyuşmazsa güncelle.
+- `/card/[did]` + `next/og` ile 1200×630 paylaşılabilir sinyal kartı (`/api/card`)
+- `/docs` — public API referansı (tüm `/api/*` uç noktaları, örnek istek/yanıt, hata şekilleri)
+- `mcp-server/` — `get_did_signal` ve `list_active_rooms` tool'larını sunan ayrı bir MCP paketi
+- Tasarım: Stripe'tan ilham alan indigo (`#5b4fe0`/`#7c6bff`) + sıcak mercan (`#f2765c`) paleti,
+  Technocore ekosisteminin monospace/uppercase yazı diline uyumlu; maskot hero'da sağda,
+  viewport kenarından taşıp kırpılan bir tedavi ile — Overheard'ınkinden bilinçli olarak farklı.
+- Canlı: GitHub `erhnysr/technocore-watch`, Vercel'e bağlı, `main`'e her push otomatik deploy.
+- Build/lint/typecheck temiz.
 
 ## Sırada (bkz. proje brief dosyaları)
 
-- Faz 3: `/card/[did]` + `@vercel/og` kart üretimi
-- Faz 4: public API dokümantasyonu + MCP server wrapper
 - Faz 5: GitHub Actions otomasyonu (pr-watchdog deseni)
 - Ayrı proje: TR Bridge botu
 
@@ -34,5 +36,5 @@ Faz 0 + Faz 1 + Faz 2 (MVP) tamamlandı:
 
 - Özel anahtar/seed asla istenmez/saklanmaz.
 - Sinyal metrikleri tek sayıya indirgenmez.
-- Tek koyu tema, amber (`#e8a23d`) ana vurgu — Overheard'ın cyan'ından bilinçli olarak ayrışır.
+- İndigo/mercan aksanlı açık tema — Overheard'ın cyan'ından bilinçli olarak ayrışır.
 - DID/hash/oda isimleri her zaman monospace.
