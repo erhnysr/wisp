@@ -41,6 +41,8 @@
 body {
   background: var(--tw-background);
   color: var(--tw-foreground);
+  background-image: radial-gradient(rgba(18, 20, 43, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 .kicker {

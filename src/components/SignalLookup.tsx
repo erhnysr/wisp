@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { SignalSummary } from "@/lib/signal";
 
 interface LookupResponse {
@@ -125,6 +126,13 @@ export function SignalLookup() {
               ))}
             </div>
           )}
+
+          <Link
+            href={`/card/${encodeURIComponent(state.data.did)}`}
+            className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent hover:opacity-80"
+          >
+            View shareable card →
+          </Link>
         </div>
       )}
     </div>
