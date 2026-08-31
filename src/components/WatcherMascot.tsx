@@ -55,25 +55,29 @@ export function WatcherMascot({ className }: { className?: string }) {
       <defs>
         <linearGradient id="wm-body" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#7c6bff" />
-          <stop offset="100%" stopColor="#4f7cff" />
+          <stop offset="100%" stopColor="#5b4fe0" />
         </linearGradient>
         <radialGradient id="wm-eye" cx="35%" cy="35%" r="70%">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="55%" stopColor="#e7e6ff" />
-          <stop offset="100%" stopColor="#c9c4ff" />
+          <stop offset="55%" stopColor="#eae7ff" />
+          <stop offset="100%" stopColor="#cbc3ff" />
         </radialGradient>
         <linearGradient id="wm-pupil" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6d5ef7" />
-          <stop offset="100%" stopColor="#4f7cff" />
+          <stop offset="0%" stopColor="#7c6bff" />
+          <stop offset="100%" stopColor="#5b4fe0" />
+        </linearGradient>
+        <linearGradient id="wm-antenna-tip" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f2765c" />
+          <stop offset="100%" stopColor="#e0563c" />
         </linearGradient>
         <filter id="wm-shadow" x="-40%" y="-20%" width="180%" height="160%">
-          <feDropShadow dx="0" dy="14" stdDeviation="14" floodColor="#4f3fb0" floodOpacity="0.22" />
+          <feDropShadow dx="0" dy="14" stdDeviation="14" floodColor="#40349e" floodOpacity="0.22" />
         </filter>
       </defs>
 
-      {/* antenna */}
+      {/* antenna — a small warm coral tip, the one deliberate spot of contrast color */}
       <line x1="120" y1="34" x2="120" y2="10" stroke="#b7b0ff" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="120" cy="8" r="7" fill="url(#wm-pupil)" />
+      <circle cx="120" cy="8" r="7" fill="url(#wm-antenna-tip)" />
 
       {/* body */}
       <g filter="url(#wm-shadow)">
@@ -92,12 +96,12 @@ export function WatcherMascot({ className }: { className?: string }) {
       </g>
 
       {/* little feet */}
-      <rect x="72" y="206" width="26" height="16" rx="8" fill="#5a4fd6" />
-      <rect x="142" y="206" width="26" height="16" rx="8" fill="#5a4fd6" />
+      <rect x="72" y="206" width="26" height="16" rx="8" fill="#4a3fc4" />
+      <rect x="142" y="206" width="26" height="16" rx="8" fill="#4a3fc4" />
 
       {/* side sensors */}
-      <circle cx="46" cy="118" r="7" fill="#c9c4ff" />
-      <circle cx="194" cy="118" r="7" fill="#c9c4ff" />
+      <circle cx="46" cy="118" r="7" fill="#cbc3ff" />
+      <circle cx="194" cy="118" r="7" fill="#cbc3ff" />
 
       {/* eye socket */}
       <circle cx="120" cy="118" r="52" fill="url(#wm-eye)" />

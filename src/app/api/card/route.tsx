@@ -10,9 +10,10 @@ const COLORS = {
   border: "#e4e7f2",
   foreground: "#12142b",
   muted: "#6b7089",
-  accent: "#6d5ef7",
-  accent2: "#4f7cff",
-  accentSoft: "rgba(109, 94, 247, 0.08)",
+  accent: "#5b4fe0",
+  accent2: "#7c6bff",
+  accentWarm: "#f2765c",
+  accentSoft: "rgba(91, 79, 224, 0.08)",
 };
 
 function formatMetric(value: number | null): string {
@@ -56,8 +57,8 @@ function Frame({ children }: { children: React.ReactNode }) {
           width: 420,
           height: 420,
           borderRadius: 9999,
-          background: `radial-gradient(circle, ${COLORS.accent2} 0%, rgba(255,255,255,0) 70%)`,
-          opacity: 0.22,
+          background: `radial-gradient(circle, ${COLORS.accentWarm} 0%, rgba(255,255,255,0) 70%)`,
+          opacity: 0.18,
           display: "flex",
         }}
       />
