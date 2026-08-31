@@ -41,10 +41,7 @@ export default async function Home() {
         <div className="relative z-10 mx-auto w-full max-w-[1120px] px-5 pb-10 pt-20">
           <div className="flex items-start justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="kicker-pill fade-in-up mb-5">
-                <span className="kicker-dot" />
-                <span className="kicker">Technocore · Independent Monitoring</span>
-              </span>
+              <p className="kicker fade-in-up mb-4">Technocore · Independent Monitoring</p>
               <h1 className="fade-in-up-delay-1 max-w-2xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                 Identities shouldn&apos;t just prove they{" "}
                 <span className="text-gradient text-glow">exist</span>

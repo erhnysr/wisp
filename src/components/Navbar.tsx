@@ -1,14 +1,4 @@
-// Nav labels carry a bracketed shortcut letter — a small nod to the
-// keyboard-driven, monospace UI convention the rest of the Technocore
-// ecosystem (technocore.chat's plaintext API, Flop Delegate's [D][V][A][K][M]
-// nav) uses, so this reads as visibly *of* that world rather than a generic
-// SaaS shell wearing its color scheme.
-const NAV_ITEMS = [
-  { key: "S", label: "Signal" },
-  { key: "R", label: "Rooms" },
-  { key: "C", label: "Card" },
-  { key: "A", label: "API" },
-];
+const NAV_ITEMS = ["Signal", "Rooms", "Card", "API"];
 
 export function Navbar() {
   return (
@@ -21,15 +11,21 @@ export function Navbar() {
           <span className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
             Technocore<span className="text-muted">_</span>Watch
           </span>
+          {/* The "live" indicator lives here now, not in the hero — that's
+              the whole point of moving it: it reads as a persistent status
+              light for the tool itself, not a headline badge. */}
+          <span className="ml-1 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
+            <span className="kicker-dot" />
+            live
+          </span>
         </div>
         <nav className="hidden items-center gap-1 sm:flex">
           {NAV_ITEMS.map((item) => (
             <span
-              key={item.label}
-              className="nav-pill flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-muted"
+              key={item}
+              className="nav-pill cursor-pointer rounded-full px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-muted"
             >
-              <span className="text-accent">[{item.key}]</span>
-              {item.label}
+              {item}
             </span>
           ))}
         </nav>
