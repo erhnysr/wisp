@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import useSWR from "swr";
 import type { FeedResponse } from "@/app/api/feed/route";
 
@@ -12,6 +13,32 @@ function timeAgo(iso: string): string {
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.round(minutes / 60);
   return `${hours}h ago`;
+}
+
+function CopyableFrom({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable (e.g. non-HTTPS context) — silently no-op,
+      // the full value is still visible via the title tooltip on hover.
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      title={copied ? "Copied!" : `Click to copy: ${value}`}
+      className="min-w-0 truncate rounded px-1 -mx-1 font-mono text-xs text-accent transition-colors hover:bg-accent-soft"
+    >
+      {copied ? "Copied ✓" : value}
+    </button>
+  );
 }
 
 export function ActivityFeed() {
@@ -52,7 +79,7 @@ export function ActivityFeed() {
               className="card-shadow rounded-xl border border-border bg-surface p-4 transition-transform hover:-translate-y-0.5"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="truncate font-mono text-xs text-accent">{item.from}</span>
+                <CopyableFrom value={item.from} />
                 {item.did && (
                   <span className="shrink-0 rounded-full bg-good/10 px-2 py-0.5 text-[10px] font-medium text-good">
                     signed

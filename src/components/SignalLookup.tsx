@@ -15,6 +15,32 @@ function formatMetric(value: number | null): string {
   return `${Math.round(value * 100)}%`;
 }
 
+function CopyableDid({ did, short }: { did: string; short: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(did);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable — the full DID is still visible via the
+      // title tooltip on hover.
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      title={copied ? "Copied!" : `Click to copy full DID: ${did}`}
+      className="rounded px-1 -mx-1 font-mono text-lg text-foreground transition-colors hover:bg-accent-soft"
+    >
+      {copied ? "Copied ✓" : short}
+    </button>
+  );
+}
+
 export function SignalLookup() {
   const [input, setInput] = useState("");
   const [state, setState] = useState<
@@ -74,7 +100,7 @@ export function SignalLookup() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="kicker">Identity</p>
-              <p className="font-mono text-lg text-foreground">{state.data.short}</p>
+              <CopyableDid did={state.data.did} short={state.data.short} />
             </div>
             <div className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
               seen in {state.data.summary.roomsSeenIn.length} room
