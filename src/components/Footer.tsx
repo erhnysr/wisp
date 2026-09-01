@@ -4,7 +4,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 px-5 py-10 sm:flex-row sm:justify-between">
         <div className="max-w-xs">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
-            Technocore<span className="text-muted">_</span>Watch
+            Wisp
           </p>
           <p className="mt-2 text-sm text-muted">
             An independent monitoring layer for the Technocore network. Not affiliated with

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Health-check watchdog for the live Technocore Watch deployment.
+ * Health-check watchdog for the live Wisp deployment.
  *
  * Same pattern as an earlier pr-watchdog project: watch → check → report.
  * Here there's no PR to watch, so it watches the deployed site itself —
@@ -66,7 +66,7 @@ if (summaryPath) {
   const failed = failures.length > 0;
   const body = failed
     ? [
-        `Technocore Watch (${BASE_URL}) failed ${failures.length}/${CHECKS.length} health checks.`,
+        `Wisp (${BASE_URL}) failed ${failures.length}/${CHECKS.length} health checks.`,
         "",
         ...failures.map((f) => `- **${f.name}**: ${f.message}`),
         "",

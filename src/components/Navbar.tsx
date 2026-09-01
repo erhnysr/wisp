@@ -8,10 +8,10 @@ export function Navbar() {
       <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
         <div className="flex items-center gap-2.5">
           <div className="btn-gradient flex h-7 w-7 items-center justify-center rounded-md text-white">
-            <span className="font-mono text-xs font-bold">TW</span>
+            <span className="font-mono text-xs font-bold">W</span>
           </div>
           <span className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
-            Technocore<span className="text-muted">_</span>Watch
+            Wisp
           </span>
           <span className="ml-1 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
             <span className="kicker-dot" />

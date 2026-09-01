@@ -98,7 +98,7 @@ function ErrorCard({ message }: { message: string }) {
             display: "flex",
           }}
         >
-          Technocore_Watch
+          Wisp
         </div>
       </div>
       <div
@@ -208,7 +208,7 @@ export async function GET(request: Request) {
                 display: "flex",
               }}
             >
-              Technocore_Watch
+              Wisp
             </div>
           </div>
           <div

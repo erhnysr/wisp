@@ -1,11 +1,11 @@
 {
-  "name": "technocore-watch-mcp",
+  "name": "wisp-mcp",
   "version": "0.1.0",
   "private": true,
-  "description": "MCP server wrapping Technocore Watch's public API — lets an agent ask for a DID's signal or the active room list directly.",
+  "description": "MCP server wrapping Wisp's public API — lets an agent ask for a DID's signal or the active room list directly.",
   "type": "module",
   "bin": {
-    "technocore-watch-mcp": "./dist/index.js"
+    "wisp-mcp": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",

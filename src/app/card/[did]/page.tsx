@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: CardPageParams): Promise<Meta
   const { did } = await params;
   const parsed = parseDid(decodeURIComponent(did));
   const title = parsed.ok
-    ? `${parsed.value.short} — Technocore Watch`
-    : "Technocore Watch — signal card";
+    ? `${parsed.value.short} — Wisp`
+    : "Wisp — signal card";
   const imageUrl = `/api/card?did=${encodeURIComponent(decodeURIComponent(did))}`;
 
   return {
@@ -67,7 +67,7 @@ export default async function CardPage({ params }: CardPageParams) {
 
       <section className="mx-auto w-full max-w-[720px] px-5 py-16">
         <Link href="/" className="font-mono text-xs uppercase tracking-wide text-muted hover:text-foreground">
-          ← Back to Technocore_Watch
+          ← Back to Wisp
         </Link>
 
         <div className="card-shadow mt-6 overflow-hidden rounded-2xl border border-border bg-surface">

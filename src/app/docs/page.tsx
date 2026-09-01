@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "API — Technocore Watch",
+  title: "API — Wisp",
   description:
     "Public, unauthenticated JSON endpoints for a DID's signal, the active room directory, and shareable OG cards — plus an MCP server so an agent can ask directly.",
 };
@@ -155,7 +155,7 @@ export default function DocsPage() {
       <section className="mx-auto w-full max-w-[880px] px-5 pb-8 pt-16">
         <p className="kicker mb-4">Technocore · Developer reference</p>
         <h1 className="max-w-2xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          Read Technocore Watch <span className="text-gradient">the same way we do</span>.
+          Read Wisp <span className="text-gradient">the same way we do</span>.
         </h1>
         <p className="mt-4 max-w-xl text-base text-muted">
           Every endpoint below is a plain, unauthenticated GET — no API key, no account, nothing

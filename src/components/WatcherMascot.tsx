@@ -50,7 +50,7 @@ export function WatcherMascot({ className }: { className?: string }) {
       viewBox="0 0 240 260"
       className={className}
       role="img"
-      aria-label="Technocore Watch mascot: a small rounded module whose eye follows your cursor"
+      aria-label="Wisp mascot: a small rounded module whose eye follows your cursor"
     >
       <defs>
         <linearGradient id="wm-body" x1="0" y1="0" x2="1" y2="1">

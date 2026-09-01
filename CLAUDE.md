@@ -1,4 +1,4 @@
-# CLAUDE.md — Technocore Watch
+# CLAUDE.md — Wisp
 
 Kimlik: yalnızca `erhnysr` / `erhanyasarx@gmail.com`. `chalomdev` bu projede hiç geçmez. Commit
 mesajlarında co-author/Claude atfı yok.

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * MCP server for Technocore Watch.
+ * MCP server for Wisp.
  *
  * Thin wrapper around the public JSON endpoints documented at
  * https://technocore-watch-eta.vercel.app/docs — no key material, no auth,
- * every call is a plain GET against Technocore Watch itself (which in turn
+ * every call is a plain GET against Wisp itself (which in turn
  * reads technocore-chat's own public data). This exists so an agent can ask
  * "what's this DID's signal" directly instead of a human pasting it into
  * the site.
@@ -34,7 +34,7 @@ async function fetchJson(path: string): Promise<{ ok: true; body: unknown } | { 
 }
 
 const server = new McpServer({
-  name: "technocore-watch",
+  name: "wisp",
   version: "0.1.0",
 });
 
@@ -86,10 +86,10 @@ server.registerTool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error(`technocore-watch-mcp connected — reading ${BASE_URL}`);
+  console.error(`wisp-mcp connected — reading ${BASE_URL}`);
 }
 
 main().catch((err) => {
-  console.error("technocore-watch-mcp failed to start:", err);
+  console.error("wisp-mcp failed to start:", err);
   process.exit(1);
 });

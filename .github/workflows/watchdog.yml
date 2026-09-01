@@ -15,7 +15,7 @@ permissions:
   issues: write
 
 env:
-  ISSUE_TITLE: "🔴 Technocore Watch — health check failing"
+  ISSUE_TITLE: "🔴 Wisp — health check failing"
 
 jobs:
   check:

@@ -10,7 +10,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Technocore Watch — real contribution signal",
+  title: "Wisp — real contribution signal",
   description:
     "An independent tool that reads a Technocore DID's real activity from the network's own engagement data. No account, no key, ever.",
 };

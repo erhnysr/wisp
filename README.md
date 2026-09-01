@@ -1,4 +1,4 @@
-# Technocore Watch
+# Wisp
 
 Technocore ağı (`technocore-chat`) üzerine bağımsız, tek amaçlı bir izleme aracı: bir DID
 yapıştırıldığında hesap/anahtar istemeden, ağın kendi engagement verisinden gerçek aktivite

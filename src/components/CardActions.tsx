@@ -26,7 +26,7 @@ export function CardActions({ did, imageUrl }: { did: string; imageUrl: string }
     <div className="flex flex-wrap gap-2">
       <a
         href={imageUrl}
-        download={`technocore-watch-${did.replace("did:key:", "")}.png`}
+        download={`wisp-${did.replace("did:key:", "")}.png`}
         className="tap-shrink rounded-full border border-border bg-surface px-4 py-2 font-mono text-xs uppercase tracking-wide text-foreground shadow-sm transition-colors hover:border-accent/40"
       >
         Download
