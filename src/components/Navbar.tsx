@@ -4,10 +4,10 @@ const NAV_ITEMS = ["Signal", "Rooms", "Card", "API"];
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-20 border-b border-border/70 bg-background">
-      <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
-        <div className="flex items-center gap-3">
-          <svg viewBox="0 0 28 28" width="44" height="44" aria-hidden="true" className="shrink-0">
+    <header className="sticky top-0 z-20 border-b border-border/70 bg-background relative">
+      <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-3">
+        <div className="flex items-center gap-2.5">
+          <svg viewBox="0 0 28 28" width="36" height="36" aria-hidden="true" className="shrink-0">
             <defs>
               <linearGradient id="wisp-mark" x1="2" y1="25" x2="25" y2="3" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#5b4fe0" />
@@ -23,7 +23,9 @@ export function Navbar() {
               strokeLinecap="round"
             />
           </svg>
-          <span className="text-gradient font-sans text-4xl font-bold tracking-tight">Wisp</span>
+          <span className="text-gradient text-glow font-sans text-3xl font-extrabold tracking-tight">
+            Wisp
+          </span>
           <span className="ml-1.5 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
             <span className="kicker-dot" />
             live
@@ -58,6 +60,14 @@ export function Navbar() {
           GitHub
         </a>
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 -bottom-px h-[3px]"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, #5b4fe0 15%, #7c6bff 50%, #f2765c 85%, transparent 100%)",
+          boxShadow: "0 6px 16px -2px rgba(91, 79, 224, 0.45)",
+        }}
+      />
     </header>
   );
 }
