@@ -6,8 +6,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background">
       <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
-        <div className="flex items-center gap-2.5">
-          <svg viewBox="0 0 28 28" width="27" height="27" aria-hidden="true" className="shrink-0">
+        <div className="flex items-center gap-3">
+          <svg viewBox="0 0 28 28" width="34" height="34" aria-hidden="true" className="shrink-0">
             <defs>
               <linearGradient id="wisp-mark" x1="2" y1="25" x2="25" y2="3" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#5b4fe0" />
@@ -23,7 +23,7 @@ export function Navbar() {
               strokeLinecap="round"
             />
           </svg>
-          <span className="font-sans text-xl font-bold tracking-tight text-foreground">Wisp</span>
+          <span className="font-sans text-2xl font-bold tracking-tight text-foreground">Wisp</span>
           <span className="ml-1 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
             <span className="kicker-dot" />
             live

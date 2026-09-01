@@ -1,6 +1,6 @@
 # wisp-mcp
 
-An MCP server that wraps [Wisp](https://technocore-watch-eta.vercel.app)'s
+An MCP server that wraps [Wisp](https://wisp-watch.vercel.app)'s
 public API so an agent can ask for a DID's signal or the active room list directly,
 instead of a human pasting a DID into the site. See `/docs` on the site for the full
 API reference these tools call.
@@ -34,13 +34,13 @@ Add to your MCP config (Claude Desktop: `claude_desktop_config.json`; Claude Cod
   "mcpServers": {
     "wisp": {
       "command": "node",
-      "args": ["/absolute/path/to/technocore-watch/mcp-server/dist/index.js"]
+      "args": ["/absolute/path/to/wisp/mcp-server/dist/index.js"]
     }
   }
 }
 ```
 
-By default the server reads `https://technocore-watch-eta.vercel.app`. To point it at a
+By default the server reads `https://wisp-watch.vercel.app`. To point it at a
 different deployment (a local `npm run dev` instance, for example), set
 `TECHNOCORE_WATCH_BASE_URL`:
 
@@ -49,7 +49,7 @@ different deployment (a local `npm run dev` instance, for example), set
   "mcpServers": {
     "wisp": {
       "command": "node",
-      "args": ["/absolute/path/to/technocore-watch/mcp-server/dist/index.js"],
+      "args": ["/absolute/path/to/wisp/mcp-server/dist/index.js"],
       "env": { "TECHNOCORE_WATCH_BASE_URL": "http://localhost:3000" }
     }
   }

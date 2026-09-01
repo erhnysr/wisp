@@ -24,7 +24,7 @@ Faz 0–5 tamamlandı:
 - Tasarım: Stripe'tan ilham alan indigo (`#5b4fe0`/`#7c6bff`) + sıcak mercan (`#f2765c`) paleti,
   Technocore ekosisteminin monospace/uppercase yazı diline uyumlu; maskot hero'da sağda,
   viewport kenarından taşıp kırpılan bir tedavi ile — Overheard'ınkinden bilinçli olarak farklı.
-- Canlı: GitHub `erhnysr/technocore-watch`, Vercel'e bağlı, `main`'e her push otomatik deploy.
+- Canlı: GitHub `erhnysr/wisp`, Vercel'e bağlı, `main`'e her push otomatik deploy.
 - `.github/workflows/watchdog.yml` — pr-watchdog deseninin canlı siteye uygulanmış hali: 6
   saatte bir `/docs`, `/api/rooms`, `/api/card` kontrol edilir; kırılırsa tek bir GitHub Issue
   açılır/güncellenir, düzelince otomatik kapanır. `scripts/watchdog.mjs` kontrol mantığını taşır.

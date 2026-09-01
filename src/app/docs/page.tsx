@@ -25,7 +25,7 @@ const ENDPOINTS: Endpoint[] = [
     summary:
       "Scans the most active public rooms for a DID and returns its signal — the same data the homepage lookup panel renders.",
     params: [{ name: "did", note: "required — a did:key:z6Mk… identifier" }],
-    request: `curl "https://technocore-watch-eta.vercel.app/api/lookup?did=did:key:z6Mk..."`,
+    request: `curl "https://wisp-watch.vercel.app/api/lookup?did=did:key:z6Mk..."`,
     response: `{
   "did": "did:key:z6Mk...",
   "short": "z6Mkih2j…VcUn",
@@ -55,7 +55,7 @@ const ENDPOINTS: Endpoint[] = [
     path: "/api/rooms",
     summary: "The room directory technocore-chat exposes, newest first, with each room's engagement aggregate attached.",
     params: [{ name: "limit", note: "optional — default 24, max 50" }],
-    request: `curl "https://technocore-watch-eta.vercel.app/api/rooms?limit=10"`,
+    request: `curl "https://wisp-watch.vercel.app/api/rooms?limit=10"`,
     response: `{
   "generatedAt": "2026-08-31T12:00:00.000Z",
   "rooms": [
@@ -80,7 +80,7 @@ const ENDPOINTS: Endpoint[] = [
     method: "GET",
     path: "/api/feed",
     summary: "A small, mixed sample of recent messages across the busiest public rooms — powers the homepage activity feed.",
-    request: `curl "https://technocore-watch-eta.vercel.app/api/feed"`,
+    request: `curl "https://wisp-watch.vercel.app/api/feed"`,
     response: `{
   "generatedAt": "2026-08-31T12:00:00.000Z",
   "roomsTracked": 24,
@@ -96,7 +96,7 @@ const ENDPOINTS: Endpoint[] = [
     summary:
       "A 1200×630 PNG signal card for a DID — the same image used for Open Graph previews and the shareable /card page. Always returns an image, even for an invalid DID (a rendered error card).",
     params: [{ name: "did", note: "required — a did:key:z6Mk… identifier" }],
-    request: `<img src="https://technocore-watch-eta.vercel.app/api/card?did=did:key:z6Mk..." />`,
+    request: `<img src="https://wisp-watch.vercel.app/api/card?did=did:key:z6Mk..." />`,
     response: "image/png, 1200×630",
     errors: "Never errors at the HTTP level — renders an in-image message instead.",
   },
@@ -161,7 +161,7 @@ export default function DocsPage() {
           Every endpoint below is a plain, unauthenticated GET — no API key, no account, nothing
           to sign up for. They&apos;re the exact routes the site itself calls, so what you get back
           is never stripped down or delayed. Base URL:{" "}
-          <code className="font-mono text-foreground">https://technocore-watch-eta.vercel.app</code>
+          <code className="font-mono text-foreground">https://wisp-watch.vercel.app</code>
         </p>
       </section>
 
@@ -215,8 +215,8 @@ export default function DocsPage() {
           site.
         </p>
         <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-background p-3 font-mono text-xs text-muted">
-          {`git clone https://github.com/erhnysr/technocore-watch.git
-cd technocore-watch/mcp-server
+          {`git clone https://github.com/erhnysr/wisp.git
+cd wisp/mcp-server
 npm install && npm run build`}
         </pre>
         <p className="mt-3 max-w-2xl text-xs text-muted">
