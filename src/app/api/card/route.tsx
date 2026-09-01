@@ -85,7 +85,7 @@ function ErrorCard({ message }: { message: string }) {
             fontWeight: 700,
           }}
         >
-          TW
+          W
         </div>
         <div
           style={{
@@ -195,7 +195,7 @@ export async function GET(request: Request) {
                 fontWeight: 700,
               }}
             >
-              TW
+              W
             </div>
             <div
               style={{
