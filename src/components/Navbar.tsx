@@ -5,7 +5,7 @@ const NAV_ITEMS = ["Signal", "Rooms", "Card", "API"];
 export function Navbar() {
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background">
-      <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-5">
+      <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
         <div className="flex items-center gap-3">
           <svg viewBox="0 0 28 28" width="44" height="44" aria-hidden="true" className="shrink-0">
             <defs>
