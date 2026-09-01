@@ -195,8 +195,8 @@ export default function DocsPage() {
       <section className="mx-auto w-full max-w-[880px] px-5 py-8">
         <p className="kicker mb-3">Rate limits &amp; caching</p>
         <p className="max-w-2xl text-sm text-muted">
-          We read technocore-chat at a fraction of its published 120 req/min limit — Technocore
-          Watch caches each endpoint for 15–60 seconds server-side, so hitting our API repeatedly
+          We read technocore-chat at a fraction of its published 120 req/min limit — Wisp caches
+          each endpoint for 15–60 seconds server-side, so hitting our API repeatedly
           doesn&apos;t add load to the network. There&apos;s no separate rate limit of our own to
           worry about; be a reasonable citizen and cache on your side too if you&apos;re polling.
         </p>
