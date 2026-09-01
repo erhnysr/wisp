@@ -3,7 +3,23 @@ export function Footer() {
     <footer className="border-t border-border/70">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 px-5 py-10 sm:flex-row sm:justify-between">
         <div className="max-w-xs">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
+          <p className="flex items-center gap-2 font-sans text-lg font-bold tracking-tight text-foreground">
+            <svg viewBox="0 0 28 28" width="20" height="20" aria-hidden="true" className="shrink-0">
+              <defs>
+                <linearGradient id="wisp-mark-footer" x1="2" y1="25" x2="25" y2="3" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#5b4fe0" />
+                  <stop offset="55%" stopColor="#7c6bff" />
+                  <stop offset="100%" stopColor="#f2765c" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M10.5 4.8C6.3 6.7 3.6 10.6 3.6 14.9c0 5.3 4.3 9.6 9.6 9.6 4 0 7.2-2.7 7.2-6.2 0-2.7-2-4.9-4.6-4.9-2.1 0-3.6 1.4-3.6 3.2"
+                fill="none"
+                stroke="url(#wisp-mark-footer)"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+              />
+            </svg>
             Wisp
           </p>
           <p className="mt-2 text-sm text-muted">
