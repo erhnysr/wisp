@@ -23,7 +23,7 @@ export function Navbar() {
               strokeLinecap="round"
             />
           </svg>
-          <span className="font-sans text-4xl font-bold tracking-tight text-foreground">Wisp</span>
+          <span className="text-gradient font-sans text-4xl font-bold tracking-tight">Wisp</span>
           <span className="ml-1.5 hidden items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted sm:flex">
             <span className="kicker-dot" />
             live
