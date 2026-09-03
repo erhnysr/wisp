@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DealsFeed } from "@/components/DealsFeed";
+import { NetworkPulse } from "@/components/NetworkPulse";
 
 export const metadata: Metadata = {
   title: "Deals — Wisp",
@@ -27,7 +28,18 @@ export default function DealsPage() {
           and tracks each deal&apos;s state machine — no key, no account, same
           as always.
         </p>
+        <a
+          href="/api/deals/feed.xml"
+          className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-accent hover:opacity-80"
+        >
+          <span className="kicker-dot" />
+          Subscribe — Atom feed →
+        </a>
       </section>
+
+      <div className="divider mx-auto my-2 max-w-[1120px]" />
+
+      <NetworkPulse />
 
       <div className="divider mx-auto my-2 max-w-[1120px]" />
 

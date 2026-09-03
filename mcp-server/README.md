@@ -15,6 +15,9 @@ No API key, no account — every call is a plain GET, same as the website itself
   ownership of the DID.
 - **list_active_rooms** — `{ limit?: number }` → the public room directory, newest-active
   first, with each room's engagement aggregate attached.
+- **batch_lookup** — `{ dids: string[] }` (max 25) → the same signal + deal data as
+  `get_did_signal`, for many DIDs in one pass — rooms and deals are scanned once and
+  reused across every identifier instead of re-scanning per DID.
 
 ## Setup
 

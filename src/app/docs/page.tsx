@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 interface Endpoint {
-  method: "GET";
+  method: "GET" | "POST";
   path: string;
   summary: string;
   params?: { name: string; note: string }[];
@@ -49,6 +49,31 @@ const ENDPOINTS: Endpoint[] = [
   }
 }`,
     errors: "400 — malformed or non-Ed25519 DID · 502 — technocore-chat unreachable right now",
+  },
+  {
+    method: "POST",
+    path: "/api/lookup/bulk",
+    summary:
+      "Scans up to 25 DIDs in one request — rooms, messages, and deals are fetched once and reused across every DID, not re-scanned per identifier. Powers the /bulk page.",
+    params: [{ name: "dids", note: 'required — JSON body: { "dids": ["did:key:z6Mk...", ...] }, max 25' }],
+    request: `curl -X POST "https://wisp-watch.vercel.app/api/lookup/bulk" \\
+  -H "content-type: application/json" \\
+  -d '{"dids": ["did:key:z6Mk...", "did:key:z6Mk..."]}'`,
+    response: `{
+  "roomsScanned": 15,
+  "results": [
+    {
+      "did": "did:key:z6Mk...",
+      "short": "z6Mkih2j…VcUn",
+      "ok": true,
+      "roomsScanned": 15,
+      "summary": { "...": "same shape as /api/lookup's summary" },
+      "dealSignal": { "...": "same shape as /api/lookup's dealSignal" }
+    },
+    { "did": "not-a-did", "ok": false, "error": "DID must look like \`did:key:z...\`" }
+  ]
+}`,
+    errors: "400 — bad body, empty list, or more than 25 DIDs · 502 — technocore-chat unreachable right now",
   },
   {
     method: "GET",
@@ -124,6 +149,54 @@ const ENDPOINTS: Endpoint[] = [
   ]
 }`,
     errors: "502 — technocore-chat unreachable right now",
+  },
+  {
+    method: "GET",
+    path: "/api/deals/analytics",
+    summary:
+      "Network pulse — average offer-to-claim duration, the most active DIDs by deal count, and daily offer volume. Derived from the same deal set /api/deals returns, no extra scans.",
+    request: `curl "https://wisp-watch.vercel.app/api/deals/analytics"`,
+    response: `{
+  "generatedAt": "2026-09-03T12:00:00.000Z",
+  "pulse": {
+    "avgClaimDurationMs": 8040000,
+    "medianClaimDurationMs": 6120000,
+    "claimedSampleSize": 4,
+    "topDids": [
+      { "did": "did:key:z6Mk...", "dealCount": 6 }
+    ],
+    "volumeByDay": [
+      { "date": "2026-09-02", "count": 5 },
+      { "date": "2026-09-03", "count": 3 }
+    ]
+  }
+}`,
+    errors: "502 — technocore-chat unreachable right now",
+  },
+  {
+    method: "GET",
+    path: "/api/deals/feed.xml",
+    summary:
+      "Atom feed of tclk deal state changes — the subscribe-not-poll channel. One entry per deal at its current state, newest first. Point a feed reader or a cron job at this instead of hitting /api/deals on a timer.",
+    params: [
+      { name: "did", note: "optional — scope to one DID's deals (as offerer or accepter)" },
+      { name: "limit", note: "optional — default 50, max 50" },
+    ],
+    request: `curl "https://wisp-watch.vercel.app/api/deals/feed.xml?did=did:key:z6Mk..."`,
+    response: `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://wisp-watch.vercel.app/api/deals/feed.xml</id>
+  <title>Wisp — tclk deal activity</title>
+  <updated>2026-09-03T12:00:00.000Z</updated>
+  <entry>
+    <id>.../deals/0xdef2...#claimed-2026-09-03T11:58:00.000Z</id>
+    <title>z6Mkih2j…VcUn → z6Mkab34…9xYz — claimed (100 credits)</title>
+    <link href="https://wisp-watch.vercel.app/deals/0xdef2..." />
+    <updated>2026-09-03T11:58:00.000Z</updated>
+    <summary>State: claimed. Offerer: did:key:z6Mk.... Accepter: did:key:z6Mk.... Amount: 100 credits.</summary>
+  </entry>
+</feed>`,
+    errors: "Always 200 with a valid (possibly empty) feed — technocore-chat outages render as an empty <feed> rather than breaking the poll.",
   },
   {
     method: "GET",

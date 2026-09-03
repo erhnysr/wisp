@@ -330,3 +330,96 @@ export function computeDealStats(deals: Deal[]): DealStats {
   }
   return stats;
 }
+
+// ---------------------------------------------------------------------------
+// Network pulse — cross-deal analytics for the dashboard's top layer
+// ---------------------------------------------------------------------------
+
+export interface DidActivity {
+  did: string;
+  dealCount: number;
+}
+
+export interface VolumeBucket {
+  /** ISO date (yyyy-mm-dd), UTC day the deal was offered. */
+  date: string;
+  count: number;
+}
+
+export interface NetworkPulse {
+  /** Mean time from offer to claim, in ms, across claimed deals. Null if none claimed yet. */
+  avgClaimDurationMs: number | null;
+  /** Median time from offer to claim, in ms. Null if none claimed yet. */
+  medianClaimDurationMs: number | null;
+  claimedSampleSize: number;
+  /** DIDs ranked by how many deals they've touched (offerer or accepter). */
+  topDids: DidActivity[];
+  /** Deal offer volume bucketed by UTC day, oldest first. */
+  volumeByDay: VolumeBucket[];
+}
+
+/**
+ * Cross-deal analytics: average deal duration, most active DIDs, and a
+ * daily volume series — the "network pulse" layer above the raw deal
+ * list. Computed entirely from the same Deal[] the dashboard already
+ * fetches, no extra network calls.
+ */
+export function computeNetworkPulse(deals: Deal[]): NetworkPulse {
+  // --- Claim duration (offer -> claimed) ---
+  const claimDurations: number[] = [];
+  for (const d of deals) {
+    if (d.state !== "claimed") continue;
+    const ms = new Date(d.lastUpdate).getTime() - new Date(d.offeredAt).getTime();
+    if (Number.isFinite(ms) && ms >= 0) claimDurations.push(ms);
+  }
+  claimDurations.sort((a, b) => a - b);
+
+  const avgClaimDurationMs =
+    claimDurations.length > 0
+      ? Math.round(claimDurations.reduce((sum, ms) => sum + ms, 0) / claimDurations.length)
+      : null;
+  const medianClaimDurationMs =
+    claimDurations.length > 0
+      ? claimDurations.length % 2 === 1
+        ? claimDurations[(claimDurations.length - 1) / 2]
+        : Math.round(
+            (claimDurations[claimDurations.length / 2 - 1] +
+              claimDurations[claimDurations.length / 2]) /
+              2,
+          )
+      : null;
+
+  // --- Most active DIDs ---
+  const dealCountByDid = new Map<string, number>();
+  for (const d of deals) {
+    dealCountByDid.set(d.offerer, (dealCountByDid.get(d.offerer) ?? 0) + 1);
+    if (d.accepter) {
+      dealCountByDid.set(d.accepter, (dealCountByDid.get(d.accepter) ?? 0) + 1);
+    }
+  }
+  const topDids: DidActivity[] = Array.from(dealCountByDid.entries())
+    .map(([did, dealCount]) => ({ did, dealCount }))
+    .sort((a, b) => b.dealCount - a.dealCount)
+    .slice(0, 10);
+
+  // --- Volume by day (UTC, based on offer time) ---
+  const countByDay = new Map<string, number>();
+  for (const d of deals) {
+    const date = new Date(d.offeredAt);
+    if (Number.isNaN(date.getTime())) continue;
+    const key = date.toISOString().slice(0, 10);
+    countByDay.set(key, (countByDay.get(key) ?? 0) + 1);
+  }
+  const volumeByDay: VolumeBucket[] = Array.from(countByDay.entries())
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => (a.date < b.date ? -1 : 1));
+
+  return {
+    avgClaimDurationMs,
+    medianClaimDurationMs,
+    claimedSampleSize: claimDurations.length,
+    topDids,
+    volumeByDay,
+  };
+}
+

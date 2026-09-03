@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const NAV_ITEMS = ["Signal", "Rooms", "Deals", "Card", "API"];
+const NAV_ITEMS = ["Signal", "Rooms", "Compare", "Bulk", "Deals", "Card", "API"];
 
 export function Navbar() {
   return (
@@ -34,7 +34,17 @@ export function Navbar() {
         <nav className="hidden items-center gap-1 sm:flex">
           {NAV_ITEMS.map((item) => {
             const href =
-              item === "API" ? "/docs" : item === "Deals" ? "/deals" : undefined;
+              item === "API"
+                ? "/docs"
+                : item === "Deals"
+                  ? "/deals"
+                  : item === "Compare"
+                    ? "/compare"
+                    : item === "Rooms"
+                      ? "/rooms"
+                      : item === "Bulk"
+                        ? "/bulk"
+                        : undefined;
             return href ? (
               <Link
                 key={item}

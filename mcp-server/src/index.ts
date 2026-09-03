@@ -44,6 +44,27 @@ async function fetchJson(path: string): Promise<{ ok: true; body: unknown } | { 
   }
 }
 
+async function postJson(
+  path: string,
+  payload: unknown,
+): Promise<{ ok: true; body: unknown } | { ok: false; error: string }> {
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      method: "POST",
+      headers: { accept: "application/json", "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const body = await res.json();
+    if (!res.ok) {
+      const message = typeof body === "object" && body && "error" in body ? String((body as { error: unknown }).error) : `HTTP ${res.status}`;
+      return { ok: false, error: message };
+    }
+    return { ok: true, body };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Unknown network error" };
+  }
+}
+
 const identity = loadSigningIdentity();
 
 const server = new McpServer({
@@ -132,6 +153,29 @@ server.registerTool(
     const body = result.body as Record<string, unknown>;
     const dealSignal = body.dealSignal ?? { totalDeals: 0, deals: [] };
     return { content: [{ type: "text", text: JSON.stringify({ did, dealSignal }, null, 2) }] };
+  },
+);
+
+server.registerTool(
+  "batch_lookup",
+  {
+    title: "Look up many DIDs at once",
+    description:
+      "Scans up to 25 did:key identifiers in a single pass — rooms and deals are fetched once and reused across every DID, not re-scanned per identifier. Returns each DID's signal summary and tclk deal history, same shape as get_did_signal, plus a validation error per malformed DID.",
+    inputSchema: {
+      dids: z
+        .array(z.string())
+        .min(1)
+        .max(25)
+        .describe("Up to 25 did:key:z6Mk… identifiers (Ed25519 only)."),
+    },
+  },
+  async ({ dids }) => {
+    const result = await postJson("/api/lookup/bulk", { dids });
+    if (!result.ok) {
+      return { content: [{ type: "text", text: `Error: ${result.error}` }], isError: true };
+    }
+    return { content: [{ type: "text", text: JSON.stringify(result.body, null, 2) }] };
   },
 );
 
