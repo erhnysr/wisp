@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const NAV_ITEMS = ["Signal", "Rooms", "Card", "API"];
+const NAV_ITEMS = ["Signal", "Rooms", "Deals", "Card", "API"];
 
 export function Navbar() {
   return (
@@ -32,11 +32,13 @@ export function Navbar() {
           </span>
         </div>
         <nav className="hidden items-center gap-1 sm:flex">
-          {NAV_ITEMS.map((item) =>
-            item === "API" ? (
+          {NAV_ITEMS.map((item) => {
+            const href =
+              item === "API" ? "/docs" : item === "Deals" ? "/deals" : undefined;
+            return href ? (
               <Link
                 key={item}
-                href="/docs"
+                href={href}
                 className="nav-pill rounded-full px-4 py-1.5 font-mono text-xs uppercase tracking-wide text-muted"
               >
                 {item}
@@ -48,8 +50,8 @@ export function Navbar() {
               >
                 {item}
               </span>
-            ),
-          )}
+            );
+          })}
         </nav>
         <a
           href="https://github.com/erhnysr"
