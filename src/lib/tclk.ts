@@ -282,6 +282,26 @@ export function advanceDealState(
 }
 
 // ---------------------------------------------------------------------------
+// Deal event timeline — frame-level history for the deal explorer
+// ---------------------------------------------------------------------------
+
+/** A single observed frame event in a deal's lifecycle. */
+export interface DealEvent {
+  type: TclkFrameType;
+  from: string;
+  ts: string;
+  /** State the deal moved to after this frame (null for receipts). */
+  resultState: DealState | null;
+  /** Extra data depending on frame type. */
+  detail?: Record<string, unknown>;
+}
+
+/** A deal with its full frame history for the explorer page. */
+export interface DealDetail extends Deal {
+  events: DealEvent[];
+}
+
+// ---------------------------------------------------------------------------
 // Deal aggregation from room messages
 // ---------------------------------------------------------------------------
 

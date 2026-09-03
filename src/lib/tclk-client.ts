@@ -7,7 +7,7 @@
  */
 
 import { getRoomMessages, type RoomMessage } from "./technocore-client";
-import { decodeFrame, advanceDealState, type Deal, type TclkOffer, type TclkAccept } from "./tclk";
+import { decodeFrame, advanceDealState, type Deal, type DealDetail, type DealEvent, type TclkOffer, type TclkAccept } from "./tclk";
 
 /** The public room where tclk offers and accepts are posted. */
 const OFFERS_ROOM = "tclk-offers";
@@ -153,4 +153,153 @@ export async function scanDealsByDid(did: string): Promise<Deal[]> {
   return allDeals.filter(
     (d) => d.offerer === did || d.accepter === did,
   );
+}
+
+/**
+ * Returns a single deal with its full frame history (timeline) for
+ * the deal explorer page. Searches by contractId or offerId.
+ */
+export async function scanDealDetail(id: string): Promise<DealDetail | null> {
+  let messages: RoomMessage[];
+  try {
+    const result = await getRoomMessages(OFFERS_ROOM, OFFERS_LIMIT);
+    messages = result.messages;
+  } catch {
+    return null;
+  }
+
+  // Find the offer and accept
+  const offersById = new Map<string, { offer: TclkOffer; ts: string }>();
+  const acceptsByRef = new Map<string, { accept: TclkAccept; ts: string }>();
+
+  for (const msg of messages) {
+    const frame = decodeFrame(msg.text);
+    if (!frame) continue;
+    if (frame.type === "offer") {
+      offersById.set(frame.id, { offer: frame, ts: msg.ts });
+    } else if (frame.type === "accept") {
+      acceptsByRef.set(frame.ref, { accept: frame, ts: msg.ts });
+    }
+  }
+
+  // Match by contractId or offerId
+  let matchedOfferId: string | null = null;
+
+  // Check offerId match first
+  if (offersById.has(id)) {
+    matchedOfferId = id;
+  } else {
+    // Search by contractId
+    for (const [offerId, _offerEntry] of offersById) {
+      const acceptEntry = acceptsByRef.get(offerId);
+      if (acceptEntry?.accept.contract === id) {
+        matchedOfferId = offerId;
+        break;
+      }
+    }
+  }
+
+  if (!matchedOfferId) return null;
+
+  const offerEntry = offersById.get(matchedOfferId)!;
+  const acceptEntry = acceptsByRef.get(matchedOfferId);
+
+  const events: DealEvent[] = [];
+
+  // Offer event
+  events.push({
+    type: "offer",
+    from: offerEntry.offer.from,
+    ts: offerEntry.ts,
+    resultState: "proposed",
+    detail: {
+      role: offerEntry.offer.role,
+      amount: offerEntry.offer.amount,
+      asset: offerEntry.offer.asset,
+      lock: offerEntry.offer.lock,
+      rails: offerEntry.offer.rails,
+    },
+  });
+
+  const deal: DealDetail = {
+    offerId: matchedOfferId,
+    contractId: acceptEntry?.accept.contract ?? null,
+    state: "proposed",
+    offerer: offerEntry.offer.from,
+    accepter: null,
+    role: offerEntry.offer.role,
+    amount: offerEntry.offer.amount,
+    asset: offerEntry.offer.asset,
+    lock: offerEntry.offer.lock,
+    rails: offerEntry.offer.rails,
+    lockedRail: null,
+    claimByMs: offerEntry.offer.claimByMs,
+    refundAfterMs: offerEntry.offer.refundAfterMs,
+    expiresMs: offerEntry.offer.expiresMs,
+    offeredAt: offerEntry.ts,
+    lastUpdate: offerEntry.ts,
+    events,
+  };
+
+  if (acceptEntry) {
+    deal.state = "accepted";
+    deal.accepter = acceptEntry.accept.from;
+    deal.lastUpdate = acceptEntry.ts;
+    events.push({
+      type: "accept",
+      from: acceptEntry.accept.from,
+      ts: acceptEntry.ts,
+      resultState: "accepted",
+      detail: {
+        statement: acceptEntry.accept.statement || undefined,
+      },
+    });
+  }
+
+  // Check deal room for further frames
+  if (deal.contractId) {
+    const hex = deal.contractId.startsWith("0x") ? deal.contractId.slice(2) : deal.contractId;
+    const roomName = `mb-p-tclk-${hex.slice(0, 16)}`;
+
+    try {
+      const result = await getRoomMessages(roomName, 100);
+      for (const msg of result.messages) {
+        const frame = decodeFrame(msg.text);
+        if (!frame) continue;
+        if ("contract" in frame && frame.contract !== deal.contractId) continue;
+
+        const newState = advanceDealState(deal.state, frame.type);
+
+        const event: DealEvent = {
+          type: frame.type,
+          from: frame.from,
+          ts: msg.ts,
+          resultState: newState,
+        };
+
+        // Add type-specific details
+        if (frame.type === "lock") {
+          event.detail = { rail: frame.rail };
+          if (newState) deal.lockedRail = frame.rail;
+        } else if (frame.type === "refund" && frame.reason) {
+          event.detail = { reason: frame.reason };
+        } else if (frame.type === "cancel" && frame.reason) {
+          event.detail = { reason: frame.reason };
+        } else if (frame.type === "receipt") {
+          event.detail = { outcome: frame.outcome, rail: frame.rail };
+        }
+
+        if (newState) {
+          deal.state = newState;
+          deal.lastUpdate = msg.ts;
+        }
+
+        events.push(event);
+      }
+    } catch {
+      // Deal room unreachable — show what we have
+    }
+  }
+
+  return deal;
 }

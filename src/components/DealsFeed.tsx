@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import useSWR from "swr";
 import type { DealsResponse } from "@/app/api/deals/route";
 import type { Deal, DealState } from "@/lib/tclk";
@@ -81,68 +82,71 @@ function StateBadge({ state }: { state: DealState }) {
 function DealCard({ deal }: { deal: Deal }) {
   const payer = deal.role === "payer" ? deal.offerer : deal.accepter;
   const payee = deal.role === "payee" ? deal.offerer : deal.accepter;
+  const linkId = deal.contractId ?? deal.offerId;
 
   return (
-    <div className="card-shadow card-hover rounded-xl border border-border bg-surface p-5">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
+    <Link href={`/deals/${encodeURIComponent(linkId)}`} className="block">
+      <div className="card-shadow card-hover rounded-xl border border-border bg-surface p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <code className="truncate font-mono text-xs text-foreground">
+                {deal.offerId.slice(0, 18)}…
+              </code>
+              <StateBadge state={deal.state} />
+            </div>
+            <div className="mt-3 flex items-baseline gap-1.5">
+              <span className="text-gradient font-mono text-xl font-bold">
+                {deal.amount}
+              </span>
+              <span className="font-mono text-xs uppercase text-muted">
+                {deal.asset}
+              </span>
+            </div>
+          </div>
+          <span className="shrink-0 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-muted">
+            {deal.lock}
+          </span>
+        </div>
+
+        <div className="mt-4 space-y-1.5">
+          {payer && (
+            <div className="flex items-center gap-2 text-xs">
+              <span className="w-12 shrink-0 font-mono uppercase text-muted">
+                payer
+              </span>
+              <code className="truncate font-mono text-foreground/80">
+                {shortDid(payer)}
+              </code>
+            </div>
+          )}
+          {payee && (
+            <div className="flex items-center gap-2 text-xs">
+              <span className="w-12 shrink-0 font-mono uppercase text-muted">
+                payee
+              </span>
+              <code className="truncate font-mono text-foreground/80">
+                {shortDid(payee)}
+              </code>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <code className="truncate font-mono text-xs text-foreground">
-              {deal.offerId.slice(0, 18)}…
-            </code>
-            <StateBadge state={deal.state} />
+            {deal.rails.map((rail) => (
+              <span
+                key={rail}
+                className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted"
+              >
+                {rail}
+              </span>
+            ))}
           </div>
-          <div className="mt-3 flex items-baseline gap-1.5">
-            <span className="text-gradient font-mono text-xl font-bold">
-              {deal.amount}
-            </span>
-            <span className="font-mono text-xs uppercase text-muted">
-              {deal.asset}
-            </span>
-          </div>
+          <p className="kicker">{timeAgo(deal.lastUpdate)}</p>
         </div>
-        <span className="shrink-0 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-muted">
-          {deal.lock}
-        </span>
       </div>
-
-      <div className="mt-4 space-y-1.5">
-        {payer && (
-          <div className="flex items-center gap-2 text-xs">
-            <span className="w-12 shrink-0 font-mono uppercase text-muted">
-              payer
-            </span>
-            <code className="truncate font-mono text-foreground/80">
-              {shortDid(payer)}
-            </code>
-          </div>
-        )}
-        {payee && (
-          <div className="flex items-center gap-2 text-xs">
-            <span className="w-12 shrink-0 font-mono uppercase text-muted">
-              payee
-            </span>
-            <code className="truncate font-mono text-foreground/80">
-              {shortDid(payee)}
-            </code>
-          </div>
-        )}
-      </div>
-
-      <div className="mt-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {deal.rails.map((rail) => (
-            <span
-              key={rail}
-              className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted"
-            >
-              {rail}
-            </span>
-          ))}
-        </div>
-        <p className="kicker">{timeAgo(deal.lastUpdate)}</p>
-      </div>
-    </div>
+    </Link>
   );
 }
 
