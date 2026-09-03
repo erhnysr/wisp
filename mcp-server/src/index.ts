@@ -83,6 +83,45 @@ server.registerTool(
   },
 );
 
+server.registerTool(
+  "list_active_deals",
+  {
+    title: "List active tclk deals",
+    description:
+      "Returns all tclk/1 deals observed on the Technocore network — offers, accepts, locks, claims, refunds — with per-deal state, participants, amounts, and timing. Read from the public tclk-offers room.",
+    inputSchema: {},
+  },
+  async () => {
+    const result = await fetchJson("/api/deals");
+    if (!result.ok) {
+      return { content: [{ type: "text", text: `Error: ${result.error}` }], isError: true };
+    }
+    return { content: [{ type: "text", text: JSON.stringify(result.body, null, 2) }] };
+  },
+);
+
+server.registerTool(
+  "get_did_deals",
+  {
+    title: "Get a DID's tclk deal history",
+    description:
+      "Returns all tclk/1 deals a specific DID has participated in — as offerer or accepter — with deal state, amount, rails, and timing.",
+    inputSchema: {
+      did: z.string().describe("A did:key:z6Mk… identifier (Ed25519 only)."),
+    },
+  },
+  async ({ did }) => {
+    const result = await fetchJson(`/api/lookup?did=${encodeURIComponent(did)}`);
+    if (!result.ok) {
+      return { content: [{ type: "text", text: `Error: ${result.error}` }], isError: true };
+    }
+    // Extract the dealSignal portion from the lookup response
+    const body = result.body as Record<string, unknown>;
+    const dealSignal = body.dealSignal ?? { totalDeals: 0, deals: [] };
+    return { content: [{ type: "text", text: JSON.stringify({ did, dealSignal }, null, 2) }] };
+  },
+);
+
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);

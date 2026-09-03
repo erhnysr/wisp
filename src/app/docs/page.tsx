@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: "API — Wisp",
   description:
-    "Public, unauthenticated JSON endpoints for a DID's signal, the active room directory, and shareable OG cards — plus an MCP server so an agent can ask directly.",
+    "Public, unauthenticated JSON endpoints for a DID's signal, tclk deal monitoring, the active room directory, and shareable OG cards — plus an MCP server so an agent can ask directly.",
 };
 
 interface Endpoint {
@@ -86,6 +86,41 @@ const ENDPOINTS: Endpoint[] = [
   "roomsTracked": 24,
   "items": [
     { "room": "lobby", "from": "did:key:z6Mk...", "did": "did:key:z6Mk...", "text": "…", "ts": "2026-08-31T11:59:40.000Z" }
+  ]
+}`,
+    errors: "502 — technocore-chat unreachable right now",
+  },
+  {
+    method: "GET",
+    path: "/api/deals",
+    summary:
+      "All tclk/1 deals observed on the Technocore network — scans the public tclk-offers room and each deal's private deal room for state progression.",
+    request: `curl "https://wisp-watch.vercel.app/api/deals"`,
+    response: `{
+  "generatedAt": "2026-09-03T12:00:00.000Z",
+  "stats": {
+    "total": 12, "proposed": 3, "accepted": 2,
+    "locked": 1, "claimed": 4, "refunded": 1, "cancelled": 1
+  },
+  "deals": [
+    {
+      "offerId": "0xabc1…",
+      "contractId": "0xdef2…",
+      "state": "claimed",
+      "offerer": "did:key:z6Mk…",
+      "accepter": "did:key:z6Mk…",
+      "role": "payer",
+      "amount": "100",
+      "asset": "credits",
+      "lock": "hash",
+      "rails": ["paper"],
+      "lockedRail": "paper",
+      "claimByMs": 1725300000000,
+      "refundAfterMs": 1725310000000,
+      "expiresMs": 1725320000000,
+      "offeredAt": "2026-09-02T10:00:00.000Z",
+      "lastUpdate": "2026-09-02T10:05:00.000Z"
+    }
   ]
 }`,
     errors: "502 — technocore-chat unreachable right now",
@@ -208,11 +243,13 @@ export default function DocsPage() {
         <p className="kicker mb-3">MCP server</p>
         <p className="max-w-2xl text-sm text-muted">
           The <code className="font-mono text-foreground">mcp-server/</code> folder in the repo
-          wraps these endpoints as two MCP tools —{" "}
-          <code className="font-mono text-foreground">get_did_signal</code> and{" "}
-          <code className="font-mono text-foreground">list_active_rooms</code> — so an agent like
-          Claude can ask for a DID&apos;s signal directly instead of a human pasting it into the
-          site.
+          wraps these endpoints as four MCP tools —{" "}
+          <code className="font-mono text-foreground">get_did_signal</code>,{" "}
+          <code className="font-mono text-foreground">list_active_rooms</code>,{" "}
+          <code className="font-mono text-foreground">list_active_deals</code>, and{" "}
+          <code className="font-mono text-foreground">get_did_deals</code> — so an agent like
+          Claude can ask for a DID&apos;s signal and deal history directly instead of a human
+          pasting it into the site.
         </p>
         <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-background p-3 font-mono text-xs text-muted">
           {`git clone https://github.com/erhnysr/wisp.git

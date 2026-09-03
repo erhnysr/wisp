@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { SignalSummary } from "@/lib/signal";
+import type { SignalSummary, DealSignal } from "@/lib/signal";
 
 interface LookupResponse {
   did: string;
   short: string;
   roomsScanned: number;
   summary: SignalSummary;
+  dealSignal?: DealSignal;
 }
 
 function formatMetric(value: number | null): string {
@@ -127,12 +128,61 @@ export function SignalLookup() {
             </div>
           )}
 
-          <Link
-            href={`/card/${encodeURIComponent(state.data.did)}`}
-            className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide text-accent hover:opacity-80"
-          >
-            View shareable card →
-          </Link>
+          {/* tclk deal activity */}
+          {state.data.dealSignal && state.data.dealSignal.totalDeals > 0 && (
+            <div className="mt-5 rounded-xl border border-border bg-background p-4">
+              <p className="kicker mb-3">tclk deal activity</p>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <div>
+                  <p className="text-gradient font-mono text-lg font-bold">
+                    {state.data.dealSignal.totalDeals}
+                  </p>
+                  <p className="text-[10px] uppercase text-muted">deals</p>
+                </div>
+                <div>
+                  <p className="text-gradient font-mono text-lg font-bold">
+                    {state.data.dealSignal.claimed}
+                  </p>
+                  <p className="text-[10px] uppercase text-muted">claimed</p>
+                </div>
+                <div>
+                  <p className="text-gradient font-mono text-lg font-bold">
+                    {state.data.dealSignal.active}
+                  </p>
+                  <p className="text-[10px] uppercase text-muted">active</p>
+                </div>
+                <div>
+                  <p className="text-gradient font-mono text-lg font-bold">
+                    {state.data.dealSignal.completionRate !== null
+                      ? formatMetric(state.data.dealSignal.completionRate)
+                      : "—"}
+                  </p>
+                  <p className="text-[10px] uppercase text-muted">completion</p>
+                </div>
+              </div>
+              <p className="mt-3 text-xs text-muted">
+                Proves this DID has posted signed tclk/1 frames. Doesn&apos;t prove real value
+                changed hands — PaperRail settles nothing yet.
+              </p>
+            </div>
+          )}
+
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link
+              href={`/card/${encodeURIComponent(state.data.did)}`}
+              className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide text-accent hover:opacity-80"
+            >
+              View shareable card →
+            </Link>
+            {state.data.dealSignal && state.data.dealSignal.totalDeals > 0 && (
+              <Link
+                href="/deals"
+                className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wide text-accent hover:opacity-80"
+              >
+                View all deals →
+              </Link>
+            )}
+          </div>
         </div>
       )}
     </div>
