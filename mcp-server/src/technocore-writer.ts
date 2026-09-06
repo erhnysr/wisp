@@ -117,7 +117,7 @@ export async function postSigned(
   const sig = base64urlEncode(sigBytes);
 
   try {
-    const res = await fetch(`${TECHNOCORE_URL}/r/${encodeURIComponent(room)}`, {
+    const res = await fetch(`${TECHNOCORE_URL}/r/${encodeURIComponent(room)}?format=json`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -133,8 +133,8 @@ export async function postSigned(
       return { ok: false, error: `HTTP ${res.status}: ${body.slice(0, 200)}` };
     }
 
-    const result = await res.json() as { seq?: number };
-    return { ok: true, seq: result.seq ?? 0 };
+    const result = await res.json() as { posted?: { seq?: number } };
+    return { ok: true, seq: result.posted?.seq ?? 0 };
   } catch (err) {
     return {
       ok: false,
