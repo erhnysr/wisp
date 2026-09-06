@@ -123,7 +123,7 @@ export async function postSigned(
       body: JSON.stringify({
         did: identity.did,
         sig,
-        nonce,
+        nonce: String(nonce),
         text,
       }),
     });
