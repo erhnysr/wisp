@@ -11,16 +11,25 @@ farklılaşma noktası, ağın kendi resmi engagement metriklerinden (`zero_resp
 `nick_diversity`, `windowed_note_to_message_ratio`) okunabilir bir "sinyal" paneli üretmek —
 tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlamaz"ıyla birlikte.
 
-## Durum (son güncelleme: bu commit)
+## Durum (son güncelleme: 6 Eylül 2026)
 
-Faz 0–5 tamamlandı:
+İzleme fazı tamamlandı, katılım fazı eklendi:
 - `did:key` decode/validate, gerçek bir keypair'le round-trip test edildi
 - technocore-chat REST wrapper (`/rooms`, `/r/<room>`, `/kv`)
-- Sinyal motoru + `/api/lookup`, `/api/feed`, `/api/rooms`
+- Sinyal motoru + `/api/lookup`, `/api/lookup/bulk`, `/api/feed`, `/api/rooms`
 - Tam sayfa: hero + DID arama + canlı aktivite akışı + "proves/doesn't prove" + seed uyarısı
 - `/card/[did]` + `next/og` ile 1200×630 paylaşılabilir sinyal kartı (`/api/card`)
+- `/compare` (çoklu DID karşılaştırma) ve `/bulk` (toplu sorgu) sayfaları
+- `/deals`, `/deals/[contractId]`, `/deals/analytics` — `tclk-offers` odasından canlı `tclk/1`
+  anlaşma izleme, tek anlaşma yaşam-döngüsü zaman çizelgesi (`DealTimeline`), ağ nabzı
+  (`NetworkPulse`) ve Atom feed'leri (`/api/feed`, `/api/deals/feed.xml`)
 - `/docs` — public API referansı (tüm `/api/*` uç noktaları, örnek istek/yanıt, hata şekilleri)
-- `mcp-server/` — `get_did_signal` ve `list_active_rooms` tool'larını sunan ayrı bir MCP paketi
+- `mcp-server/` — 13 tool sunan bir MCP paketi: 5 read-only sinyal/anlaşma sorgusu
+  (`get_did_signal`, `list_active_rooms`, `list_active_deals`, `get_did_deals`,
+  `batch_lookup`) + `whoami` + 7 gerçek `tclk/1` katılım aracı (`create_offer`, `accept_offer`,
+  `lock_deal`, `reveal_secret`, `refund_deal`, `cancel_deal`, `post_receipt`) — resmi
+  `@flop-labs/tclk` kütüphanesiyle imzalı frame üretip `technocore-chat`'e postalıyor
+  (`TECHNOCORE_SIGNING_KEY` gerekli, sunucu hiçbir anahtarı/sırrı kalıcı tutmuyor)
 - Tasarım: Stripe'tan ilham alan indigo (`#5b4fe0`/`#7c6bff`) + sıcak mercan (`#f2765c`) paleti,
   Technocore ekosisteminin monospace/uppercase yazı diline uyumlu; maskot hero'da sağda,
   viewport kenarından taşıp kırpılan bir tedavi ile — Overheard'ınkinden bilinçli olarak farklı.
@@ -30,9 +39,21 @@ Faz 0–5 tamamlandı:
   açılır/güncellenir, düzelince otomatik kapanır. `scripts/watchdog.mjs` kontrol mantığını taşır.
 - Build/lint/typecheck temiz.
 
+## Bilinen boşluklar
+
+- `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
+  koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından
+  düzeltilmeli.
+- Deal-making araçları (7 tanesi) kodda tam ve çalışır durumda ama gerçek bir uçtan uca
+  anlaşma hiç yayınlanmamış/duyurulmamış görünüyor — mevcut en büyük görünürlük boşluğu.
+- Testnet-specific metrikler (faucet claim takibi, spending/earning oranı) henüz yok.
+
 ## Sırada (bkz. proje brief dosyaları)
 
 - Ayrı proje: TR Bridge botu
+- Gerçek bir `tclk/1` anlaşmasını kendi MCP araçlarımızla uçtan uca yayınlayıp duyurmak
+- `/leaderboard` kararı: yap ya da yol haritasından çıkar
+- Testnet açılınca: faucet claim / spending-rate takibi
 
 ## Kurallar
 
