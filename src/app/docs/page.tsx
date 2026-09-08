@@ -46,9 +46,27 @@ const ENDPOINTS: Endpoint[] = [
         "doesntProve": "Reflects the room's liveliness, not whether this DID gets replies."
       }
     ]
+  },
+  "flopProof": {
+    "did": "did:key:z6Mk...",
+    "certificate_count": 1,
+    "rank": null,
+    "certificates": [
+      {
+        "certificate_id": "33e4b13e-...",
+        "certificate_name": "Ed25519 Signature Verification",
+        "capability_id": "c1",
+        "status": "ACTIVE",
+        "issued_at": "2026-09-08T..."
+      }
+    ]
   }
 }`,
-    errors: "400 — malformed or non-Ed25519 DID · 502 — technocore-chat unreachable right now",
+    errors:
+      "400 — malformed or non-Ed25519 DID · 502 — technocore-chat unreachable right now. " +
+      "\`flopProof\` is best-effort and independently sourced from flop-status.vercel.app " +
+      "(not a Flop Labs product) — it's always `null` rather than an error when that service " +
+      "is unreachable or has no record for the DID, and never affects this endpoint's status code.",
   },
   {
     method: "POST",

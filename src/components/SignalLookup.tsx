@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { SignalSummary, DealSignal } from "@/lib/signal";
+import type { FlopProofSummary } from "@/lib/flop-proof";
 
 interface LookupResponse {
   did: string;
@@ -10,6 +11,7 @@ interface LookupResponse {
   roomsScanned: number;
   summary: SignalSummary;
   dealSignal?: DealSignal;
+  flopProof?: FlopProofSummary | null;
 }
 
 function formatMetric(value: number | null): string {
@@ -163,6 +165,59 @@ export function SignalLookup() {
               <p className="mt-3 text-xs text-muted">
                 Proves this DID has posted signed tclk/1 frames. Doesn&apos;t prove real value
                 changed hands — PaperRail settles nothing yet.
+              </p>
+            </div>
+          )}
+
+          {/* Flop Proof — independent, third-party capability certificates.
+              Deliberately kept in its own card with its own label rather
+              than folded into the metrics above: it isn't a technocore-chat
+              signal and isn't produced or endorsed by Flop Labs. */}
+          {state.data.flopProof && state.data.flopProof.certificates.length > 0 && (
+            <div className="mt-5 rounded-xl border border-border bg-background p-4">
+              <div className="flex items-center justify-between">
+                <p className="kicker">Flop Proof certificates</p>
+                <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent">
+                  third-party
+                </span>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="text-gradient font-mono text-lg font-bold">
+                  {state.data.flopProof.certificate_count}
+                </span>
+                <span className="text-xs text-muted">active certificate{state.data.flopProof.certificate_count === 1 ? "" : "s"}</span>
+                {state.data.flopProof.rank && (
+                  <span className="ml-1 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted">
+                    {state.data.flopProof.rank.rank_name}
+                  </span>
+                )}
+              </div>
+              <ul className="mt-3 space-y-1">
+                {state.data.flopProof.certificates.map((cert) => (
+                  <li key={cert.certificate_id} className="flex items-center justify-between gap-2 text-xs">
+                    <span className="text-foreground/90">{cert.certificate_name}</span>
+                    <span
+                      className={`font-mono text-[10px] uppercase ${cert.status === "ACTIVE" ? "text-accent" : "text-muted"}`}
+                    >
+                      {cert.status}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs text-muted">
+                Issued by{" "}
+                <a
+                  href="https://flop-status.vercel.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-dotted underline-offset-2 hover:text-foreground"
+                >
+                  Flop Proof
+                </a>
+                , an independent community tool — not a Flop Labs product, and not affiliated
+                with Wisp&apos;s own signal metrics above. Proves this DID passed a signed
+                challenge for each listed capability. Doesn&apos;t prove or guarantee any airdrop
+                or reward outcome.
               </p>
             </div>
           )}
