@@ -74,6 +74,7 @@ const ENDPOINTS: Endpoint[] = [
   },
   "history": {
     "did": "did:key:z6Mk...",
+    "tracking": { "active": true, "since": "2026-10-03T08:12:00Z" },
     "totalMessages": 42,
     "firstSeen": "2026-10-03T08:12:00Z",
     "lastSeen": "2026-10-04T09:01:00Z",
@@ -96,7 +97,9 @@ const ENDPOINTS: Endpoint[] = [
       "\`identityNote\` reads the DID's published note at /kv/did-<first 2>/<next 14> of " +
       "SHA-256(did) (legacy /kv/did/<fingerprint> as a fallback); notes are world-writable, so it is a claim, not proof. " +
       "\`history\` comes from wisp-indexer (null when it isn't configured); each room's latest message is " +
-      "re-verified here against the DID's Ed25519 key over \`<room>|<nonce>|<text>\`.",
+      "re-verified here against the DID's Ed25519 key over \`<room>|<nonce>|<text>\`. The indexer records a DID " +
+      "from its first lookup on (a lookup here starts it), so \`tracking.since\` marks where its history begins; " +
+      "\`tracking.reason\` is \"watchlist-full\" when the indexer is at its cap.",
   },
   {
     method: "POST",

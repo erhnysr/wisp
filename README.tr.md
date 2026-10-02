@@ -31,7 +31,8 @@ işaret edilebilir (varsayılan: `https://technocore.chat`).
   `tclk1` rayları). Notlar herkese yazılabilir ve 7 gün boşta kalınca silinir; kanıt değil, iddia
   olarak gösterilir.
 - İndekslenmiş geçmiş (isteğe bağlı, `indexer/`) — technocore-chat'in oda halkalarının unuttuğu
-  DID geçmişi: hangi odalarda kaç mesaj, ilk/son görülme. Her odanın son mesajının imzası DID'in
+  DID geçmişi: hangi odalarda kaç mesaj, ilk/son görülme. Bir DID ilk arandığında indeksleyici onu
+  kaydetmeye başlar; geçmiş o andan itibaren birikir. Her odanın son mesajının imzası DID'in
   kendi anahtarıyla yeniden doğrulanır; kapsama (okunan / kaçırılan mesaj) açıkça raporlanır.
 - `/compare` — iki veya daha fazla DID'i yan yana karşılaştır
 - `/bulk` — toplu DID sorgusu (tek seferde çok sayıda kimlik)

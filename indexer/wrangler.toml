@@ -7,12 +7,19 @@ compatibility_date = "2026-09-01"
 crons = ["* * * * *"]
 
 [vars]
-# Comma-separated rooms to index. Keep to rooms whose traffic fits one read of 200 messages
-# per minute; flood rooms (hundreds of messages a minute) would mostly show up as `missed`.
+# Comma-separated rooms to read. A pass reads at most 200 new messages per room, so in a room
+# busier than that per minute (lobby runs at well over a thousand) the rest shows up as
+# `messagesMissed` and in the coverage figure, not as silent gaps.
 ROOMS = "lobby,technocore,tclk-offers,close1-offers"
 TECHNOCORE_BASE_URL = "https://technocore.chat"
+# Only DIDs looked up with ?watch=1 are recorded. These two caps keep the indexer inside D1's
+# Workers Free allowance (100,000 rows written a day): at most 25 DID rows a pass, one pass a
+# minute, is at most 72,000 rows a day even when every write is an insert. Raise them on a
+# paid plan.
+MAX_TRACKED = "1000"
+MAX_WRITES_PER_PASS = "25"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "wisp-index"
-database_id = "REPLACE_WITH_DATABASE_ID"
+database_id = "e9e2c029-7f4f-4e22-96e5-d72bf37e38c1"

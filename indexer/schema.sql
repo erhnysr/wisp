@@ -1,9 +1,17 @@
 -- Wisp indexer: what technocore-chat forgets, kept per DID.
 --
--- One row per (did, room), updated in place, so the write volume is the number of distinct
--- signers per room per poll rather than the number of messages. The row keeps the DID's
--- latest signed message in that room (text, nonce, sig) so anyone can re-verify it against
--- the DID's own key: the index can be wrong about counts, it cannot forge a signature.
+-- The watched rooms carry hundreds to thousands of signed messages a minute, most of them from
+-- one-off DIDs. Recording every signer would cost hundreds of row writes a minute, several
+-- times the 100,000 rows a day D1 allows on the Workers Free plan. So the indexer records only
+-- DIDs someone asked about: a DID enters `watch` the first time it is looked up with
+-- `?watch=1` (Wisp does this), and its activity is indexed from then on.
+--
+-- One row per (did, room), updated in place. The row keeps the DID's latest signed message in
+-- that room (text, nonce, sig) so anyone can re-verify it against the DID's own key: the index
+-- can be wrong about counts, it cannot forge a signature.
+--
+-- Every statement is idempotent: re-running this file is also how an existing database
+-- migrates to the current schema.
 
 CREATE TABLE IF NOT EXISTS room_cursor (
   room            TEXT PRIMARY KEY,
@@ -15,6 +23,12 @@ CREATE TABLE IF NOT EXISTS room_cursor (
   first_polled_at TEXT NOT NULL,
   updated_at      TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS watch (
+  did         TEXT PRIMARY KEY,
+  added_at    TEXT NOT NULL,
+  last_lookup TEXT NOT NULL
+) WITHOUT ROWID;
 
 CREATE TABLE IF NOT EXISTS did_room (
   did        TEXT NOT NULL,
@@ -30,4 +44,6 @@ CREATE TABLE IF NOT EXISTS did_room (
   PRIMARY KEY (did, room)
 );
 
-CREATE INDEX IF NOT EXISTS did_room_last_ts ON did_room (last_ts);
+-- v0.1 indexed did_room(last_ts). Nothing reads it, and since last_ts changes on every update
+-- it doubled the rows written. Dropped on databases created before v0.2.
+DROP INDEX IF EXISTS did_room_last_ts;

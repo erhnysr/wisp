@@ -1,6 +1,7 @@
 /** Read side of the index: per-DID history and per-room coverage. */
 
 import type { D1Like } from "./ingest";
+import { countTracked, getTracking, trackDid, DEFAULT_MAX_TRACKED } from "./tracking";
 
 const DID_RE = /^did:key:z6Mk[1-9A-HJ-NP-Za-km-z]{44}$/;
 
@@ -39,8 +40,18 @@ function coverage(c: CursorRow) {
   };
 }
 
-export async function didHistory(db: D1Like, did: string) {
+export interface HistoryOptions {
+  /** Add the DID to the watch list (the `?watch=1` query). */
+  track?: boolean;
+  now?: Date;
+  maxTracked?: number;
+}
+
+export async function didHistory(db: D1Like, did: string, opts: HistoryOptions = {}) {
   if (!DID_RE.test(did)) return { status: 400, body: { error: "expected a did:key:z6Mk… identifier" } };
+  const tracking = opts.track
+    ? await trackDid(db, did, opts.now ?? new Date(), opts.maxTracked ?? DEFAULT_MAX_TRACKED)
+    : await getTracking(db, did);
   const [rows, cursors] = await Promise.all([
     db
       .prepare(
@@ -63,6 +74,7 @@ export async function didHistory(db: D1Like, did: string) {
     status: 200,
     body: {
       did,
+      tracking,
       totalMessages: rooms.reduce((n, r) => n + r.messages, 0),
       firstSeen: rooms.reduce<string | null>((m, r) => (!m || r.firstSeen < m ? r.firstSeen : m), null),
       lastSeen: rooms[0]?.lastSeen ?? null,
@@ -72,8 +84,18 @@ export async function didHistory(db: D1Like, did: string) {
   };
 }
 
-export async function health(db: D1Like) {
-  const cursors = await db.prepare("SELECT * FROM room_cursor ORDER BY room").all<CursorRow>();
-  const dids = await db.prepare("SELECT COUNT(DISTINCT did) AS n FROM did_room").first<{ n: number }>();
-  return { status: 200, body: { distinctDids: dids?.n ?? 0, watched: cursors.results.map(coverage) } };
+export interface Limits {
+  maxTracked: number;
+  maxWritesPerPass: number;
+}
+
+export async function health(db: D1Like, limits: Limits) {
+  const [cursors, trackedDids] = await Promise.all([
+    db.prepare("SELECT * FROM room_cursor ORDER BY room").all<CursorRow>(),
+    countTracked(db),
+  ]);
+  return {
+    status: 200,
+    body: { trackedDids, limits, watched: cursors.results.map(coverage) },
+  };
 }

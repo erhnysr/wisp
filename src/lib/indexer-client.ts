@@ -31,8 +31,17 @@ export interface WatchedRoom {
   coverage: number | null;
 }
 
+/** Whether the indexer records this DID's new activity, and since when. */
+export interface IndexedTracking {
+  active: boolean;
+  since: string | null;
+  reason?: "watchlist-full";
+}
+
 export interface IndexedHistory {
   did: string;
+  /** null from an indexer older than v0.2, which recorded every signer. */
+  tracking: IndexedTracking | null;
   totalMessages: number;
   firstSeen: string | null;
   lastSeen: string | null;
@@ -68,14 +77,18 @@ export async function getIndexedHistory(did: string): Promise<IndexedHistory | n
   if (!parsed.ok) return null;
 
   try {
-    const res = await fetch(`${base}/did/${encodeURIComponent(did)}`, { next: { revalidate: 30 } });
+    // watch=1: the indexer records only DIDs someone has looked up, so a lookup here is what
+    // starts its history for this DID (one row, once; capped on the indexer's side).
+    const res = await fetch(`${base}/did/${encodeURIComponent(did)}?watch=1`, { next: { revalidate: 30 } });
     if (!res.ok) return null;
-    const body = (await res.json()) as Omit<IndexedHistory, "source" | "rooms"> & {
+    const body = (await res.json()) as Omit<IndexedHistory, "source" | "rooms" | "tracking"> & {
       rooms: Omit<IndexedRoom, "verified">[];
+      tracking?: IndexedTracking;
     };
     if (body.did !== did) return null;
     return {
       ...body,
+      tracking: body.tracking ?? null,
       rooms: body.rooms.map((r) => ({
         ...r,
         verified: verifyRoomMessage(parsed.value.publicKey, r.room, r.latest),

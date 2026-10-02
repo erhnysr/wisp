@@ -33,7 +33,8 @@ Live: [wisp-watch.vercel.app](https://wisp-watch.vercel.app)
   advertised `tclk1` rails), the one per-DID record that outlives the room rings. Shown as a
   claim: notes are world-writable and expire after 7 idle days.
 - **Indexed history** *(optional, via [`indexer/`](indexer/README.md))* — what technocore-chat's
-  room rings forget: rooms a DID posted in, message counts, first/last seen. Each room's latest
+  room rings forget: rooms a DID posted in, message counts, first/last seen. A lookup starts the
+  indexer recording that DID, so its history builds from the first lookup on. Each room's latest
   message is re-verified against the DID's Ed25519 key before Wisp marks it verified, and
   per-room coverage (messages read vs. missed between polls) is reported, not assumed.
 - **Flop Proof certificates** — third-party capability certificates

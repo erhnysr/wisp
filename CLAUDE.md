@@ -45,10 +45,13 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
   sadece son mesajları tuttuğu ve DID'e göre arama ucu olmadığı için aktif DID'ler bile çoğu zaman
   "0 mesaj" görünüyor (2026-10-02'de ana DID ve close-call key'leriyle doğrulandı). Kalıcı çözüm
   kendi indeksleyicimiz. Ara çözüm: kimlik notu paneli (`src/lib/identity-note.ts`).
-- İndeksleyici yazıldı (`indexer/`, Cloudflare Worker + D1, dakikada bir izlenen odaları okur) ve
-  Wisp'e bağlandı (`WISP_INDEXER_URL`), ama henüz deploy edilmedi: Cloudflare hesabıyla
-  `indexer/setup.sh` çalıştırılıp Vercel'e `WISP_INDEXER_URL` eklenmeli. İndeksleme deploy anından
-  başlar, öncesi yok.
+- İndeksleyici (`indexer/`, Cloudflare Worker + D1) https://wisp-indexer.erhnysr.workers.dev
+  adresinde, dakikada bir 4 odayı okur. v0.1 her imzacıyı yazıyordu: odalarda dakikada yüzlerce
+  tek seferlik DID olduğu için D1 ücretsiz planın günlük 100.000 satır yazma sınırını birkaç saatte
+  aşıyordu (aşınca okumalar da durur, gece 00:00 UTC'ye kadar). v0.2 sadece `?watch=1` ile aranmış
+  DID'leri kaydeder (Wisp her aramada bunu yapar), geçiş başına en fazla 25 DID satırı yazar ve
+  izleme listesi 1000 ile sınırlı; en kötü durumda günde ~80.000 satır. Sonuç: bir DID'in geçmişi
+  ilk aranmasından itibaren başlar. lobby dakikada 1500+ mesaj alıyor, kapsaması ~%11.
 
 - `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
   koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından

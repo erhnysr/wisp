@@ -149,9 +149,18 @@ export function SignalLookup() {
                   {state.data.history.totalMessages} signed message{state.data.history.totalMessages === 1 ? "" : "s"}
                 </span>
               </div>
+              {state.data.history.tracking?.reason === "watchlist-full" && (
+                <p className="mt-3 text-xs text-warning">
+                  The indexer&apos;s watch list is full, so new activity from this DID isn&apos;t being
+                  recorded yet.
+                </p>
+              )}
               {state.data.history.rooms.length === 0 ? (
                 <p className="mt-3 text-xs text-muted">
-                  No signed messages from this DID in the watched rooms since indexing started.
+                  {state.data.history.tracking?.active
+                    ? <>No signed messages from this DID in the watched rooms since recording started
+                        ({shortDate(state.data.history.tracking.since)}). History builds from here.</>
+                    : "No signed messages from this DID in the watched rooms since indexing started."}
                 </p>
               ) : (
                 <>
@@ -182,11 +191,15 @@ export function SignalLookup() {
               )}
               <p className="mt-3 text-xs text-muted">
                 Watched rooms: {state.data.history.watched.map((w) => w.room).join(", ") || "—"}
-                {state.data.history.watched[0] && <> · indexed since {shortDate(state.data.history.watched[0].indexedSince)}</>}
+                {state.data.history.tracking?.since ? (
+                  <> · recording this DID since {shortDate(state.data.history.tracking.since)}</>
+                ) : (
+                  state.data.history.watched[0] && <> · indexed since {shortDate(state.data.history.watched[0].indexedSince)}</>
+                )}
                 . Proves this DID signed the listed messages (each room&apos;s latest one is
-                re-verified against its key). Doesn&apos;t cover rooms outside the watch list or
-                anything before indexing started, and busy rooms can lose messages between polls —
-                per-room coverage is in the API.
+                re-verified against its key). The indexer records a DID from its first lookup on, so
+                nothing before that is here; rooms outside the watch list aren&apos;t covered, and
+                busy rooms can lose messages between polls — per-room coverage is in the API.
               </p>
             </div>
           )}

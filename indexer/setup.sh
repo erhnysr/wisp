@@ -21,8 +21,9 @@ if grep -q "REPLACE_WITH_DATABASE_ID" wrangler.toml; then
 fi
 
 npx wrangler d1 execute wisp-index --remote --file=schema.sql
-npx wrangler deploy | tee /tmp/wisp-indexer-deploy.log
-URL=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' /tmp/wisp-indexer-deploy.log | head -1)
+# Not piped: on an account without a workers.dev subdomain, deploy asks for one, and wrangler
+# only asks when it is attached to a terminal.
+npx wrangler deploy
 echo
-echo "Deployed: ${URL:-see output above}"
-echo "Next: add WISP_INDEXER_URL=${URL:-<worker url>} to the Wisp project's environment variables on Vercel."
+echo "Next: add WISP_INDEXER_URL=<the https://wisp-indexer.<subdomain>.workers.dev URL above>"
+echo "to the Wisp project's environment variables on Vercel, then redeploy Wisp."

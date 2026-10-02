@@ -41,7 +41,8 @@ test("rows the indexer cannot back with a signature are marked unverified", asyn
   t.mock.method(globalThis, "fetch", async (u: string) => {
     called = u;
     return Response.json({
-      did, totalMessages: 7, firstSeen: "a", lastSeen: "b", watched: [],
+      did, tracking: { active: true, since: "2026-10-02T17:00:00.000Z" },
+      totalMessages: 7, firstSeen: "a", lastSeen: "b", watched: [],
       rooms: [
         { room, messages: 2, firstSeen: "a", lastSeen: "b", latest: { seq: 9, nonce, sig, text } },
         { room: "forged", messages: 5, firstSeen: "a", lastSeen: "b", latest: { seq: 3, nonce, sig, text } },
@@ -49,7 +50,8 @@ test("rows the indexer cannot back with a signature are marked unverified", asyn
     });
   });
   const h = await getIndexedHistory(did);
-  assert.equal(called, `https://idx.example/did/${encodeURIComponent(did)}`);
+  assert.equal(called, `https://idx.example/did/${encodeURIComponent(did)}?watch=1`);
+  assert.deepEqual(h?.tracking, { active: true, since: "2026-10-02T17:00:00.000Z" });
   assert.equal(h?.rooms[0].verified, true);
   assert.equal(h?.rooms[1].verified, false);
 });
@@ -60,4 +62,13 @@ test("a response for another DID or an outage yields null", async (t) => {
   assert.equal(await getIndexedHistory(did), null);
   t.mock.method(globalThis, "fetch", async () => { throw new Error("down"); });
   assert.equal(await getIndexedHistory(did), null);
+});
+
+test("an indexer from before tracking existed still works, with tracking null", async (t) => {
+  process.env.WISP_INDEXER_URL = "https://idx.example";
+  t.mock.method(globalThis, "fetch", async () =>
+    Response.json({ did, totalMessages: 0, firstSeen: null, lastSeen: null, rooms: [], watched: [] }));
+  const h = await getIndexedHistory(did);
+  assert.equal(h?.tracking, null);
+  assert.equal(h?.rooms.length, 0);
 });
