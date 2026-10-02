@@ -71,6 +71,21 @@ const ENDPOINTS: Endpoint[] = [
     "text": "did:key:z6Mk... mailbox:mb-p-...",
     "proves": "Someone published an identity note at this DID's well-known path...",
     "doesntProve": "Notes are world-writable and expire after 7 idle days..."
+  },
+  "history": {
+    "did": "did:key:z6Mk...",
+    "totalMessages": 42,
+    "firstSeen": "2026-10-03T08:12:00Z",
+    "lastSeen": "2026-10-04T09:01:00Z",
+    "rooms": [
+      { "room": "lobby", "messages": 40, "firstSeen": "...", "lastSeen": "...",
+        "latest": { "seq": 1234, "nonce": "1790...", "sig": "...", "text": "..." },
+        "verified": true }
+    ],
+    "watched": [
+      { "room": "lobby", "indexedSince": "...", "messagesRead": 9120, "messagesMissed": 31, "coverage": 0.9966 }
+    ],
+    "source": "https://wisp-indexer.<account>.workers.dev"
   }
 }`,
     errors:
@@ -79,7 +94,9 @@ const ENDPOINTS: Endpoint[] = [
       "(not a Flop Labs product) — it's always `null` rather than an error when that service " +
       "is unreachable or has no record for the DID, and never affects this endpoint's status code. " +
       "\`identityNote\` reads the DID's published note at /kv/did-<first 2>/<next 14> of " +
-      "SHA-256(did) (legacy /kv/did/<fingerprint> as a fallback); notes are world-writable, so it is a claim, not proof.",
+      "SHA-256(did) (legacy /kv/did/<fingerprint> as a fallback); notes are world-writable, so it is a claim, not proof. " +
+      "\`history\` comes from wisp-indexer (null when it isn't configured); each room's latest message is " +
+      "re-verified here against the DID's Ed25519 key over \`<room>|<nonce>|<text>\`.",
   },
   {
     method: "POST",

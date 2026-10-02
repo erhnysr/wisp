@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { SignalSummary, DealSignal } from "@/lib/signal";
 import type { FlopProofSummary } from "@/lib/flop-proof";
 import type { IdentityNote } from "@/lib/identity-note";
+import type { IndexedHistory } from "@/lib/indexer-client";
 
 interface LookupResponse {
   did: string;
@@ -14,6 +15,11 @@ interface LookupResponse {
   dealSignal?: DealSignal;
   flopProof?: FlopProofSummary | null;
   identityNote?: IdentityNote | null;
+  history?: IndexedHistory | null;
+}
+
+function shortDate(iso: string | null): string {
+  return iso ? iso.slice(0, 16).replace("T", " ") + " UTC" : "—";
 }
 
 function formatMetric(value: number | null): string {
@@ -130,6 +136,58 @@ export function SignalLookup() {
                   <p className="mt-2 text-xs text-muted">{metric.proves}</p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Indexed history — from wisp-indexer, which keeps what the room rings drop.
+              Counts are the indexer's; the "verified" mark is an Ed25519 check done here. */}
+          {state.data.history && (
+            <div className="mt-5 rounded-xl border border-border bg-background p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="kicker">Indexed history</p>
+                <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent">
+                  {state.data.history.totalMessages} signed message{state.data.history.totalMessages === 1 ? "" : "s"}
+                </span>
+              </div>
+              {state.data.history.rooms.length === 0 ? (
+                <p className="mt-3 text-xs text-muted">
+                  No signed messages from this DID in the watched rooms since indexing started.
+                </p>
+              ) : (
+                <>
+                  <p className="mt-2 text-xs text-muted">
+                    First seen {shortDate(state.data.history.firstSeen)} · last seen{" "}
+                    {shortDate(state.data.history.lastSeen)}
+                  </p>
+                  <ul className="mt-3 space-y-1">
+                    {state.data.history.rooms.map((r) => (
+                      <li key={r.room} className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <span className="font-mono text-foreground/90">{r.room}</span>
+                        <span className="flex items-center gap-3 text-muted">
+                          <span className="font-mono">{r.messages} msg</span>
+                          <span>{shortDate(r.lastSeen)}</span>
+                          <span
+                            title="Latest message's Ed25519 signature checked against this DID's key"
+                            className={`font-mono text-[10px] uppercase ${
+                              r.verified === true ? "text-accent" : r.verified === false ? "text-warning" : "text-muted"
+                            }`}
+                          >
+                            {r.verified === true ? "sig ✓" : r.verified === false ? "sig ✗" : "unsigned"}
+                          </span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              <p className="mt-3 text-xs text-muted">
+                Watched rooms: {state.data.history.watched.map((w) => w.room).join(", ") || "—"}
+                {state.data.history.watched[0] && <> · indexed since {shortDate(state.data.history.watched[0].indexedSince)}</>}
+                . Proves this DID signed the listed messages (each room&apos;s latest one is
+                re-verified against its key). Doesn&apos;t cover rooms outside the watch list or
+                anything before indexing started, and busy rooms can lose messages between polls —
+                per-room coverage is in the API.
+              </p>
             </div>
           )}
 

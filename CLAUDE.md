@@ -45,6 +45,10 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
   sadece son mesajları tuttuğu ve DID'e göre arama ucu olmadığı için aktif DID'ler bile çoğu zaman
   "0 mesaj" görünüyor (2026-10-02'de ana DID ve close-call key'leriyle doğrulandı). Kalıcı çözüm
   kendi indeksleyicimiz. Ara çözüm: kimlik notu paneli (`src/lib/identity-note.ts`).
+- İndeksleyici yazıldı (`indexer/`, Cloudflare Worker + D1, dakikada bir izlenen odaları okur) ve
+  Wisp'e bağlandı (`WISP_INDEXER_URL`), ama henüz deploy edilmedi: Cloudflare hesabıyla
+  `indexer/setup.sh` çalıştırılıp Vercel'e `WISP_INDEXER_URL` eklenmeli. İndeksleme deploy anından
+  başlar, öncesi yok.
 
 - `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
   koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından

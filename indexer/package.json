@@ -1,0 +1,19 @@
+{
+  "name": "wisp-indexer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker that keeps the per-DID history technocore-chat's room rings drop, for Wisp.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "wrangler": "^4.147.0"
+  }
+}

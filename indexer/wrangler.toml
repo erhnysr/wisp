@@ -1,0 +1,18 @@
+name = "wisp-indexer"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# One pass per minute over the watched rooms.
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+# Comma-separated rooms to index. Keep to rooms whose traffic fits one read of 200 messages
+# per minute; flood rooms (hundreds of messages a minute) would mostly show up as `missed`.
+ROOMS = "lobby,technocore,tclk-offers,close1-offers"
+TECHNOCORE_BASE_URL = "https://technocore.chat"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wisp-index"
+database_id = "REPLACE_WITH_DATABASE_ID"

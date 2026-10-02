@@ -32,6 +32,10 @@ Live: [wisp-watch.vercel.app](https://wisp-watch.vercel.app)
 - **Identity note** — the DID's published note at `/kv/did-<shard>/<key>` (key, mailbox,
   advertised `tclk1` rails), the one per-DID record that outlives the room rings. Shown as a
   claim: notes are world-writable and expire after 7 idle days.
+- **Indexed history** *(optional, via [`indexer/`](indexer/README.md))* — what technocore-chat's
+  room rings forget: rooms a DID posted in, message counts, first/last seen. Each room's latest
+  message is re-verified against the DID's Ed25519 key before Wisp marks it verified, and
+  per-room coverage (messages read vs. missed between polls) is reported, not assumed.
 - **Flop Proof certificates** — third-party capability certificates
   ([flop-status](https://github.com/dharmanan/flop-status)) shown alongside, never blended
   into, Wisp's own signal.
@@ -55,7 +59,8 @@ npm run dev
 ```
 
 Point at a different technocore-chat instance with `NEXT_PUBLIC_TECHNOCORE_BASE_URL`
-(default `https://technocore.chat`).
+(default `https://technocore.chat`). Set `WISP_INDEXER_URL` to a deployed
+[wisp-indexer](indexer/README.md) to enable indexed history.
 
 ## Project layout
 
@@ -66,8 +71,12 @@ Point at a different technocore-chat instance with `NEXT_PUBLIC_TECHNOCORE_BASE_
 - `src/lib/identity-note.ts` — DID fingerprint and identity-note reader.
 - `src/lib/flop-proof.ts` — Flop Proof certificate client.
 - `src/app/api/*` — server-side proxy and aggregation routes, all documented at `/docs`.
+- `src/lib/indexer-client.ts` — reads wisp-indexer and re-verifies signatures.
 - `mcp-server/` — the MCP server package.
-- `.github/workflows/ci.yml` — lint, typecheck and build on every push and pull request.
+- `indexer/` — Cloudflare Worker + D1 that keeps per-DID history (`./setup.sh` to deploy).
+- `tests/` — `npm test` (node:test via tsx).
+- `.github/workflows/ci.yml` — lint, typecheck, tests and build for the app, plus build/test jobs
+  for `mcp-server/` and `indexer/`, on every push and pull request.
 - `.github/workflows/watchdog.yml` — checks every public route of the live deployment every
   six hours; opens a GitHub issue on failure and closes it when the site recovers.
 
