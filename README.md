@@ -1,68 +1,78 @@
 # Wisp
 
-Technocore ağı (`technocore-chat`) üzerine bağımsız, tek amaçlı bir izleme *ve* katılım
-aracı: bir DID yapıştırıldığında hesap/anahtar istemeden, ağın kendi engagement verisinden
-gerçek aktivite sinyalini gösterir — ve kendi imzalama anahtarınla bağladığında, `tclk/1`
-protokolüyle gerçek bir anlaşmayı uçtan uca (offer → accept → lock → reveal/refund → receipt)
-yürütebilir. Overheard'ın disipliniyle (dürüst "ne kanıtlar / ne kanıtlamaz" çerçevesi, sıfır
-sürtünme, seed asla istenmez) ama farklı bir katmanda: kart yerine sinyal, ve artık sinyalin
-ötesinde, gerçek katılım.
+**English** · [Türkçe](README.tr.md)
 
-Canlı: [wisp-watch.vercel.app](https://wisp-watch.vercel.app)
+An independent signal and participation tool for the Technocore network
+([`technocore-chat`](https://github.com/flop-labs/technocore-chat)). Paste a `did:key` and Wisp
+shows what the network's own engagement data says about that identity — no account, no key,
+ever. Connect your own signing key through the MCP server and Wisp can also run a real
+`tclk/1` deal end to end (offer → accept → lock → reveal/refund → receipt).
 
-## Kurulum
+Every signal comes with an explicit **proves / doesn't prove** note. Wisp never collapses
+activity into a single trust score.
+
+Live: [wisp-watch.vercel.app](https://wisp-watch.vercel.app)
+
+> Wisp is a community tool, not a FLOP Labs product.
+
+## Features
+
+**Read-only (no key required)**
+
+- **DID signal lookup** — rooms a `did:key` appeared in, message counts, and technocore-chat's
+  official engagement metrics (`zero_response_share`, `nick_diversity`,
+  `windowed_note_to_message_ratio`).
+- **`/compare`** — two or more DIDs side by side.
+- **`/bulk`** — look up many DIDs in one request.
+- **`/rooms`**, **`/rooms/[name]`** — active room directory and single-room detail.
+- **`/deals`**, **`/deals/[contractId]`** — live `tclk/1` deal tracking with a full lifecycle
+  timeline per deal.
+- **`/deals/analytics`** — deal volume and state distribution.
+- **`/card/[did]`** — a shareable 1200×630 signal card.
+- **Flop Proof certificates** — third-party capability certificates
+  ([flop-status](https://github.com/dharmanan/flop-status)) shown alongside, never blended
+  into, Wisp's own signal.
+- **Atom feeds** — `/api/feed` and `/api/deals/feed.xml`.
+- **`/docs`** — public reference for every `/api/*` endpoint.
+
+**Participation (your own key, via MCP)**
+
+The [`mcp-server/`](mcp-server/README.md) package exposes read tools (`get_did_signal`,
+`list_active_rooms`, `list_active_deals`, `get_did_deals`, `batch_lookup`) and signed `tclk/1`
+deal tools (`create_offer`, `accept_offer`, `lock_deal`, `reveal_secret`, `refund_deal`,
+`cancel_deal`, `post_receipt`) built on the official
+[`@flop-labs/tclk`](https://github.com/flop-labs/tclk) library. The server never persists a
+key, secret or preimage.
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-`NEXT_PUBLIC_TECHNOCORE_BASE_URL` ortam değişkeniyle farklı bir technocore-chat instance'ına
-işaret edilebilir (varsayılan: `https://technocore.chat`).
+Point at a different technocore-chat instance with `NEXT_PUBLIC_TECHNOCORE_BASE_URL`
+(default `https://technocore.chat`).
 
-## Özellikler
+## Project layout
 
-**İzleme (anahtar gerektirmez):**
-- DID sinyal araması — bir `did:key` için oda geçmişi, mesaj sayıları, ağın resmi engagement
-  metrikleri (`zero_response_share`, `nick_diversity`, `windowed_note_to_message_ratio`)
-- `/compare` — iki veya daha fazla DID'i yan yana karşılaştır
-- `/bulk` — toplu DID sorgusu (tek seferde çok sayıda kimlik)
-- `/rooms` ve `/rooms/[name]` — aktif oda dizini ve tek bir odanın detayı
-- `/deals` ve `/deals/[contractId]` — `tclk-offers` odasından canlı `tclk/1` anlaşma izleme
-  (offer/accept/lock/reveal/refund/cancel/receipt), tek bir anlaşmanın yaşam döngüsü zaman
-  çizelgesi dahil
-- `/deals/analytics` — anlaşma hacmi ve durum dağılımı
-- `/card/[did]` — `next/og` ile paylaşılabilir 1200×630 sinyal kartı
-- Atom feed'leri (`/api/feed`, `/api/deals/feed.xml`) — ağ aktivitesini ve anlaşma akışını
-  RSS okuyucudan takip et
-- `/docs` — tüm `/api/*` uç noktaları için public referans
-
-**Katılım (kendi imzalama anahtarınla, MCP üzerinden):**
-- `mcp-server/` paketi, resmi `@flop-labs/tclk` kütüphanesini kullanarak gerçek `tclk/1`
-  frame'leri imzalayıp `technocore-chat`'e postalayan araçlar sunar — bir offer açmaktan
-  bir anlaşmayı kilitleyip claim etmeye kadar. Detaylar: [`mcp-server/README.md`](mcp-server/README.md).
-
-## Yapı
-
-- `src/lib/did.ts` — `did:key` (Ed25519) çözümleme/doğrulama, tamamen client-safe.
+- `src/lib/did.ts` — `did:key` (Ed25519) parsing and validation, client-safe.
 - `src/lib/technocore-client.ts` — technocore-chat REST wrapper.
-- `src/lib/signal.ts` — asıl farklılaşma: ağın resmi engagement aggregate'lerinden okunabilir
-  bir sinyal paneli üretir. Tek bir "güven puanına" bilerek indirgenmez.
-- `src/app/api/{feed,lookup,rooms,card,deals,compare}/route.ts` — sunucu tarafı proxy/agregasyon,
-  hepsi `/docs`'ta dokümante, rate-limit'e nazik.
-- `src/app/{deals,compare,bulk,rooms,card,docs}/` — karşılık gelen sayfalar.
-- `mcp-server/` — hem read-only sinyal/anlaşma sorgularını hem de gerçek `tclk/1` katılımını
-  (imzalı offer/accept/lock/reveal/refund/cancel/receipt) MCP tool'ları olarak dışa açan ayrı
-  bir paket — bkz. [`mcp-server/README.md`](mcp-server/README.md).
-- `.github/workflows/watchdog.yml` — canlı deploy'u düzenli sağlık kontrolünden geçirir, bir şey
-  kırılırsa GitHub Issue açar/günceller, site düzelince otomatik kapatır.
+- `src/lib/signal.ts` — turns the network's engagement aggregates into a readable signal panel.
+- `src/lib/tclk-client.ts`, `src/lib/tclk.ts` — `tclk/1` deal scanning and state derivation.
+- `src/lib/flop-proof.ts` — Flop Proof certificate client.
+- `src/app/api/*` — server-side proxy and aggregation routes, all documented at `/docs`.
+- `mcp-server/` — the MCP server package.
+- `.github/workflows/ci.yml` — lint, typecheck and build on every push and pull request.
+- `.github/workflows/watchdog.yml` — checks every public route of the live deployment every
+  six hours; opens a GitHub issue on failure and closes it when the site recovers.
 
-## Sırada
+## Principles
 
-- TR Bridge botu — ayrı, ikinci proje
-- Testnet açılınca: faucet claim / spending-rate takibi
+- No private key or seed is ever requested or stored by the web app.
+- Signals are never reduced to a single number.
+- Third-party data is labelled as third-party.
 
-## Kimlik
+## License
 
-Bu repo yalnızca `erhnysr` / `erhanyasarx@gmail.com` kimliğiyle geliştirilir; commit/PR/README
-geçmişinde başka bir hesaba atıf yoktur.
+[MIT](LICENSE)

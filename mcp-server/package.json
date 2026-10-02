@@ -1,8 +1,31 @@
 {
   "name": "wisp-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "MCP server wrapping Wisp's public API — lets an agent ask for a DID's signal or the active room list directly.",
+  "license": "MIT",
+  "author": "erhnysr",
+  "homepage": "https://wisp-watch.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erhnysr/wisp.git",
+    "directory": "mcp-server"
+  },
+  "keywords": [
+    "mcp",
+    "technocore",
+    "flop",
+    "did",
+    "tclk",
+    "agents"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "bin": {
     "wisp-mcp": "./dist/index.js"
@@ -10,7 +33,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@flop-labs/tclk": "^0.1.0",
