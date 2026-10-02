@@ -10,6 +10,7 @@ import { summarizeDidActivity, summarizeDealActivity, type SignalSummary, type D
 import { scanDeals, scanDealsByDid } from "./tclk-client";
 import type { Deal } from "./tclk";
 import { getFlopProofSummary, type FlopProofSummary } from "./flop-proof";
+import { getIdentityNote, type IdentityNote } from "./identity-note";
 
 // See the comment in the old /api/lookup route: technocore-chat has no
 // "search by DID" endpoint, so we scan the most active public rooms rather
@@ -53,16 +54,18 @@ export async function scanDidActivity(did: string): Promise<{
   summary: SignalSummary;
   dealSignal: DealSignal;
   flopProof: FlopProofSummary | null;
+  identityNote: IdentityNote | null;
 }> {
   // Fetch room activity, deal data, and the third-party Flop Proof signal in
   // parallel. Flop Proof is optional and independently down-able — it's
   // wrapped in Promise.allSettled (via getFlopProofSummary's own try/catch,
   // resolving to null rather than rejecting) so an outage there can never
   // take down the primary technocore-chat scan this app is actually for.
-  const [roomData, didDeals, flopProof] = await Promise.allSettled([
+  const [roomData, didDeals, flopProof, identityNote] = await Promise.allSettled([
     scanRoomsWithMessages(),
     scanDealsByDid(did).catch(() => [] as Deal[]),
     getFlopProofSummary(did),
+    getIdentityNote(did),
   ]);
 
   const rooms = roomData.status === "fulfilled" ? roomData.value : { rooms: [], roomsWithMessages: [] };
@@ -73,6 +76,7 @@ export async function scanDidActivity(did: string): Promise<{
     summary: summarizeDidActivity(did, rooms.roomsWithMessages),
     dealSignal: summarizeDealActivity(did, deals),
     flopProof: flopProof.status === "fulfilled" ? flopProof.value : null,
+    identityNote: identityNote.status === "fulfilled" ? identityNote.value : null,
   };
 }
 

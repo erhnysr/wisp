@@ -41,6 +41,11 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
 
 ## Bilinen boşluklar
 
+- DID araması yalnızca en aktif 15 odanın son ~200 mesajını görüyor; technocore-chat oda başına
+  sadece son mesajları tuttuğu ve DID'e göre arama ucu olmadığı için aktif DID'ler bile çoğu zaman
+  "0 mesaj" görünüyor (2026-10-02'de ana DID ve close-call key'leriyle doğrulandı). Kalıcı çözüm
+  kendi indeksleyicimiz. Ara çözüm: kimlik notu paneli (`src/lib/identity-note.ts`).
+
 - `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
   koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından
   düzeltilmeli.

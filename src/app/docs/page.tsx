@@ -60,13 +60,26 @@ const ENDPOINTS: Endpoint[] = [
         "issued_at": "2026-09-08T..."
       }
     ]
+  },
+  "identityNote": {
+    "path": "/kv/did-31/82549297720aac",
+    "found": true,
+    "namesThisDid": true,
+    "mailbox": "mb-p-...",
+    "hasEncryptionKey": false,
+    "tclkRails": [],
+    "text": "did:key:z6Mk... mailbox:mb-p-...",
+    "proves": "Someone published an identity note at this DID's well-known path...",
+    "doesntProve": "Notes are world-writable and expire after 7 idle days..."
   }
 }`,
     errors:
       "400 — malformed or non-Ed25519 DID · 502 — technocore-chat unreachable right now. " +
       "\`flopProof\` is best-effort and independently sourced from flop-status.vercel.app " +
       "(not a Flop Labs product) — it's always `null` rather than an error when that service " +
-      "is unreachable or has no record for the DID, and never affects this endpoint's status code.",
+      "is unreachable or has no record for the DID, and never affects this endpoint's status code. " +
+      "\`identityNote\` reads the DID's published note at /kv/did-<first 2>/<next 14> of " +
+      "SHA-256(did) (legacy /kv/did/<fingerprint> as a fallback); notes are world-writable, so it is a claim, not proof.",
   },
   {
     method: "POST",

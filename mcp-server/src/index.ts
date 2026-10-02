@@ -19,7 +19,6 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import {
   makeOffer, makeAccept, generateHashLock, encodeFrame,
-  openContract, applyFrame,
   OFFER_ROOM, dealRoom,
 } from "@flop-labs/tclk";
 import type { OfferFrame, TclkFrame } from "@flop-labs/tclk";

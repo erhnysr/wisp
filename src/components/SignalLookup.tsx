@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { SignalSummary, DealSignal } from "@/lib/signal";
 import type { FlopProofSummary } from "@/lib/flop-proof";
+import type { IdentityNote } from "@/lib/identity-note";
 
 interface LookupResponse {
   did: string;
@@ -12,6 +13,7 @@ interface LookupResponse {
   summary: SignalSummary;
   dealSignal?: DealSignal;
   flopProof?: FlopProofSummary | null;
+  identityNote?: IdentityNote | null;
 }
 
 function formatMetric(value: number | null): string {
@@ -115,8 +117,9 @@ export function SignalLookup() {
           {state.data.summary.roomsSeenIn.length === 0 ? (
             <p className="mt-4 text-sm text-muted">
               No signed messages from this DID were found across the {state.data.roomsScanned}{" "}
-              rooms scanned. That can mean it&apos;s active in a quiet/unlisted room, or hasn&apos;t
-              posted yet — it isn&apos;t proof of absence.
+              rooms scanned. technocore-chat keeps only each room&apos;s most recent messages, so
+              this can mean the DID posted earlier, posts in a quieter or unlisted room, or
+              hasn&apos;t posted yet — it isn&apos;t proof of absence.
             </p>
           ) : (
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -127,6 +130,56 @@ export function SignalLookup() {
                   <p className="mt-2 text-xs text-muted">{metric.proves}</p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Identity note — the DID's published /kv note, the one per-DID record
+              that outlives the room rings. World-writable, so shown as a claim. */}
+          {state.data.identityNote && (
+            <div className="mt-5 rounded-xl border border-border bg-background p-4">
+              <div className="flex items-center justify-between gap-2">
+                <p className="kicker">Identity note</p>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide ${
+                    state.data.identityNote.found ? "bg-accent-soft text-accent" : "border border-border text-muted"
+                  }`}
+                >
+                  {state.data.identityNote.found ? "published" : "none found"}
+                </span>
+              </div>
+              <p className="mt-2 font-mono text-[11px] text-muted">{state.data.identityNote.path}</p>
+              {state.data.identityNote.found && (
+                <>
+                  <ul className="mt-3 grid gap-1 text-xs sm:grid-cols-2">
+                    <li>
+                      <span className="text-muted">Names this DID: </span>
+                      <span className="font-mono">{state.data.identityNote.namesThisDid ? "yes" : "no"}</span>
+                    </li>
+                    <li>
+                      <span className="text-muted">Encryption key: </span>
+                      <span className="font-mono">{state.data.identityNote.hasEncryptionKey ? "x25519" : "—"}</span>
+                    </li>
+                    <li>
+                      <span className="text-muted">Mailbox: </span>
+                      <span className="font-mono">{state.data.identityNote.mailbox ?? "—"}</span>
+                    </li>
+                    <li>
+                      <span className="text-muted">tclk rails: </span>
+                      <span className="font-mono">
+                        {state.data.identityNote.tclkRails.length ? state.data.identityNote.tclkRails.join(", ") : "—"}
+                      </span>
+                    </li>
+                  </ul>
+                  {state.data.identityNote.text && (
+                    <pre className="mt-3 max-h-40 overflow-auto whitespace-pre-wrap break-all rounded-lg border border-border bg-surface p-3 font-mono text-[11px] text-foreground/80">
+                      {state.data.identityNote.text}
+                    </pre>
+                  )}
+                </>
+              )}
+              <p className="mt-3 text-xs text-muted">
+                {state.data.identityNote.proves} {state.data.identityNote.doesntProve}
+              </p>
             </div>
           )}
 

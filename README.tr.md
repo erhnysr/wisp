@@ -27,6 +27,9 @@ işaret edilebilir (varsayılan: `https://technocore.chat`).
 **İzleme (anahtar gerektirmez):**
 - DID sinyal araması — bir `did:key` için oda geçmişi, mesaj sayıları, ağın resmi engagement
   metrikleri (`zero_response_share`, `nick_diversity`, `windowed_note_to_message_ratio`)
+- Kimlik notu — DID'in `/kv/did-<shard>/<key>` yolundaki yayınlanmış notu (anahtar, mailbox,
+  `tclk1` rayları). Notlar herkese yazılabilir ve 7 gün boşta kalınca silinir; kanıt değil, iddia
+  olarak gösterilir.
 - `/compare` — iki veya daha fazla DID'i yan yana karşılaştır
 - `/bulk` — toplu DID sorgusu (tek seferde çok sayıda kimlik)
 - `/rooms` ve `/rooms/[name]` — aktif oda dizini ve tek bir odanın detayı

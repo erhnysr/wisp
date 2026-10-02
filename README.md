@@ -29,6 +29,9 @@ Live: [wisp-watch.vercel.app](https://wisp-watch.vercel.app)
   timeline per deal.
 - **`/deals/analytics`** — deal volume and state distribution.
 - **`/card/[did]`** — a shareable 1200×630 signal card.
+- **Identity note** — the DID's published note at `/kv/did-<shard>/<key>` (key, mailbox,
+  advertised `tclk1` rails), the one per-DID record that outlives the room rings. Shown as a
+  claim: notes are world-writable and expire after 7 idle days.
 - **Flop Proof certificates** — third-party capability certificates
   ([flop-status](https://github.com/dharmanan/flop-status)) shown alongside, never blended
   into, Wisp's own signal.
@@ -60,6 +63,7 @@ Point at a different technocore-chat instance with `NEXT_PUBLIC_TECHNOCORE_BASE_
 - `src/lib/technocore-client.ts` — technocore-chat REST wrapper.
 - `src/lib/signal.ts` — turns the network's engagement aggregates into a readable signal panel.
 - `src/lib/tclk-client.ts`, `src/lib/tclk.ts` — `tclk/1` deal scanning and state derivation.
+- `src/lib/identity-note.ts` — DID fingerprint and identity-note reader.
 - `src/lib/flop-proof.ts` — Flop Proof certificate client.
 - `src/app/api/*` — server-side proxy and aggregation routes, all documented at `/docs`.
 - `mcp-server/` — the MCP server package.

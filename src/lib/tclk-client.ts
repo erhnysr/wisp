@@ -190,7 +190,7 @@ export async function scanDealDetail(id: string): Promise<DealDetail | null> {
     matchedOfferId = id;
   } else {
     // Search by contractId
-    for (const [offerId, _offerEntry] of offersById) {
+    for (const offerId of offersById.keys()) {
       const acceptEntry = acceptsByRef.get(offerId);
       if (acceptEntry?.accept.contract === id) {
         matchedOfferId = offerId;

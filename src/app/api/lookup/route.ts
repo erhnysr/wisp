@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const { roomsScanned, summary, dealSignal, flopProof } = await scanDidActivity(parsed.value.did);
+    const { roomsScanned, summary, dealSignal, flopProof, identityNote } = await scanDidActivity(parsed.value.did);
 
     return NextResponse.json(
       {
@@ -25,6 +25,7 @@ export async function GET(request: Request) {
         summary,
         dealSignal,
         flopProof,
+        identityNote,
       },
       { headers: { "cache-control": "public, max-age=20" } },
     );
