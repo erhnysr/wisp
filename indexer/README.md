@@ -48,13 +48,17 @@ first asks you to pick a `workers.dev` subdomain. Then set `WISP_INDEXER_URL` to
 `https://wisp-indexer.<subdomain>.workers.dev` URL in the Wisp project's environment variables
 on Vercel and redeploy.
 
-## Upgrade
+## Deploys
 
-`schema.sql` is idempotent, so applying it again migrates an existing database:
+The deployed worker is connected to this repository with Cloudflare Workers Builds (root
+directory `indexer/`): every push to `main` runs `npm ci && npm run typecheck`, then
+`npx wrangler deploy`. A failing typecheck stops the deploy.
+
+Schema changes are not applied by the build. `schema.sql` is idempotent, so applying it again
+migrates an existing database:
 
 ```bash
 npx wrangler d1 execute wisp-index --remote --file=schema.sql
-npx wrangler deploy
 ```
 
 ## Develop

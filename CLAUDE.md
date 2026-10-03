@@ -52,6 +52,8 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
   DID'leri kaydeder (Wisp her aramada bunu yapar), geçiş başına en fazla 25 DID satırı yazar ve
   izleme listesi 1000 ile sınırlı; en kötü durumda günde ~80.000 satır. Sonuç: bir DID'in geçmişi
   ilk aranmasından itibaren başlar. lobby dakikada 1500+ mesaj alıyor, kapsaması ~%11.
+  Cloudflare Workers Builds ile bu repoya bağlı (root `indexer/`): main'e her push'ta
+  `npm ci && npm run typecheck` ve `npx wrangler deploy` çalışır. Şema değişikliği elle uygulanır.
 
 - `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
   koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından
