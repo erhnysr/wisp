@@ -89,6 +89,19 @@ test("first pass indexes signed did:key messages of tracked DIDs, per (did, room
   assert.equal((h.body as HistoryBody).rooms[0].latest.nonce, "2");
 });
 
+test("nanosecond nonces past 2^53 are kept digit for digit, so signatures still verify", async () => {
+  const db = makeDb();
+  await trackDid(db, A, NOW);
+  // technocore-chat serialises nonces as JSON numbers; a 19-digit nanosecond nonce does not
+  // survive JSON.parse (it rounds to ...800), and the signature is over the exact digits.
+  const raw = `{"messages":[{"seq":7,"from":"${A}","text":"tclk1 {\\"nonce\\":1791036846608750873}","ts":"2026-10-03T14:00:00Z","nonce":1791036846608750873,"sig":"${"s".repeat(86)}"}],"first_seq":7,"last_seq":7,"generation":1}`;
+  const fetchRaw = (async () => new Response(raw)) as unknown as typeof fetch;
+  await ingestRoom("tclk-offers", { fetch: fetchRaw, db, base: "https://technocore.example", now: () => NOW });
+  const latest = ((await didHistory(db, A)).body as HistoryBody).rooms[0].latest;
+  assert.equal(latest.nonce, "1791036846608750873");
+  assert.equal(latest.text, 'tclk1 {"nonce":1791036846608750873}');
+});
+
 test("untracked signers are counted but cost no row writes", async () => {
   const net = fakeNetwork(); const db = makeDb();
   await trackDid(db, A, NOW);

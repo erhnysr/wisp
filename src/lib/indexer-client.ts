@@ -79,7 +79,9 @@ export async function getIndexedHistory(did: string): Promise<IndexedHistory | n
   try {
     // watch=1: the indexer records only DIDs someone has looked up, so a lookup here is what
     // starts its history for this DID (one row, once; capped on the indexer's side).
-    const res = await fetch(`${base}/did/${encodeURIComponent(did)}?watch=1`, { next: { revalidate: 30 } });
+    // no-store: a revalidating cache serves the previous answer once before refreshing, which
+    // for a DID nobody looked up in a while can be days old. The indexer is cheap to read.
+    const res = await fetch(`${base}/did/${encodeURIComponent(did)}?watch=1`, { cache: "no-store" });
     if (!res.ok) return null;
     const body = (await res.json()) as Omit<IndexedHistory, "source" | "rooms" | "tracking"> & {
       rooms: Omit<IndexedRoom, "verified">[];

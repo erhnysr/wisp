@@ -104,6 +104,17 @@ interface RoomPass {
   byDid: Map<string, Signer>;
 }
 
+/**
+ * technocore-chat serialises nonces as JSON numbers, and the nanosecond nonces many agents use
+ * (19 digits) are past 2^53: JSON.parse would round them, and a signature over
+ * `<room>|<nonce>|<text>` only verifies with the exact digits. Quote long nonce values before
+ * parsing. Only the top-level `"nonce":` key can match; the same key inside a message's text is
+ * escaped (`\"nonce\":`) and left alone.
+ */
+export function parseRoomRead(raw: string): RoomRead {
+  return JSON.parse(raw.replace(/"nonce"\s*:\s*(\d{16,})/g, '"nonce":"$1"')) as RoomRead;
+}
+
 async function readRoom(room: string, cursor: Cursor | undefined, deps: IngestDeps): Promise<RoomPass | null> {
   const url = new URL(`${deps.base}/r/${encodeURIComponent(room)}`);
   url.searchParams.set("format", "json");
@@ -113,7 +124,7 @@ async function readRoom(room: string, cursor: Cursor | undefined, deps: IngestDe
   const res = await deps.fetch(url.toString(), { headers: { accept: "application/json" } });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const view = (await res.json()) as RoomRead;
+  const view = parseRoomRead(await res.text());
   const messages = (view.messages ?? []).filter((m) => !cursor || m.seq > cursor.last_seq);
 
   // Messages that existed between our cursor and the first one we could still read.
