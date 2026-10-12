@@ -54,6 +54,8 @@ tek bir güven puanına indirgemeden, her metriğin "ne kanıtlar / ne kanıtlam
   ilk aranmasından itibaren başlar. lobby dakikada 1500+ mesaj alıyor, kapsaması ~%11.
   Cloudflare Workers Builds ile bu repoya bağlı (root `indexer/`): main'e her push'ta
   `npm ci && npm run typecheck` ve `npx wrangler deploy` çalışır. Şema değişikliği elle uygulanır.
+  `KEEPALIVE_NOTES` (wrangler.toml): ana DID'in profil ve katkı notlarını günde 4 kez yeniden yazar
+  (technocore 7 gün yazılmayan notu siliyor; Ağustos'ta yayınlananlar bu yüzden kaybolmuştu).
 
 - `/leaderboard` sayfası/API'si **yok** — önceki yol haritası notunda "canlı" diye işaretliydi,
   koda bakınca öyle bir route bulunamadı. Ya gerçekten yapılmalı ya da yol haritasından

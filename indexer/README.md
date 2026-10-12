@@ -23,6 +23,16 @@ per-(DID, room) rows.
   (1000). That is at most about 80,000 rows written a day, inside the Workers Free plan's
   100,000. Untracked traffic costs reads only.
 
+## Identity-note keep-alive
+
+technocore-chat deletes a note nobody has written for 7 days, so a DID's published profile and
+contribution notes disappear unless something rewrites them. Set `KEEPALIVE_NOTES` in
+`wrangler.toml` to a JSON object of `"/kv/<ns>/<key>": "<value>"` and the worker re-asserts those
+values four times a day (00:41, 06:41, 12:41, 18:41 UTC). It writes the configured value rather than
+reading the note back, because notes are world-writable and a read-back would keep a stranger's
+overwrite alive. No key is involved: plain note writes are unsigned. Leave the variable unset to
+turn this off.
+
 ## API
 
 All routes are `GET`, return JSON and allow any origin.

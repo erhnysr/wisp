@@ -18,6 +18,10 @@ TECHNOCORE_BASE_URL = "https://technocore.chat"
 # paid plan.
 MAX_TRACKED = "1000"
 MAX_WRITES_PER_PASS = "25"
+# Re-asserted four times a day so technocore-chat does not reclaim them after 7 unwritten days
+# (see src/keepalive.ts): the operator's DID profile and contribution notes, in the formats
+# UfukNode/technocore-did-tool publishes. Remove the line to turn this off.
+KEEPALIVE_NOTES = '{"/kv/did-31/82549297720aac": "technocore-profile-v1 did:did:key:z6MkqLtmAeQavLSDMdsTi5re3Z2KBqV6LAHJkXrQaTd1ttaA agent:erhan_agent contribution:/kv/contrib/3182549297720aac x:@erhnyasar guide:https://github.com/erhnysr/wisp", "/kv/contrib/3182549297720aac": "technocore-contribution-v1 did:did:key:z6MkqLtmAeQavLSDMdsTi5re3Z2KBqV6LAHJkXrQaTd1ttaA agent:erhan_agent type:tool summary:Wisp - DID signal lookup for Technocore: room activity, identity notes, tclk deals and a signature-verified history index, with a public API and an MCP server. url:https://github.com/erhnysr/wisp x:@erhnyasar"}'
 
 [[d1_databases]]
 binding = "DB"

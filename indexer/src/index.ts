@@ -7,6 +7,7 @@
 import { DEFAULT_MAX_WRITES_PER_PASS, ingestAll, parsePositiveInt, parseRooms, type D1Like } from "./ingest";
 import { DEFAULT_MAX_TRACKED, isPruneMinute, pruneTracked } from "./tracking";
 import { didHistory, health, type Limits } from "./api";
+import { isKeepaliveMinute, keepNotesAlive, parseKeepalive } from "./keepalive";
 
 export interface Env {
   DB: D1Like;
@@ -14,6 +15,8 @@ export interface Env {
   TECHNOCORE_BASE_URL?: string;
   MAX_TRACKED?: string;
   MAX_WRITES_PER_PASS?: string;
+  /** JSON object of "/kv/<ns>/<key>": "<value>" re-asserted four times a day (see keepalive.ts). */
+  KEEPALIVE_NOTES?: string;
 }
 
 const HEADERS = {
@@ -46,6 +49,18 @@ const worker = {
     const at = new Date(event?.scheduledTime ?? Date.now());
     if (isPruneMinute(at)) {
       await pruneTracked(env.DB, at).catch((err) => console.log(`prune failed: ${String(err)}`));
+    }
+    if (isKeepaliveMinute(at)) {
+      try {
+        const notes = parseKeepalive(env.KEEPALIVE_NOTES);
+        if (notes.length > 0) {
+          const base = (env.TECHNOCORE_BASE_URL ?? "https://technocore.chat").replace(/\/$/, "");
+          const kept = await keepNotesAlive(notes, { fetch: (input, init) => fetch(input, init), base });
+          console.log(JSON.stringify({ keepalive: kept }));
+        }
+      } catch (err) {
+        console.log(`keepalive skipped: ${String(err)}`);
+      }
     }
   },
 
