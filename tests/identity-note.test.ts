@@ -25,6 +25,15 @@ test("mailbox, encryption key and tclk rails are parsed", () => {
   assert.equal(parseIdentityNote(DID, "mailbox: room-1").mailbox, "room-1");
 });
 
+test("a technocore-did-tool profile note (did:<did>) names its DID", () => {
+  // UfukNode/technocore-did-tool writes the DID as a labeled field, so the token is "did:did:key:…".
+  const note = `technocore-profile-v1 did:${DID} agent:erhan_agent mailbox:mb-p-1a2b contribution:/kv/contrib/3182549297720aac x:@erhnyasar`;
+  const p = parseIdentityNote(DID, note);
+  assert.equal(p.namesThisDid, true);
+  assert.equal(p.mailbox, "mb-p-1a2b");
+  assert.equal(parseIdentityNote(DID, "technocore-profile-v1 did:did:key:z6MkOTHER agent:x").namesThisDid, false);
+});
+
 test("sharded path first, legacy fallback, honest miss", async (t) => {
   const calls: string[] = [];
   t.mock.method(globalThis, "fetch", async (u: string) => {

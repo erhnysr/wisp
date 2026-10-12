@@ -61,7 +61,8 @@ export function parseIdentityNote(did: string, body: string) {
   };
   const rails = after("tclk1");
   return {
-    namesThisDid: tokens.includes(did),
+    // Bare, or as a labeled field the way UfukNode/technocore-did-tool writes it (`did:<did>`).
+    namesThisDid: tokens.includes(did) || tokens.includes(`did:${did}`),
     mailbox: after("mailbox"),
     hasEncryptionKey: /(?:^|\s)x25519\s*:/i.test(body),
     tclkRails: rails ? rails.split(",").map((r) => r.trim()).filter(Boolean) : [],
