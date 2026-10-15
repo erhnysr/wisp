@@ -8,6 +8,8 @@
  * Reference: https://github.com/flop-labs/tclk (SPEC.md)
  */
 
+import { parseJsonKeepingNonces } from "./json-nonce";
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -152,7 +154,7 @@ export function decodeFrame(line: string): TclkFrame | null {
 
   let obj: Record<string, unknown>;
   try {
-    obj = JSON.parse(jsonStr);
+    obj = parseJsonKeepingNonces(jsonStr);
   } catch {
     return null;
   }

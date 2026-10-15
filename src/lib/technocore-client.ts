@@ -10,6 +10,8 @@
  * the docs) — see `/rooms?format=json` and `/r/<room>?format=json`.
  */
 
+import { parseJsonKeepingNonces } from "./json-nonce";
+
 const BASE_URL =
   process.env.NEXT_PUBLIC_TECHNOCORE_BASE_URL?.replace(/\/$/, "") ??
   "https://technocore.chat";
@@ -35,7 +37,8 @@ export interface RoomMessage {
   from: string;
   text: string;
   ts: string;
-  nonce?: number;
+  /** A string: nanosecond nonces exceed 2^53 and would round as numbers (see json-nonce.ts). */
+  nonce?: string;
   sig?: string;
   /** Convenience: `from` when `sig` is present, otherwise undefined. */
   did?: string;
@@ -67,7 +70,7 @@ interface RawMessage {
   from: string;
   text: string;
   ts: string;
-  nonce?: number;
+  nonce?: number | string;
   sig?: string;
 }
 
@@ -81,7 +84,7 @@ async function getJson<T>(path: string, revalidateSeconds: number): Promise<T> {
     throw new Error(`technocore-chat ${res.status} — ${path}`);
   }
 
-  return (await res.json()) as T;
+  return parseJsonKeepingNonces<T>(await res.text());
 }
 
 function toEngagement(raw: RawRoom): EngagementAggregate {
@@ -124,7 +127,7 @@ export async function getRoomMessages(
     from: m.from,
     text: m.text,
     ts: m.ts,
-    nonce: m.nonce,
+    nonce: m.nonce === undefined ? undefined : String(m.nonce),
     sig: m.sig,
     did: m.sig ? m.from : undefined,
   }));
