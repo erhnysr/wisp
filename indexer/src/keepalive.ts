@@ -9,6 +9,8 @@
  * notes. Unset, the feature is off.
  */
 
+import type { D1Like } from "./ingest";
+
 export interface KeepaliveResult {
   path: string;
   ok: boolean;
@@ -64,4 +66,70 @@ export async function keepNotesAlive(
 /** Four passes a day: the 7-day window survives days of missed cron runs. */
 export function isKeepaliveMinute(now: Date): boolean {
   return now.getUTCHours() % 6 === 0 && now.getUTCMinutes() === 41;
+}
+
+// Created on first use so an existing database needs no migration step; schema.sql has the same.
+const CREATE_STATUS = `CREATE TABLE IF NOT EXISTS keepalive_status (
+  path            TEXT PRIMARY KEY,
+  ok              INTEGER NOT NULL,
+  status          INTEGER NOT NULL,
+  error           TEXT,
+  last_attempt_at TEXT NOT NULL,
+  last_success_at TEXT
+) WITHOUT ROWID`;
+
+const UPSERT_STATUS = `INSERT INTO keepalive_status (path, ok, status, error, last_attempt_at, last_success_at)
+  VALUES (?, ?, ?, ?, ?, ?)
+  ON CONFLICT (path) DO UPDATE SET
+    ok              = excluded.ok,
+    status          = excluded.status,
+    error           = excluded.error,
+    last_attempt_at = excluded.last_attempt_at,
+    last_success_at = COALESCE(excluded.last_success_at, keepalive_status.last_success_at)`;
+
+/** Remember each pass's outcome, so /health can show the keep-alive is actually running. */
+export async function recordKeepalive(db: D1Like, results: KeepaliveResult[], now: Date): Promise<void> {
+  if (results.length === 0) return;
+  const at = now.toISOString();
+  await db.prepare(CREATE_STATUS).run();
+  await db.batch(
+    results.map((r) =>
+      db.prepare(UPSERT_STATUS).bind(r.path, r.ok ? 1 : 0, r.status, r.error ?? null, at, r.ok ? at : null),
+    ),
+  );
+}
+
+export interface KeepaliveStatus {
+  path: string;
+  ok: boolean;
+  status: number;
+  error: string | null;
+  lastAttemptAt: string;
+  lastSuccessAt: string | null;
+}
+
+interface StatusRow {
+  path: string;
+  ok: number;
+  status: number;
+  error: string | null;
+  last_attempt_at: string;
+  last_success_at: string | null;
+}
+
+/** The last recorded outcome per note; empty until the first pass (or when the table is absent). */
+export async function readKeepalive(db: D1Like): Promise<KeepaliveStatus[]> {
+  try {
+    const rows = await db.prepare("SELECT * FROM keepalive_status ORDER BY path").all<StatusRow>();
+    return rows.results.map((r) => ({
+      path: r.path,
+      ok: r.ok === 1,
+      status: r.status,
+      error: r.error,
+      lastAttemptAt: r.last_attempt_at,
+      lastSuccessAt: r.last_success_at,
+    }));
+  } catch {
+    return [];
+  }
 }

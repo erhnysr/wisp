@@ -7,7 +7,7 @@
 import { DEFAULT_MAX_WRITES_PER_PASS, ingestAll, parsePositiveInt, parseRooms, type D1Like } from "./ingest";
 import { DEFAULT_MAX_TRACKED, isPruneMinute, pruneTracked } from "./tracking";
 import { didHistory, health, type Limits } from "./api";
-import { isKeepaliveMinute, keepNotesAlive, parseKeepalive } from "./keepalive";
+import { isKeepaliveMinute, keepNotesAlive, parseKeepalive, recordKeepalive } from "./keepalive";
 
 export interface Env {
   DB: D1Like;
@@ -27,6 +27,14 @@ const HEADERS = {
 
 function json(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), { status, headers: HEADERS });
+}
+
+function keepaliveConfigured(env: Env): number {
+  try {
+    return parseKeepalive(env.KEEPALIVE_NOTES).length;
+  } catch {
+    return 0;
+  }
 }
 
 function limits(env: Env): Limits {
@@ -57,6 +65,7 @@ const worker = {
           const base = (env.TECHNOCORE_BASE_URL ?? "https://technocore.chat").replace(/\/$/, "");
           const kept = await keepNotesAlive(notes, { fetch: (input, init) => fetch(input, init), base });
           console.log(JSON.stringify({ keepalive: kept }));
+          await recordKeepalive(env.DB, kept, at);
         }
       } catch (err) {
         console.log(`keepalive skipped: ${String(err)}`);
@@ -71,7 +80,7 @@ const worker = {
     const url = new URL(request.url);
     try {
       if (url.pathname === "/" || url.pathname === "/health") {
-        const r = await health(env.DB, limits(env));
+        const r = await health(env.DB, limits(env), keepaliveConfigured(env));
         return json(r.status, r.body);
       }
       if (url.pathname.startsWith("/did/")) {

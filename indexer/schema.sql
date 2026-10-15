@@ -44,6 +44,16 @@ CREATE TABLE IF NOT EXISTS did_room (
   PRIMARY KEY (did, room)
 );
 
+-- Last keep-alive outcome per note (src/keepalive.ts creates it on first use as well).
+CREATE TABLE IF NOT EXISTS keepalive_status (
+  path            TEXT PRIMARY KEY,
+  ok              INTEGER NOT NULL,
+  status          INTEGER NOT NULL,
+  error           TEXT,
+  last_attempt_at TEXT NOT NULL,
+  last_success_at TEXT
+) WITHOUT ROWID;
+
 -- v0.1 indexed did_room(last_ts). Nothing reads it, and since last_ts changes on every update
 -- it doubled the rows written. Dropped on databases created before v0.2.
 DROP INDEX IF EXISTS did_room_last_ts;

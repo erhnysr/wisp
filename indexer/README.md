@@ -31,7 +31,8 @@ contribution notes disappear unless something rewrites them. Set `KEEPALIVE_NOTE
 values four times a day (00:41, 06:41, 12:41, 18:41 UTC). It writes the configured value rather than
 reading the note back, because notes are world-writable and a read-back would keep a stranger's
 overwrite alive. No key is involved: plain note writes are unsigned. Leave the variable unset to
-turn this off.
+turn this off. Each pass's outcome is recorded and shown under `keepalive` in `/health`: per note,
+the HTTP status, the last attempt and the last success, so anyone can check it is running.
 
 ## API
 
@@ -41,7 +42,7 @@ All routes are `GET`, return JSON and allow any origin.
 | --- | --- |
 | `/did/<did:key>` | `tracking` (`active`, `since`, `reason`), `totalMessages`, `firstSeen`, `lastSeen`, `rooms[]` (per room: counts, dates, `latest` signed message), `watched[]` (per-room coverage) |
 | `/did/<did:key>?watch=1` | the same, and starts tracking the DID if it isn't yet (refused with `reason: "watchlist-full"` at the cap) |
-| `/health` | `trackedDids`, `limits`, `watched[]` |
+| `/health` | `trackedDids`, `limits`, `keepalive` (configured count, last outcome per note), `watched[]` |
 
 ## Setup (once)
 

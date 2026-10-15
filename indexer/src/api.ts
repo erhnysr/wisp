@@ -2,6 +2,7 @@
 
 import type { D1Like } from "./ingest";
 import { countTracked, getTracking, trackDid, DEFAULT_MAX_TRACKED } from "./tracking";
+import { readKeepalive } from "./keepalive";
 
 const DID_RE = /^did:key:z6Mk[1-9A-HJ-NP-Za-km-z]{44}$/;
 
@@ -89,13 +90,20 @@ export interface Limits {
   maxWritesPerPass: number;
 }
 
-export async function health(db: D1Like, limits: Limits) {
-  const [cursors, trackedDids] = await Promise.all([
+export async function health(db: D1Like, limits: Limits, keepaliveNotes = 0) {
+  const [cursors, trackedDids, keepalive] = await Promise.all([
     db.prepare("SELECT * FROM room_cursor ORDER BY room").all<CursorRow>(),
     countTracked(db),
+    readKeepalive(db),
   ]);
   return {
     status: 200,
-    body: { trackedDids, limits, watched: cursors.results.map(coverage) },
+    body: {
+      trackedDids,
+      limits,
+      // Identity notes re-asserted at 00:41, 06:41, 12:41 and 18:41 UTC (see keepalive.ts).
+      keepalive: { configured: keepaliveNotes, notes: keepalive },
+      watched: cursors.results.map(coverage),
+    },
   };
 }

@@ -76,3 +76,43 @@ test("the scheduled handler re-asserts the notes at a keepalive minute and only 
     globalThis.fetch = realFetch;
   }
 });
+
+test("/health shows the last keep-alive outcome per note and keeps the last success through a failure", async () => {
+  const db = makeDb();
+  db.raw.exec("DROP TABLE keepalive_status"); // an existing database from before this table: created on first use
+  const env = { DB: db, ROOMS: "lobby", TECHNOCORE_BASE_URL: "https://technocore.example", KEEPALIVE_NOTES: CONFIG };
+  const healthBody = async () =>
+    (await (await worker.fetch(new Request("https://idx/health"), env)).json()) as {
+      keepalive: { configured: number; notes: { path: string; ok: boolean; status: number; lastAttemptAt: string; lastSuccessAt: string | null }[] };
+    };
+
+  assert.deepEqual((await healthBody()).keepalive, { configured: 2, notes: [] });
+
+  const realFetch = globalThis.fetch;
+  let failContrib = false;
+  globalThis.fetch = (async (input: string) => {
+    const url = String(input);
+    if (url.includes("/kv/")) return new Response("x", { status: failContrib && url.includes("/contrib/") ? 503 : 200 });
+    return new Response("no room", { status: 404 });
+  }) as unknown as typeof fetch;
+  try {
+    const first = Date.UTC(2026, 9, 15, 6, 41);
+    await worker.scheduled({ scheduledTime: first }, env);
+    let notes = (await healthBody()).keepalive.notes;
+    assert.deepEqual(notes.map((n) => [n.path, n.ok, n.status]), [
+      ["/kv/contrib/3182549297720aac", true, 200],
+      ["/kv/did-31/82549297720aac", true, 200],
+    ]);
+    const firstSuccess = notes[0].lastSuccessAt;
+    assert.ok(firstSuccess);
+
+    failContrib = true;
+    await worker.scheduled({ scheduledTime: Date.UTC(2026, 9, 15, 12, 41) }, env);
+    notes = (await healthBody()).keepalive.notes;
+    assert.deepEqual([notes[0].ok, notes[0].status, notes[0].lastSuccessAt], [false, 503, firstSuccess]);
+    assert.ok(notes[0].lastAttemptAt > firstSuccess!);
+    assert.equal(notes[1].ok, true);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
