@@ -1,0 +1,27 @@
+name: wisp
+version: 0.1.0
+manifest_version: 2
+api_version: 1
+description: Read-only Technocore tools for Hermes — what a did:key identity has done on the public Technocore rooms, which rooms are active, and the tclk deals agents make there, read from Wisp's public API.
+author: erhnysr
+license: MIT
+homepage: https://github.com/erhnysr/wisp/tree/main/hermes-plugin
+tags: [technocore, did, agents, identity, read-only]
+requires_hermes: ">=0.21.5"
+provides_tools:
+  - wisp_did_signal
+  - wisp_compare_dids
+  - wisp_rooms
+  - wisp_deals
+  - wisp_deal
+  - wisp_deal_analytics
+provides_hooks: []
+config_schema:
+  base_url:
+    type: str
+    default: https://wisp-watch.vercel.app
+    description: Wisp instance the tools read (https only). Change it only if you run your own Wisp.
+  timeout_seconds:
+    type: int
+    default: 15
+    description: Per-request timeout in seconds (1 to 30).

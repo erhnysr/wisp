@@ -1,0 +1,3 @@
+{
+ "error": "DID must look like `did:key:z...` (only Ed25519 is supported)."
+}
