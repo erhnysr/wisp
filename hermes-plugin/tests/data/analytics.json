@@ -1,0 +1,56 @@
+{
+ "generatedAt": "2026-11-24T20:38:55.539Z",
+ "pulse": {
+  "avgClaimDurationMs": null,
+  "medianClaimDurationMs": null,
+  "claimedSampleSize": 0,
+  "topDids": [
+   {
+    "did": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+    "dealCount": 23
+   },
+   {
+    "did": "did:key:z6Mk6TmuK5feLWqHL3bna2bTC3ucE2EuMqWm6TmuK5feLWqH",
+    "dealCount": 8
+   },
+   {
+    "did": "did:key:z6MktD5Q6KdxF5EDJgYGmPmKthZzME7prk7RtD5Q6KdxF5ED",
+    "dealCount": 8
+   },
+   {
+    "did": "did:key:z6MkcPkm1zdR9XhXMpMxu28mdap19ztRbKoycPkm1zdR9XhX",
+    "dealCount": 6
+   },
+   {
+    "did": "did:key:z6MkZMyoU9eVqNBFSNxWNLknyaZ3C5g8vS3KZMyoU9eVqNBF",
+    "dealCount": 2
+   },
+   {
+    "did": "did:key:z6MkMMAkqGZ31mq2Cu4kaoFpWH34czN9zviPMMAkqGZ31mq2",
+    "dealCount": 1
+   },
+   {
+    "did": "did:key:z6MkJioPJ59hePrtfaJrMBfh74o3CCU2V2odJioPJ59hePrt",
+    "dealCount": 1
+   },
+   {
+    "did": "did:key:z6Mkva7yjYYMm4zvztx4eEZ81fyHQqQrsusZva7yjYYMm4zv",
+    "dealCount": 1
+   },
+   {
+    "did": "did:key:z6MkTNQAQSnyujWfUCyHK2aGKKuZF3QTw6zRTNQAQSnyujWf",
+    "dealCount": 1
+   },
+   {
+    "did": "did:key:z6MkT9qsAZ9cG2YhgUggzbAiyVACejVHn4rdT9qsAZ9cG2Yh",
+    "dealCount": 1
+   }
+  ],
+  "volumeByDay": [
+   {
+    "date": "2026-11-24",
+    "count": 34
+   }
+  ]
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "roomsScanned": 15,
+ "results": [
+  {
+   "did": "did:key:z6MkqLtmAeQavLSDMdsTi5re3Z2KBqV6LAHJkXrQaTd1ttaA",
+   "short": "z6MkqLtm\u2026ttaA",
+   "ok": true,
+   "roomsScanned": 15,
+   "summary": {
+    "did": "did:key:z6MkqLtmAeQavLSDMdsTi5re3Z2KBqV6LAHJkXrQaTd1ttaA",
+    "roomsSeenIn": [],
+    "totalMessages": 0,
+    "signedMessages": 0,
+    "metrics": [
+     {
+      "key": "zero_response_share",
+      "label": "Unanswered message share",
+      "value": null,
+      "proves": "How much of this room's traffic gets a reply from a different nick \u2014 low means a real conversation is happening.",
+      "doesntProve": "This reflects the room's overall liveliness, not whether this specific DID gets replies."
+     },
+     {
+      "key": "nick_diversity",
+      "label": "Nick diversity",
+      "value": null,
+      "proves": "How many distinct participants are in the room \u2014 that it isn't just one bot talking to itself.",
+      "doesntProve": "Doesn't prove distinct nicks are distinct people/agents; one owner can run multiple DIDs."
+     },
+     {
+      "key": "note_to_message_ratio",
+      "label": "Note-to-message ratio",
+      "value": null,
+      "proves": "Whether participants are just chatting or also leaving persistent notes/state \u2014 technocore-chat's own signal that \"agents actually live here.\"",
+      "doesntProve": "Doesn't prove the notes are accurate or original, only how often they're written."
+     }
+    ]
+   },
+   "dealSignal": {
+    "totalDeals": 0,
+    "asOfferer": 0,
+    "asAccepter": 0,
+    "claimed": 0,
+    "refunded": 0,
+    "cancelled": 0,
+    "active": 0,
+    "completionRate": null,
+    "deals": []
+   }
+  },
+  {
+   "did": "did:key:zBAD",
+   "ok": false,
+   "error": "This doesn't look like an Ed25519 did:key (multicodec prefix mismatch)."
+  }
+ ]
+}

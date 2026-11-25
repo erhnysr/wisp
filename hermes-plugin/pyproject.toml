@@ -1,0 +1,12 @@
+[project]
+name = "wisp"
+version = "0.1.0"
+description = "Read-only Technocore tools for Hermes Agent, from Wisp's public API"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = []
+
+[tool.pytest.ini_options]
+addopts = "-q --import-mode=importlib -p wisp_pytest_root"
+pythonpath = ["tests"]
+testpaths = ["tests"]

@@ -1,0 +1,316 @@
+{
+ "generatedAt": "2026-11-24T20:38:55.239Z",
+ "stats": {
+  "total": 34,
+  "proposed": 0,
+  "accepted": 34,
+  "locked": 0,
+  "claimed": 0,
+  "refunded": 0,
+  "cancelled": 0
+ },
+ "deals": [
+  {
+   "offerId": "0xb3fb7db4ed34fb6c4cf31040904eb588bdee4d3a0762d181d787a542c72ed751",
+   "contractId": "0x599dd6993dd5603ca1fd44de70c84c82c86db2849fd5e1e13510038412c64e2c",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "accepter": "did:key:z6MkZMyoU9eVqNBFSNxWNLknyaZ3C5g8vS3KZMyoU9eVqNBF",
+   "role": "payer",
+   "amount": "1000",
+   "asset": "TCLK",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795541437259,
+   "refundAfterMs": 1795542037259,
+   "expiresMs": 1795540837259,
+   "offeredAt": "2026-11-24T17:10:38.240440Z",
+   "lastUpdate": "2026-11-24T17:11:56.726725Z"
+  },
+  {
+   "offerId": "0x18ba936cfd1f24b292f4358059d87cded609d4670bc8e7708d4a911c01b6a9c8",
+   "contractId": "",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk6TmuK5feLWqHL3bna2bTC3ucE2EuMqWm6TmuK5feLWqH",
+   "accepter": "did:key:z6MktD5Q6KdxF5EDJgYGmPmKthZzME7prk7RtD5Q6KdxF5ED",
+   "role": "payer",
+   "amount": "101",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795540861641,
+   "refundAfterMs": 1795541341641,
+   "expiresMs": 1795541461641,
+   "offeredAt": "2026-11-24T17:11:01.693795Z",
+   "lastUpdate": "2026-11-24T17:11:05.577814Z"
+  },
+  {
+   "offerId": "0xacca0d902abfa0e847f1c76b42292aa13f4a7d006b68a586289c72bf02f6ac62",
+   "contractId": "0xc83c11e46d16bbfa2234731296718d22a1d5d9f8c1878c4529f554e8fb5ccda0",
+   "state": "accepted",
+   "offerer": "did:key:z6MkcPkm1zdR9XhXMpMxu28mdap19ztRbKoycPkm1zdR9XhX",
+   "accepter": "did:key:z6MkMMAkqGZ31mq2Cu4kaoFpWH34czN9zviPMMAkqGZ31mq2",
+   "role": "payer",
+   "amount": "100",
+   "asset": "FLOP",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795972206385,
+   "refundAfterMs": 1796145006385,
+   "expiresMs": 1795713006385,
+   "offeredAt": "2026-11-24T17:10:06.930718Z",
+   "lastUpdate": "2026-11-24T17:10:42.831241Z"
+  },
+  {
+   "offerId": "0x7c9eb483997fa91c2f488b4a6003cf00761c06884070b5f51f381a4ab9a63068",
+   "contractId": "0xc7557ffadc7f9168a731ca640266d5a22a3160157f2539b9fd1fc0d38afdbc35",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk6TmuK5feLWqHL3bna2bTC3ucE2EuMqWm6TmuK5feLWqH",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "101",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795540802110,
+   "refundAfterMs": 1795541282110,
+   "expiresMs": 1795541402110,
+   "offeredAt": "2026-11-24T17:10:02.152217Z",
+   "lastUpdate": "2026-11-24T17:10:16.763110Z"
+  },
+  {
+   "offerId": "0x9cd572e12067de680a5ff014ac3f74256483d7ddd09d7f7a3f8a026451c2c975",
+   "contractId": "0x54f19d0cacbf395446de72de4cad67c116c8f19b06e8a94f63e0bae914481a20",
+   "state": "accepted",
+   "offerer": "did:key:z6MkJioPJ59hePrtfaJrMBfh74o3CCU2V2odJioPJ59hePrt",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "1250000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058556780,
+   "refundAfterMs": 1796231356780,
+   "expiresMs": 1795626556780,
+   "offeredAt": "2026-11-24T17:09:19.967464Z",
+   "lastUpdate": "2026-11-24T17:10:16.490465Z"
+  },
+  {
+   "offerId": "0x07292c92e8dbe3554aa3553684c4c8c1f3e12fc04975ee182ad91cc2564ade79",
+   "contractId": "0x315df658de8b48a10d0773ea72fd7cbc708a45fc4d670cab2ac13c6293f1f535",
+   "state": "accepted",
+   "offerer": "did:key:z6Mkva7yjYYMm4zvztx4eEZ81fyHQqQrsusZva7yjYYMm4zv",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "1500000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058541853,
+   "refundAfterMs": 1796231341853,
+   "expiresMs": 1795626541853,
+   "offeredAt": "2026-11-24T17:09:05.356363Z",
+   "lastUpdate": "2026-11-24T17:10:16.231198Z"
+  },
+  {
+   "offerId": "0x9e6ddccbbc1e894f057b19b1066f483f8bbaff1f2d6bda356a12069ad1a3bb01",
+   "contractId": "0x41ae5b441ef90d6c04b65322da0cb3bc228113f51a4fe63d87250cd197301bff",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk6TmuK5feLWqHL3bna2bTC3ucE2EuMqWm6TmuK5feLWqH",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "101",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795540741576,
+   "refundAfterMs": 1795541221576,
+   "expiresMs": 1795541341576,
+   "offeredAt": "2026-11-24T17:09:01.623075Z",
+   "lastUpdate": "2026-11-24T17:10:15.958816Z"
+  },
+  {
+   "offerId": "0xdc51ee2d860710e3ea7e46acf9aca63252779d4e9f4e7ff1e6ddb856405f1c73",
+   "contractId": "0xf3e1a2ef560123050eecb06671072d015f4020edcef055b68cc844142552c96b",
+   "state": "accepted",
+   "offerer": "did:key:z6MkTNQAQSnyujWfUCyHK2aGKKuZF3QTw6zRTNQAQSnyujWf",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "500000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058526628,
+   "refundAfterMs": 1796231326628,
+   "expiresMs": 1795626526628,
+   "offeredAt": "2026-11-24T17:08:49.696935Z",
+   "lastUpdate": "2026-11-24T17:10:15.695587Z"
+  },
+  {
+   "offerId": "0x55627833f6a6f4dd20ceea52840da694ca13ae8e20e8b8367979814ceadf2c7c",
+   "contractId": "0xc862aeb803245d4aac42f752f15489cc8c66c7187f299cd6b5da5099cc9cbebc",
+   "state": "accepted",
+   "offerer": "did:key:z6MkT9qsAZ9cG2YhgUggzbAiyVACejVHn4rdT9qsAZ9cG2Yh",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "3000000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058505250,
+   "refundAfterMs": 1796231305250,
+   "expiresMs": 1795626505250,
+   "offeredAt": "2026-11-24T17:08:34.174991Z",
+   "lastUpdate": "2026-11-24T17:10:15.421652Z"
+  },
+  {
+   "offerId": "0xbe46d7008acad3cd25c271e6c8ffffef446c8f76524ab282c472e075e2ffe87c",
+   "contractId": "0x5e8071d738aca0eabb43fcbdf17a59ffd2e8c9018f35a615e130ffbf35b4b1fe",
+   "state": "accepted",
+   "offerer": "did:key:z6MkfBuZ9YnNqmg3NG2Pno1JC4GYaATNpPgafBuZ9YnNqmg3",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "3000000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058481596,
+   "refundAfterMs": 1796231281596,
+   "expiresMs": 1795626481596,
+   "offeredAt": "2026-11-24T17:08:05.870400Z",
+   "lastUpdate": "2026-11-24T17:10:15.164445Z"
+  },
+  {
+   "offerId": "0xabc0b0d6662159072af07b3ded39798665c98d648c3bc530bfe280392ce926ec",
+   "contractId": "0x12f09db468a830f7bc54e73db3d70d16470116e9ea50f08070b464910e6b3953",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk6TmuK5feLWqHL3bna2bTC3ucE2EuMqWm6TmuK5feLWqH",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "101",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795540681985,
+   "refundAfterMs": 1795541161985,
+   "expiresMs": 1795541281985,
+   "offeredAt": "2026-11-24T17:08:02.046561Z",
+   "lastUpdate": "2026-11-24T17:10:14.374408Z"
+  },
+  {
+   "offerId": "0xc6aa9b202c4496e5bad74fba0bc638a0863f3b8b46379d8dffd29595d1f42a05",
+   "contractId": "0x7d5f3b04bafcf171fdc9e48d64a23985d0e4319d87ed68dfcd56ebb121862cbb",
+   "state": "accepted",
+   "offerer": "did:key:z6MkrhfkE79EVNG13m96wDhgfsUndz5oFLuhrhfkE79EVNG1",
+   "accepter": "did:key:z6MkZMyoU9eVqNBFSNxWNLknyaZ3C5g8vS3KZMyoU9eVqNBF",
+   "role": "payer",
+   "amount": "250",
+   "asset": "FLOP",
+   "lock": "hash",
+   "rails": [
+    "flop-htlc",
+    "paper",
+    "x402"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795543668606,
+   "refundAfterMs": 1795547268606,
+   "expiresMs": 1795541868606,
+   "offeredAt": "2026-11-24T17:07:49.681111Z",
+   "lastUpdate": "2026-11-24T17:08:49.140538Z"
+  },
+  {
+   "offerId": "0x42dabd4e8bb92b869e6c507b4702cc38e4f432f68f0f21a31a81fd410f9f9c6a",
+   "contractId": "0x630a2cac94d5aac8b0682c9edd4a57033f0ffa5725c16d24ebb311488e91ea50",
+   "state": "accepted",
+   "offerer": "did:key:z6Mk3os1grDDPKHwZNqmnKUdLR9V4P6FZ2Ns3os1grDDPKHw",
+   "accepter": "did:key:z6MkSECuUH6oeUpmHXp18vRyeu9hzShcGLFMSECuUH6oeUpm",
+   "role": "payer",
+   "amount": "1500000",
+   "asset": "PAPER",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1796058466811,
+   "refundAfterMs": 1796231266811,
+   "expiresMs": 1795626466811,
+   "offeredAt": "2026-11-24T17:07:50.943689Z",
+   "lastUpdate": "2026-11-24T17:08:02.288828Z"
+  },
+  {
+   "offerId": "0x37e071da69d8369e6c6f0fe5051cd6a35ced7a3b8b1e400c4ac22dafc3742d2a",
+   "contractId": "0x752e2d18f40d0b58896b24035879a8cb8c317dc6756ce9df0a91604ce9a24df0",
+   "state": "accepted",
+   "offerer": "did:key:z6MkcPkm1zdR9XhXMpMxu28mdap19ztRbKoycPkm1zdR9XhX",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "100",
+   "asset": "FLOP",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795972065212,
+   "refundAfterMs": 1796144865212,
+   "expiresMs": 1795712865212,
+   "offeredAt": "2026-11-24T17:07:45.360956Z",
+   "lastUpdate": "2026-11-24T17:07:56.929065Z"
+  },
+  {
+   "offerId": "0xad43f901e7b682cd369edce91ab888f7a268b1bedfafd74b7593ebc9bd472ed0",
+   "contractId": "0xfaffb32403fc200008b25485e71273f519eaf5ac5dd2844517c504178dc82c9d",
+   "state": "accepted",
+   "offerer": "did:key:z6MkcPkm1zdR9XhXMpMxu28mdap19ztRbKoycPkm1zdR9XhX",
+   "accepter": "did:key:z6Mk4BVJHisK8qvSMoyQBDdA4cmJZvrTKBgj4BVJHisK8qvS",
+   "role": "payer",
+   "amount": "2",
+   "asset": "FLOP",
+   "lock": "hash",
+   "rails": [
+    "paper"
+   ],
+   "lockedRail": null,
+   "claimByMs": 1795972060397,
+   "refundAfterMs": 1796144860397,
+   "expiresMs": 1795712860397,
+   "offeredAt": "2026-11-24T17:07:40.531287Z",
+   "lastUpdate": "2026-11-24T17:07:56.669136Z"
+  }
+ ]
+}
